@@ -1,0 +1,52 @@
+POST http://localhost:7331/user/refresh-token
+Content-Type: application/json
+
+{
+  "refreshToken": "eyJraWQiOiI1IiwidHlwIjoiSldUIiwiYWxnIjoiUlMyNTYifQ.eyJpc3MiOiLnrb7lj5HogIUiLCJleHAiOjE2OTkzMzMyMjN9.XaN6C07kwYYXhM0Dwhr2R9ePgBNZilKkYJd8jJ8d1SyVZ4q0APV_X_ZI7Kvf1LiC3Lg2CLCE7irCRrbz5ES-vwKcwYaBHJ0GLZaK5V3NW67Omv8tmC_c_b39ViFcR0n2NGmJsjs_QHjjhbYPaLgPas6B41GQluyy64glw3g4xCk"
+}
+
+
+> {% client.global.set("refreshToken", response.body.refreshToken); %}
+###
+POST http://localhost:7331/user/login-pw
+Content-Type: application/json
+
+{
+  "phoneNum": "13182347331",
+  "password": 123456
+}
+
+
+###
+POST http://localhost:7331/user/getVerifyCode
+Content-Type: application/json
+
+{
+  "phoneNum": "123456"
+}
+> {% client.global.set("refreshToken", response.body.refreshToken); %}
+
+###
+POST http://localhost:7331/user/verification
+Content-Type: application/json
+
+{
+  "phoneNum": "123456",
+  "verifyCode": "140395"
+
+}
+
+###
+POST http://localhost:7331/user/register-pw
+Content-Type: application/json
+
+{
+  "phoneNum": "13182347331",
+  "password": "123456"
+}
+
+###
+GET http://localhost:80/user/register-pw?id=99
+Accept: application/json
+
+###

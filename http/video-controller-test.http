@@ -1,0 +1,4 @@
+GET http://localhost:7331/video/getVideoList/1/10/1
+Accept: application/json
+
+###
