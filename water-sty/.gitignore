@@ -14,9 +14,9 @@ target/
 *.iml
 *.ipr
 
-log/member/
+
 log/
-*.log
+
 
 ### Eclipse ###
 .apt_generated
