@@ -27,4 +27,4 @@
    org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.example.dao.mapper.ScrollingMapper.saveScrolling
    ~~~
 
-   这个错误很奇怪，只需要将<mapper namespace>改个名字重启就好了，
+   这个错误很奇怪，只需要将<mapper namespace>改个名字重启就好了；
