@@ -21,6 +21,7 @@
 
   ws.onmessage = function(message) {
     console.log(message.data)
+
     const data = JSON.parse(message.data);
     if(data.scrollingContext!=null){
       const displayField = document.getElementById("displayField");

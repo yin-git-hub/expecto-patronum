@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @Slf4j
 @RequestMapping(value = "/video")
-@CrossOrigin
+
 public class VideoController {
 
     @Autowired

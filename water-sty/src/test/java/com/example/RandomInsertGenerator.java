@@ -5,11 +5,13 @@ import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
 import cn.hutool.socket.SocketUtil;
 import com.example.dao.model.entity.Scrolling;
+import com.example.service.impl.websocketImpl.ScrollingWebsocketServiceImpl;
 import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -22,12 +24,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Slf4j
 public class RandomInsertGenerator {
     public static void main(String[] args) {
-        ScheduledExecutorService pool = Executors.newScheduledThreadPool(1);
-        Integer i = 1*1000;
-        pool.scheduleAtFixedRate(()->{
-            System.out.println(123);
-        },i ,1000 ,TimeUnit.MILLISECONDS );
-
+        LinkedList<Integer> integers = new LinkedList<>();
+        integers.add(1);
+        HashMap<Integer, List> i = new HashMap<>();
+        i.put(1, integers);
+        i.remove(1);
+        List<Integer> currentList = i.get(1);
+        System.out.println("currentList = " + currentList);
     }
     /**
      * 生成sql insergt 语句

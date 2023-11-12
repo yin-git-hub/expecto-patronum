@@ -50,6 +50,6 @@ public class ScrollingServiceImpl implements ScrollingService {
     @Async
     public void saveScrollingToDB(Scrolling scrolling){
 
-        scrollingMapper.saveScrolling(scrolling);
-    }
+        Integer integer = scrollingMapper.saveScrolling(scrolling);
+     }
 }

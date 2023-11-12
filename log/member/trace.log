@@ -1,0 +1,264 @@
+2023-11-12 19:28:11.135 INFO  com.example.WaterStyApplication                   :55   [32m                  [0;39m Starting WaterStyApplication using Java 1.8.0_131 on LAPTOP-26QMTKV3 with PID 98160 (D:\mydesk\y\MyWorld\object2-expecto_patronum\expecto-patronum\water-sty\target\classes started by yin82 in D:\mydesk\y\MyWorld\object2-expecto_patronum\expecto-patronum)
+2023-11-12 19:28:11.136 INFO  com.example.WaterStyApplication                   :640  [32m                  [0;39m The following 1 profile is active: "test"
+2023-11-12 19:28:11.172 INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor :255  [32m                  [0;39m Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-11-12 19:28:11.172 INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor :255  [32m                  [0;39m For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-11-12 19:28:11.763 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :262  [32m                  [0;39m Multiple Spring Data modules found, entering strict repository configuration mode
+2023-11-12 19:28:11.765 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :132  [32m                  [0;39m Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-11-12 19:28:11.780 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :201  [32m                  [0;39m Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2023-11-12 19:28:12.280 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer      :108  [32m                  [0;39m Tomcat initialized with port(s): 7331 (http)
+2023-11-12 19:28:12.286 INFO  org.apache.coyote.http11.Http11NioProtocol        :173  [32m                  [0;39m Initializing ProtocolHandler ["http-nio-7331"]
+2023-11-12 19:28:12.287 INFO  org.apache.catalina.core.StandardService          :173  [32m                  [0;39m Starting service [Tomcat]
+2023-11-12 19:28:12.287 INFO  org.apache.catalina.core.StandardEngine           :173  [32m                  [0;39m Starting Servlet engine: [Apache Tomcat/9.0.65]
+2023-11-12 19:28:12.374 INFO  o.a.c.c.C.[Tomcat].[localhost].[/water-sty]       :173  [32m                  [0;39m Initializing Spring embedded WebApplicationContext
+2023-11-12 19:28:12.374 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext    :292  [32m                  [0;39m Root WebApplicationContext: initialization completed in 1201 ms
+2023-11-12 19:28:13.029 INFO  com.yin.minio.springminiostart.MinioTemplate      :60   [32m                  [0;39m 默认存储桶：minio-demo 已存在
+2023-11-12 19:28:13.637 INFO  o.s.b.d.autoconfigure.OptionalLiveReloadServer    :58   [32m                  [0;39m LiveReload server is running on port 35729
+2023-11-12 19:28:13.699 WARN  org.thymeleaf.templatemode.TemplateMode           :150  [32m                  [0;39m [THYMELEAF][restartedMain] Template Mode 'HTML5' is deprecated. Using Template Mode 'HTML' instead.
+2023-11-12 19:28:13.951 INFO  org.apache.coyote.http11.Http11NioProtocol        :173  [32m                  [0;39m Starting ProtocolHandler ["http-nio-7331"]
+2023-11-12 19:28:13.962 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer      :220  [32m                  [0;39m Tomcat started on port(s): 7331 (http) with context path '/water-sty'
+2023-11-12 19:28:14.145 INFO  o.s.a.rabbit.connection.CachingConnectionFactory  :638  [32m                  [0;39m Attempting to connect to: [192.168.100.128:5672]
+2023-11-12 19:28:14.240 INFO  o.s.a.rabbit.connection.CachingConnectionFactory  :589  [32m                  [0;39m Created new connection: rabbitConnectionFactory#57e58d23:0/SimpleConnection@22829d44 [delegate=amqp://admin@192.168.100.128:5672/, localPort= 10371]
+2023-11-12 19:28:14.460 INFO  com.example.WaterStyApplication                   :61   [32m                  [0;39m Started WaterStyApplication in 3.58 seconds (JVM running for 4.771)
+2023-11-12 19:28:14.463 INFO  com.example.WaterStyApplication                   :25   [32m                  [0;39m 启动成功！！
+2023-11-12 19:28:14.463 INFO  com.example.WaterStyApplication                   :26   [32m                  [0;39m 测试地址: 	http://127.0.0.1:7331/water-sty/test1
+2023-11-12 19:29:37.859 INFO  o.a.c.c.C.[Tomcat].[localhost].[/water-sty]       :173  [32m                  [0;39m Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-11-12 19:29:37.859 INFO  org.springframework.web.servlet.DispatcherServlet :525  [32m                  [0;39m Initializing Servlet 'dispatcherServlet'
+2023-11-12 19:29:37.861 INFO  org.springframework.web.servlet.DispatcherServlet :547  [32m                  [0;39m Completed initialization in 1 ms
+2023-11-12 19:29:37.909 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:0 当前人数1
+2023-11-12 19:29:37.909 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 0 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:38.012 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:1 当前人数2
+2023-11-12 19:29:38.012 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 1 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:38.210 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:2 当前人数3
+2023-11-12 19:29:38.211 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 2 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:38.410 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:3 当前人数4
+2023-11-12 19:29:38.411 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 3 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:38.609 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:4 当前人数5
+2023-11-12 19:29:38.610 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 4 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:39.103 INFO  com.zaxxer.hikari.HikariDataSource                :110  [32m                  [0;39m HikariPool-1 - Starting...
+2023-11-12 19:29:39.210 INFO  com.zaxxer.hikari.HikariDataSource                :123  [32m                  [0;39m HikariPool-1 - Start completed.
+2023-11-12 19:29:39.917 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:0
+2023-11-12 19:29:39.920 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:5 当前人数5
+2023-11-12 19:29:39.920 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 5 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:40.016 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:1
+2023-11-12 19:29:40.018 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:6 当前人数5
+2023-11-12 19:29:40.018 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 6 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:40.214 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:2
+2023-11-12 19:29:40.216 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:7 当前人数5
+2023-11-12 19:29:40.217 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 7 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:40.415 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:3
+2023-11-12 19:29:40.418 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:8 当前人数5
+2023-11-12 19:29:40.418 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 8 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:40.614 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:4
+2023-11-12 19:29:40.618 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:9 当前人数5
+2023-11-12 19:29:40.618 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 9 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:41.005 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :164  [32m                  [0;39m 发给 sessionID 5,value:123456
+2023-11-12 19:29:41.005 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:5
+2023-11-12 19:29:41.007 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:a 当前人数5
+2023-11-12 19:29:41.007 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId a 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:42.021 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:6
+2023-11-12 19:29:42.025 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:b 当前人数5
+2023-11-12 19:29:42.025 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId b 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:42.218 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:7
+2023-11-12 19:29:42.221 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:c 当前人数5
+2023-11-12 19:29:42.221 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId c 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:42.419 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:8
+2023-11-12 19:29:42.421 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:d 当前人数5
+2023-11-12 19:29:42.421 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId d 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:42.622 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:9
+2023-11-12 19:29:42.625 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:e 当前人数5
+2023-11-12 19:29:42.625 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId e 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:43.012 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:a
+2023-11-12 19:29:43.015 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:f 当前人数5
+2023-11-12 19:29:43.016 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId f 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:44.006 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :164  [32m                  [0;39m 发给 sessionID c,value:123456
+2023-11-12 19:29:44.009 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:c
+2023-11-12 19:29:44.011 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:10 当前人数5
+2023-11-12 19:29:44.011 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 10 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:44.026 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:b
+2023-11-12 19:29:44.028 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:11 当前人数5
+2023-11-12 19:29:44.029 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 11 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:44.424 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:d
+2023-11-12 19:29:44.426 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:12 当前人数5
+2023-11-12 19:29:44.427 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 12 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:44.628 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:e
+2023-11-12 19:29:44.631 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:13 当前人数5
+2023-11-12 19:29:44.631 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 13 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:45.020 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:f
+2023-11-12 19:29:45.023 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:14 当前人数5
+2023-11-12 19:29:45.023 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 14 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:46.013 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:10
+2023-11-12 19:29:46.016 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:15 当前人数5
+2023-11-12 19:29:46.016 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 15 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:46.032 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:11
+2023-11-12 19:29:46.033 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:16 当前人数5
+2023-11-12 19:29:46.034 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 16 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:46.432 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:12
+2023-11-12 19:29:46.436 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:17 当前人数5
+2023-11-12 19:29:46.437 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 17 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:46.635 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:13
+2023-11-12 19:29:46.639 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:18 当前人数5
+2023-11-12 19:29:46.640 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 18 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:47.009 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :164  [32m                  [0;39m 发给 sessionID 16,value:123456
+2023-11-12 19:29:47.026 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:14
+2023-11-12 19:29:47.029 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:19 当前人数5
+2023-11-12 19:29:47.030 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 19 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:47.036 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:16
+2023-11-12 19:29:47.038 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:1a 当前人数5
+2023-11-12 19:29:47.038 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 1a 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:48.017 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:15
+2023-11-12 19:29:48.022 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:1b 当前人数5
+2023-11-12 19:29:48.022 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 1b 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:48.439 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:17
+2023-11-12 19:29:48.441 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:1c 当前人数5
+2023-11-12 19:29:48.442 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 1c 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:48.643 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:18
+2023-11-12 19:29:48.644 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:1d 当前人数5
+2023-11-12 19:29:48.645 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 1d 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:49.035 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:19
+2023-11-12 19:29:49.038 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:1e 当前人数5
+2023-11-12 19:29:49.039 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 1e 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:49.040 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:1a
+2023-11-12 19:29:49.042 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:1f 当前人数5
+2023-11-12 19:29:49.042 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 1f 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:50.013 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :164  [32m                  [0;39m 发给 sessionID 1e,value:123456
+2023-11-12 19:29:50.026 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:1b
+2023-11-12 19:29:50.028 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:20 当前人数5
+2023-11-12 19:29:50.028 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 20 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:50.040 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:1e
+2023-11-12 19:29:50.042 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:21 当前人数5
+2023-11-12 19:29:50.043 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 21 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:50.444 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:1c
+2023-11-12 19:29:50.445 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:22 当前人数5
+2023-11-12 19:29:50.445 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 22 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:50.650 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:1d
+2023-11-12 19:29:50.652 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:23 当前人数5
+2023-11-12 19:29:50.652 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 23 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:51.049 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:1f
+2023-11-12 19:29:51.054 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:24 当前人数5
+2023-11-12 19:29:51.054 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 24 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:52.032 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:20
+2023-11-12 19:29:52.035 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:25 当前人数5
+2023-11-12 19:29:52.035 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 25 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:52.046 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:21
+2023-11-12 19:29:52.047 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:26 当前人数5
+2023-11-12 19:29:52.048 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 26 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:52.448 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:22
+2023-11-12 19:29:52.450 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:27 当前人数5
+2023-11-12 19:29:52.450 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 27 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:52.653 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:23
+2023-11-12 19:29:52.656 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:28 当前人数5
+2023-11-12 19:29:52.657 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 28 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:53.016 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :164  [32m                  [0;39m 发给 sessionID 28,value:123456
+2023-11-12 19:29:53.017 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:53.058 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:24
+2023-11-12 19:29:53.060 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:29 当前人数5
+2023-11-12 19:29:53.060 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 29 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:53.659 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:28
+2023-11-12 19:29:53.661 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:2a 当前人数5
+2023-11-12 19:29:53.662 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 2a 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:54.037 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:25
+2023-11-12 19:29:54.039 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:2b 当前人数5
+2023-11-12 19:29:54.039 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 2b 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:54.051 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:26
+2023-11-12 19:29:54.052 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:2c 当前人数5
+2023-11-12 19:29:54.052 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 2c 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:54.453 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:27
+2023-11-12 19:29:54.454 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:2d 当前人数5
+2023-11-12 19:29:54.455 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 2d 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:55.063 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:29
+2023-11-12 19:29:55.064 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:2e 当前人数5
+2023-11-12 19:29:55.065 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 2e 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:55.676 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:2a
+2023-11-12 19:29:55.679 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:2f 当前人数5
+2023-11-12 19:29:55.680 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 2f 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:56.018 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :164  [32m                  [0;39m 发给 sessionID 2b,value:123456
+2023-11-12 19:29:56.020 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:2b
+2023-11-12 19:29:56.022 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:30 当前人数5
+2023-11-12 19:29:56.022 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 30 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:56.061 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:2c
+2023-11-12 19:29:56.457 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:2d
+2023-11-12 19:29:56.459 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :102  [32m                  [0;39m scrolling onOpen sessionId:31 当前人数4
+2023-11-12 19:29:56.460 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :132  [32m                  [0;39m sessionId 31 发来消息{"currentCount":0,"videoId":"121","relativeTime":1699709558557,"scrollingContext":"123456"}
+2023-11-12 19:29:57.069 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:2e
+2023-11-12 19:29:57.683 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:2f
+2023-11-12 19:29:58.024 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:30
+2023-11-12 19:29:58.463 INFO  c.e.s.i.w.ScrollingWebsocketServiceImpl           :124  [32m                  [0;39m scrolling onClose sessionId:31
+2023-11-12 19:29:59.021 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.022 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.023 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.023 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.024 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.025 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.025 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.025 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.025 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.026 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.026 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.027 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.027 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.027 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.028 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.028 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.028 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.029 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.029 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.029 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.029 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.029 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.029 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.031 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.031 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.031 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.031 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.032 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.032 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.032 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.033 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.033 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.033 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.033 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.034 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.034 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.034 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.034 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.035 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.035 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.035 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.035 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.035 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.035 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.035 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.035 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.037 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.037 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:29:59.037 INFO  com.example.service.config.RabbitMQConsumerConfig :31   [32m                  [0;39m rabbitmq-consumer:Scrolling(id=null, userId=null, videoId=222, scrollingContext=123456, relativeTime=1699709558557, createDate=null, updateDate=null)
+2023-11-12 19:31:09.777 INFO  com.example.gateway.GatewayApplication            :55   [32m                  [0;39m Starting GatewayApplication using Java 1.8.0_131 on LAPTOP-26QMTKV3 with PID 99528 (D:\mydesk\y\MyWorld\object2-expecto_patronum\expecto-patronum\gateway\target\classes started by yin82 in D:\mydesk\y\MyWorld\object2-expecto_patronum\expecto-patronum)
+2023-11-12 19:31:09.778 INFO  com.example.gateway.GatewayApplication            :634  [32m                  [0;39m No active profile set, falling back to 1 default profile: "default"
+2023-11-12 19:31:09.778 INFO  org.hibernate.validator.internal.util.Version     :21   [32m                  [0;39m HV000001: Hibernate Validator 6.2.3.Final
+2023-11-12 19:31:09.802 INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor :255  [32m                  [0;39m Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-11-12 19:31:09.802 INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor :255  [32m                  [0;39m For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-11-12 19:31:10.186 INFO  o.springframework.cloud.context.scope.GenericScope:283  [32m                  [0;39m BeanFactory id=6b9af5af-d53d-3f10-b8fe-c51ea8278642
+2023-11-12 19:31:11.742 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2023-11-12 19:31:11.954 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :88   [32m                  [0;39m Loaded RoutePredicateFactory [After]
+2023-11-12 19:31:11.954 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :88   [32m                  [0;39m Loaded RoutePredicateFactory [Before]
+2023-11-12 19:31:11.954 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :88   [32m                  [0;39m Loaded RoutePredicateFactory [Between]
+2023-11-12 19:31:11.954 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :88   [32m                  [0;39m Loaded RoutePredicateFactory [Cookie]
+2023-11-12 19:31:11.954 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :88   [32m                  [0;39m Loaded RoutePredicateFactory [Header]
+2023-11-12 19:31:11.954 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :88   [32m                  [0;39m Loaded RoutePredicateFactory [Host]
+2023-11-12 19:31:11.954 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :88   [32m                  [0;39m Loaded RoutePredicateFactory [Method]
+2023-11-12 19:31:11.955 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :88   [32m                  [0;39m Loaded RoutePredicateFactory [Path]
+2023-11-12 19:31:11.955 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :88   [32m                  [0;39m Loaded RoutePredicateFactory [Query]
+2023-11-12 19:31:11.955 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :88   [32m                  [0;39m Loaded RoutePredicateFactory [ReadBody]
+2023-11-12 19:31:11.955 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :88   [32m                  [0;39m Loaded RoutePredicateFactory [RemoteAddr]
+2023-11-12 19:31:11.955 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :88   [32m                  [0;39m Loaded RoutePredicateFactory [XForwardedRemoteAddr]
+2023-11-12 19:31:11.955 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :88   [32m                  [0;39m Loaded RoutePredicateFactory [Weight]
+2023-11-12 19:31:11.955 INFO  o.s.c.gateway.route.RouteDefinitionRouteLocator   :88   [32m                  [0;39m Loaded RoutePredicateFactory [CloudFoundryRouteService]
+2023-11-12 19:31:12.087 WARN  o.s.b.d.autoconfigure.OptionalLiveReloadServer    :61   [32m                  [0;39m Unable to start LiveReload server
+2023-11-12 19:31:13.470 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2023-11-12 19:31:14.125 INFO  o.s.boot.web.embedded.netty.NettyWebServer        :111  [32m                  [0;39m Netty started on port 7330
+2023-11-12 19:31:15.535 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2023-11-12 19:31:16.918 INFO  org.springframework.cloud.commons.util.InetUtils  :170  [32m                  [0;39m Cannot determine local hostname
+2023-11-12 19:31:16.955 INFO  com.example.gateway.GatewayApplication            :61   [32m                  [0;39m Started GatewayApplication in 8.816 seconds (JVM running for 9.439)
+2023-11-12 19:31:16.957 INFO  com.example.gateway.GatewayApplication            :20   [32m                  [0;39m gateway启动成功！！
+2023-11-12 19:31:16.957 INFO  com.example.gateway.GatewayApplication            :21   [32m                  [0;39m 测试地址: 	http://127.0.0.1:7330/water-sty/test1
+2023-11-12 19:31:22.837 INFO  com.example.controller.TestController             :29   [32m                  [0;39m wwwwqqqqqq

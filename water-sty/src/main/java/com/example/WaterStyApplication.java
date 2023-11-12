@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.env.Environment;
 import org.springframework.context.ApplicationContext;
  import org.springframework.scheduling.annotation.EnableAsync;
- import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * Hello world!

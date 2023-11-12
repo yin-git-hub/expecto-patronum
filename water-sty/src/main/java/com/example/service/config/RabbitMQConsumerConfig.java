@@ -1,6 +1,8 @@
 package com.example.service.config;
 
 import com.example.dao.model.entity.Scrolling;
+import com.example.service.common.ErrorCode;
+import com.example.service.exception.ThrowUtils;
 import com.example.service.impl.websocketImpl.ScrollingWebsocketServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
@@ -24,8 +26,8 @@ public class RabbitMQConsumerConfig {
     @RabbitHandler
     @RabbitListener(queues = RabbitMQProducerConfig.SCROLLING_QUEUE)// 监听的队列名称 TestDirectQueue
     public void process(Scrolling message) {
-
-            scrollingWebsocketService.sendMessageCurrentVideo(message);
+        ThrowUtils.throwIf(scrollingWebsocketService==null, ErrorCode.OPERATION_ERROR,"error===scrollingWebsocketService");
+        scrollingWebsocketService.sendMessageCurrentVideo(message);
         log.info("rabbitmq-consumer:{}", String.valueOf(message));
 
 
