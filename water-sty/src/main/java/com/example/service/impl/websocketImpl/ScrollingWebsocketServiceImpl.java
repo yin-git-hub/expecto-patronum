@@ -1,5 +1,6 @@
 package com.example.service.impl.websocketImpl;
 
+import cn.hutool.core.lang.hash.Hash;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.example.dao.model.entity.Scrolling;
@@ -17,9 +18,10 @@ import org.springframework.stereotype.Component;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Vector;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -46,8 +48,8 @@ public class ScrollingWebsocketServiceImpl {
             new ConcurrentHashMap();
 
     // 视频在线人数
-    private static ConcurrentHashMap<String, Vector<Session>> currentMap
-            = new ConcurrentHashMap();
+    private static HashMap<String, List<Session>> currentMap
+            = new HashMap();
 
 
     private static ApplicationContext APPLICATION_CONTEXT;
@@ -90,13 +92,21 @@ public class ScrollingWebsocketServiceImpl {
         }
 
         if (currentMap.containsKey(videoId)) {
-            Vector<Session> currentList = currentMap.get(videoId);
-            currentList.add(this.session);
-            currentMap.put(videoId, currentList);
+            synchronized (currentMap) {
+                List<Session> currentList = currentMap.get(videoId);
+                currentList.add(this.session);
+                currentMap.put(videoId, currentList);
+            }
         } else {
-            Vector<Session> currentList = new Vector<>();
-            currentList.add(this.session);
-            currentMap.put(videoId, currentList);
+            synchronized (currentMap) {
+                if (!currentMap.containsKey(videoId)) {
+
+                    List<Session> currentList = new LinkedList<>();
+                    currentList.add(this.session);
+                    currentMap.put(videoId, currentList);
+                }
+
+            }
         }
         noticeOnlineCount();
         log.info("scrolling onOpen sessionId:{} 当前人数{}", sessionId, onlineCount.get());
@@ -111,7 +121,7 @@ public class ScrollingWebsocketServiceImpl {
 
         sessionMap.remove(sessionId);
 
-        Vector<Session> currentList = null;
+        List<Session> currentList = null;
         synchronized (currentMap) {
             currentList = currentMap.get(this.videoId);
             currentList.remove(this.session);
@@ -151,36 +161,28 @@ public class ScrollingWebsocketServiceImpl {
 
 
     public void sendMessageCurrentVideo(Scrolling scrolling) {
-        Vector<Session> currentList = currentMap.get(String.valueOf(scrolling.getVideoId()));
-        if(currentList!=null&&currentList.size()!=0){
+        ThrowUtils.throwIf(scrolling == null, ErrorCode.PARAMS_ERROR);
+
+        List<Session> currentList = currentMap.get(String.valueOf(scrolling.getVideoId()));
+
+        ThrowUtils.throwIf(currentList == null, ErrorCode.OPERATION_ERROR);
+        for (int i = 0; i < currentList.size(); i++) {
             try {
-
-                for (int i = 0; i < currentList.size(); i++) {
-                    try {
-                        Thread.sleep(3000);
-                        Session toSession = currentList.get(i);
-                        String scrollingJsonStr = JSONUtil.toJsonStr(scrolling);
-                        toSession.getBasicRemote().sendText(scrollingJsonStr);
-                        log.info("发给 sessionID {},value:{}", toSession.getId(), scrolling.getScrollingContext());
-                    } catch (Exception e) {
-                        throw new BusinessException(ErrorCode.OPERATION_ERROR, "弹幕发送失败");
-                    }
-
-                }
-
+                Session toSession = currentList.get(i);
+                String scrollingJsonStr = JSONUtil.toJsonStr(scrolling);
+                toSession.getBasicRemote().sendText(scrollingJsonStr);
+                log.info("发给 sessionID {},value:{}", toSession.getId(), scrolling.getScrollingContext());
             } catch (Exception e) {
-                System.out.println("====================");
-
+                throw new BusinessException(ErrorCode.OPERATION_ERROR, "弹幕发送失败");
             }
+
         }
-
-
 
     }
 
 
     public void sendCurrentPeopleCount() {
-        Vector<Session> currentList = currentMap.get(this.videoId);
+        List<Session> currentList = currentMap.get(this.videoId);
         try {
             this.getSession().getBasicRemote().sendText(String.valueOf(currentList.size()));
         } catch (Exception e) {

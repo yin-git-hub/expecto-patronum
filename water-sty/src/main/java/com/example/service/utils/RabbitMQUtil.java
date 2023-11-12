@@ -1,7 +1,8 @@
 package com.example.service.utils;
 
+import cn.hutool.json.JSONUtil;
 import com.example.dao.model.entity.Scrolling;
-import com.example.service.config.RabbitMQProducerConfig;
+import com.example.service.config.RabbitMQConfig;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -22,21 +23,20 @@ public class RabbitMQUtil {
 
     RabbitTemplate rabbitTemplate;
 
-    private static final ExecutorService executorService = Executors.newFixedThreadPool(10);
+    private static final ExecutorService executorService = Executors.newFixedThreadPool(5);
 
     public static void asyncSendMessage(Scrolling message, RabbitTemplate rabbit) {
         executorService.submit(() -> {
             RabbitTemplate rabbitTemplate=rabbit;
-            rabbitTemplate.convertAndSend(RabbitMQProducerConfig.SCROLLING_EXCHANGE,
-                    RabbitMQProducerConfig.SCROLLING_EXCHANGE, message);
-            // 在这里处理异步发送完成后的逻辑
+            rabbitTemplate.convertAndSend(RabbitMQConfig.SCROLLING_EXCHANGE,
+                    RabbitMQConfig.SCROLLING_EXCHANGE, JSONUtil.toJsonStr(message));
         });
     }
 
     public static void syncSendMessage(Scrolling message, RabbitTemplate rabbit) {
         RabbitTemplate rabbitTemplate=rabbit;
-            rabbitTemplate.convertAndSend(RabbitMQProducerConfig.SCROLLING_EXCHANGE,
-                    RabbitMQProducerConfig.SCROLLING_EXCHANGE, message);
+            rabbitTemplate.convertAndSend(RabbitMQConfig.SCROLLING_EXCHANGE,
+                    RabbitMQConfig.SCROLLING_EXCHANGE, message);
 
     }
 
