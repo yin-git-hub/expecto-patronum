@@ -15,7 +15,7 @@ import java.io.IOException;
 
 
 @RestController
-@RequestMapping(value = "/file")
+@RequestMapping(value = "/video")
 @Slf4j
 @CrossOrigin
 public class MinioFileController {
@@ -37,7 +37,6 @@ public class MinioFileController {
      * @param md5 文件的md5
      * @return 操作是否成功
      */
-
     @GetMapping(value = "/check")
     public BaseResponse checkFileExists(String md5) {
        minioService.uploadCheck(md5);

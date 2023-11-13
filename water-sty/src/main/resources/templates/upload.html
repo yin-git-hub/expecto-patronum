@@ -91,7 +91,7 @@
     function checkMd5(md5, file) {
         // 请求数据库，查询md5是否存在
         $.ajax({
-            url: baseUrl + "/file/check",
+            url: baseUrl + "/water-sty/video/check",
             type: "GET",
             data: {
                 md5: md5
@@ -141,7 +141,7 @@
         form.append("total", shardCount); //总片数
         form.append("index", i + 1); //当前是第几片
         $.ajax({
-            url: baseUrl + "/file/upload",
+            url: baseUrl + "/water-sty/video/upload",
             type: "POST",
             data: form,
             //timeout:"10000",  //超时10秒
@@ -186,7 +186,7 @@
      */
     function merge(shardCount, fileName, md5, fileType, fileSize) {
         $.ajax({
-            url: baseUrl + "/file/merge",
+            url: baseUrl + "/water-sty/video/merge",
             type: "GET",
             data: {
                 shardCount: shardCount,

@@ -52,7 +52,7 @@ public class RandomInsertGenerator {
         int object_key = random.nextInt(10000);
         int total_size = random.nextInt(10000);
 
-        String insertStatement = "INSERT INTO file_info (file_md5, file_name, bucket_name, object_key, total_size) " +
+        String insertStatement = "INSERT INTO video_info (file_md5, file_name, bucket_name, object_key, total_size) " +
                 "VALUES (" + file_md5 + ", " + file_name + ", " + bucket_name + ", " + object_key + ", " + total_size + ");";
 
         return insertStatement;

@@ -8,42 +8,65 @@
 <!-- 这样的理想方式要求：能够通过接口全类名找到Mapper配置 -->
 <!-- 所以：我们就用Mapper接口的全类名来给namespace属性赋值 -->
 <mapper namespace="com.example.dao.mapper.MinioMapper">
-    <sql id="file_info_sql">
-id,
-        file_md5,
-        file_name,
-bucket_name,
-object_key,
-    area,
-total_size,create_date,update_date
+    <sql id="video_sql">
+        id,
+        bucket_name,
+        object_key,
+        create_date,
+        update_date
     </sql>
 
-    <insert id="saveFileInfo">
-        insert into file_info ( file_md5,
-                                file_name,
-                                bucket_name,
-                                object_key,
-                                total_size)
-        values ( #{fileMd5},
-                 #{fileName},
-                 #{bucketName},
-                 #{objectKey},
-                 #{totalSize});
+    <sql id="video_info_sql">
+        id
+        ,
+        user_id,
+        video_id,
+        video_name,
+        video_summary,
+        area,
+        video_size,
+        video_md5,
+        cerete_date,
+        update_date
+    </sql>
 
+    <insert id="saveVideo" useGeneratedKeys="true" keyProperty="id" >
+        insert into video (bucket_name,
+                           object_key)
+        values (#{bucketName},
+                #{objectKey});
     </insert>
-    <select id="getVideoInfo" resultType="com.example.dao.model.entity.FileInfoEntity">
-select <include refid="file_info_sql"></include>
-       from file_info
-where area = #{area}
+    <insert id="saveVideoInfo">
+        insert into video_info (user_id,
+                                video_id,
+                                video_name,
+                                video_summary,
+                                area,
+                                video_size,
+                                video_md5)
+        values (#{userId},
+                #{videoId},
+                #{videoName},
+                #{videoSummary},
+                #{area},
+                #{videoSize},
+                #{videoMd5});
+    </insert>
 
-limit #{start},#{pageSize}
+    <select id="getVideoInfo" resultType="com.example.dao.model.entity.VideoInfo">
+        select
+        <include refid="video_info_sql">
+        </include>
+        from video_info
+        where area = #{area}
+        limit #{start},#{pageSize};
 
     </select>
     <select id="getTotalInfo" resultType="java.lang.Integer">
-        select count(1) as total
-        from file_info
-        where area = #{area}
-        </select>
+        select count(1)
+        from video_info
+        where area=#{area}
+    </select>
 
 
 </mapper>

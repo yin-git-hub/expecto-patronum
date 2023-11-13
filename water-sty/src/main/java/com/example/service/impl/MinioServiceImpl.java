@@ -1,7 +1,11 @@
 package com.example.service.impl;
+import java.util.Date;
 
+import com.example.controller.Support.UserSupport;
 import com.example.dao.mapper.MinioMapper;
 import com.example.dao.model.entity.FileInfoEntity;
+import com.example.dao.model.entity.Video;
+import com.example.dao.model.entity.VideoInfo;
 import com.example.dao.model.entity.VideoObject;
 import com.example.dao.model.vo.PageResult;
 import com.example.service.MinioService;
@@ -21,6 +25,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -62,6 +67,9 @@ public class MinioServiceImpl implements MinioService {
     @Autowired
     RedisTemplate redisTemplate;
 
+    @Autowired
+    UserSupport userSupport;
+
 
     /**
      * 文件上传前的检查，这是为了实现秒传接口
@@ -82,7 +90,6 @@ public class MinioServiceImpl implements MinioService {
         ThrowUtils.throwIf(ObjectUtils.isEmpty(url), ErrorCode.NOT_FOUND_ERROR);
 
         // 文件已经存在了
-
     }
 
     /**
@@ -92,8 +99,7 @@ public class MinioServiceImpl implements MinioService {
      * @return 上传结果的元数据
      */
     @Override
-    public Integer upload(HttpServletRequest req) throws ServletException, IOException {
-        Map<String, Object> map = new HashMap<>();
+    public Integer upload(HttpServletRequest req) {
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) req;
 
@@ -133,7 +139,7 @@ public class MinioServiceImpl implements MinioService {
                 OssFile ossFile = minioTemplate.putChunkObject(file.getInputStream(), md5, objectName);
                 log.info("{} upload success {}", objectName, ossFile);
                 // 在redis里面记录进度 保存一天时间
-                // todo 这里的记录删除之后，删除minio 上传中断，没有继续上传的临时桶
+                // todo 超过时长没有继续上传，这里的记录删除之后，删除minio 上传中断，没有继续上传的临时桶
                 redisTemplate.opsForValue().set(md5, index, 1, TimeUnit.DAYS);
                 return 20001;
 
@@ -174,6 +180,8 @@ public class MinioServiceImpl implements MinioService {
      */
     @Autowired
     MinioMapper minioMapper;
+
+    @Transactional
     @Override
     public void merge(Integer shardCount, String fileName,
                       String md5, String fileType,
@@ -199,15 +207,25 @@ public class MinioServiceImpl implements MinioService {
             minioTemplate.removeBucket(md5, true);
             log.info("删除桶 {} 成功", md5);
 
-            FileInfoEntity fileInfo = new FileInfoEntity();
-            fileInfo.setFileName(fileName);
-            fileInfo.setFileMd5(md5);
-            fileInfo.setBucketName(targetBucketName);
-            fileInfo.setObjectKey(objectName);
-            fileInfo.setTotalSize(fileSize);
-            fileInfo.setArea(area);
 
-            minioMapper.saveFileInfo(fileInfo);
+            Video video = new Video();
+            video.setObjectKey(objectName);
+            video.setBucketName(targetBucketName);
+            minioMapper.saveVideo(video);
+
+            VideoInfo videoInfo = new VideoInfo();
+            videoInfo.setUserId(userSupport.getCurrentUserId());
+            videoInfo.setVideoId(video.getId());
+            // todo 获取简介,设置图片地址
+            videoInfo.setVideoCover(null);
+            videoInfo.setVideoSummary(null);
+            videoInfo.setVideoName(fileName);
+            videoInfo.setVideoMd5(md5);
+            videoInfo.setVideoSize(fileSize);
+            videoInfo.setArea(area);
+
+
+            minioMapper.saveVideoInfo(videoInfo);
 
             // 计算文件的md5
             String fileMd5 = null;
@@ -221,7 +239,6 @@ public class MinioServiceImpl implements MinioService {
 
 
             // 计算文件真实的类型
-            String type = null;
             List<String> typeList = new ArrayList<>();
             try (InputStream inputStreamCopy = minioTemplate.getObject(targetBucketName, objectName)) {
                 typeList.addAll(FileTypeUtil.getFileRealTypeList(inputStreamCopy, fileName, fileSize));
@@ -390,7 +407,7 @@ public class MinioServiceImpl implements MinioService {
         if(pageIndex==null){
             pageIndex =  1 ;
         }
-        if(pageSize==null){
+        if(pageSize==null||pageSize<=0){
             pageSize =  10 ;
         }
          Integer start =  (pageIndex -1)* pageSize ;
@@ -398,8 +415,8 @@ public class MinioServiceImpl implements MinioService {
         map.put("start",start);
         map.put("pageSize",pageSize);
         map.put("area",area);
-        List<FileInfoEntity>  videoInfo = minioMapper.getVideoInfo(map);
-         Integer totalInfo = minioMapper.getTotalInfo(area);
+        List<VideoInfo>  videoInfo = minioMapper.getVideoInfo(map);
+        Integer totalInfo = minioMapper.getTotalInfo(area);
 
         return new PageResult(totalInfo,videoInfo);
     }

@@ -20,11 +20,13 @@ public class UserSupport {
 
     public Long getCurrentUserId(){
 
-        ServletRequestAttributes current=(ServletRequestAttributes)
-                RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = current.getRequest();
-        String token = request.getHeader("token");
-        Long userId =  TokenUtil.verifyToken(token) ;
+        // todo 后面修改过来
+        // ServletRequestAttributes current=(ServletRequestAttributes)
+        //         RequestContextHolder.getRequestAttributes();
+        // HttpServletRequest request = current.getRequest();
+        // String token = request.getHeader("token");
+        // Long userId =  TokenUtil.verifyToken(token) ;
+        Long userId =  123123L ;
         return userId;
     }
 }
