@@ -41,7 +41,6 @@
                              targetPackage="com.example.dao.mapper"
                              type="XMLMAPPER"/>
 
-        <!--<table tableName="member" domainObjectName="Member"/>-->
-        <table tableName="following_group" domainObjectName="FollowingGroup"/>
+         <table tableName="following_group" domainObjectName="FollowingGroup"/>
     </context>
 </generatorConfiguration>
