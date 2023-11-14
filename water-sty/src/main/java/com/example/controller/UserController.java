@@ -11,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Author: yin7331
@@ -21,6 +24,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+    public static ConcurrentHashMap<String,HttpSession> sessionMap = new ConcurrentHashMap<String,HttpSession>();
     @Autowired
     UserSupport userSupport;
     @Autowired
@@ -70,7 +74,10 @@ public class UserController {
      * @throws Exception
      */
     @PostMapping("/login-pw")
-    public BaseResponse<Map<String, String>> loginForDtsByPW(@RequestBody UserDto user) throws Exception {
+    public BaseResponse<Map<String, String>> loginForDtsByPW(
+            @RequestBody UserDto user
+
+    ) throws Exception {
         Map<String, String> map = userService.loginForDts(user);
         return ResultUtils.success(map);
     }

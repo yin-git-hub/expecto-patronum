@@ -40,7 +40,6 @@ public class RabbitMQUtil {
 
     }
 
-
     public static Connection getConnection()  {
         //定义连接工厂
         ConnectionFactory factory = new ConnectionFactory();

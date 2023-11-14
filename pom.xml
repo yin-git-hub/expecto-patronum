@@ -17,6 +17,7 @@
     <description>expecto_patronum</description>
     <modules>
         <module>water-sty</module>
+        <module>generate</module>
     </modules>
     <properties>
         <java.version>1.8</java.version>

@@ -26,7 +26,8 @@ public class UserSupport {
         // HttpServletRequest request = current.getRequest();
         // String token = request.getHeader("token");
         // Long userId =  TokenUtil.verifyToken(token) ;
-        Long userId =  123123L ;
+        // Long userId =  123123L ;
+        Long userId =  2L ;
         return userId;
     }
 }

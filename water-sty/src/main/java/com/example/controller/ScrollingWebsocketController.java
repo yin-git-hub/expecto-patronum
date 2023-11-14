@@ -1,6 +1,5 @@
-package com.example.service.impl.websocketImpl;
+package com.example.controller;
 
-import cn.hutool.core.lang.hash.Hash;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.example.dao.model.entity.Scrolling;
@@ -21,7 +20,6 @@ import javax.websocket.server.ServerEndpoint;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -37,14 +35,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 @ServerEndpoint(value = "/scrolling/{token}/{videoId}")
 @Slf4j
 @Component
-public class ScrollingWebsocketServiceImpl {
+public class ScrollingWebsocketController {
 
     private Session session;
 
     private static AtomicInteger onlineCount = new AtomicInteger(0);
 
     // 在线总人数
-    private static ConcurrentHashMap<String, ScrollingWebsocketServiceImpl> sessionMap =
+    private static ConcurrentHashMap<Long, ScrollingWebsocketController> onlineMap =
             new ConcurrentHashMap();
 
     // 视频在线人数
@@ -77,12 +75,12 @@ public class ScrollingWebsocketServiceImpl {
 
         this.session = session;
         String sessionId = session.getId();
-        if (sessionMap.containsKey(sessionId)) {
-            sessionMap.remove(sessionId);
-            sessionMap.put(sessionId, this);
+        if (onlineMap.containsKey(this.userId)) {
+            onlineMap.remove(this.userId);
+            onlineMap.put(this.userId, this);
 
         } else {
-            sessionMap.put(sessionId, this);
+            onlineMap.put(this.userId, this);
             onlineCount.getAndIncrement();
         }
 
@@ -115,11 +113,10 @@ public class ScrollingWebsocketServiceImpl {
 
     @OnClose
     public void onClose() {
-        String sessionId = session.getId();
 
         onlineCount.decrementAndGet();
 
-        sessionMap.remove(sessionId);
+        onlineMap.remove(this.userId);
 
         List<Session> currentList = null;
         synchronized (currentMap) {
@@ -130,9 +127,7 @@ public class ScrollingWebsocketServiceImpl {
         if (currentList.isEmpty()) {
             currentMap.remove(videoId);
         }
-
-        log.info("scrolling onClose sessionId:{}", sessionId);
-    }
+     }
 
     @OnMessage
     public void onMessage(String message) {

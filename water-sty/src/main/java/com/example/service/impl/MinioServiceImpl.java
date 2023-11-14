@@ -1,9 +1,7 @@
 package com.example.service.impl;
-import java.util.Date;
 
 import com.example.controller.Support.UserSupport;
 import com.example.dao.mapper.MinioMapper;
-import com.example.dao.model.entity.FileInfoEntity;
 import com.example.dao.model.entity.Video;
 import com.example.dao.model.entity.VideoInfo;
 import com.example.dao.model.entity.VideoObject;
@@ -31,7 +29,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedInputStream;
@@ -267,12 +264,13 @@ public class MinioServiceImpl implements MinioService {
                 // 并需要删除对象
                 minioTemplate.deleteObject(targetBucketName, objectName);
 
+                // todo 推送给粉丝
+
 
             }
         } catch (Exception e) {
             log.error("", e);
             // 失败
-
         }
 
     }
