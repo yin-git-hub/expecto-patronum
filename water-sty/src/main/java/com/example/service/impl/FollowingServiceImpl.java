@@ -76,7 +76,7 @@ public class FollowingServiceImpl implements FollowingService {
     public List<UserVO> getFollowingByGroupId(Long groupId) {
         Long userId = userSupport.getCurrentUserId();
         List<Long> ups = followingMapper.selectUpIdByUserIdAndGroupId(userId, groupId);
-        List<UserVO> userVOS = userMapper.getUserByUserIds(ups);
+        List<UserVO> userVOS = userMapper.getUsersByUserIds(ups);
 
         return userVOS;
     }
@@ -85,7 +85,7 @@ public class FollowingServiceImpl implements FollowingService {
     public List<UserVO> getFans() {
         Long userId = userSupport.getCurrentUserId();
         List<Long> users = followingMapper.selectFansByUserId(userId);
-        List<UserVO> fans = userMapper.getUserByUserIds(users);
+        List<UserVO> fans = userMapper.getUsersByUserIds(users);
         return fans;
     }
 }

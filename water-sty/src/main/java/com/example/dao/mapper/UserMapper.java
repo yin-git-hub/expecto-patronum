@@ -1,9 +1,9 @@
 package com.example.dao.mapper;
 
 import com.example.dao.model.entity.User;
+import com.example.dao.model.entity.UserInfo;
 import com.example.dao.model.vo.UserVO;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -22,7 +22,9 @@ public interface UserMapper   {
     User getUserByPhoneNum(String phoneNum);
 
 
-    List<UserVO> getUserByUserIds(List<Long> ups);
+    List<UserVO> getUsersByUserIds(List<Long> ups);
+
+    UserInfo getUserByUserId(Long userId);
 }
 
 

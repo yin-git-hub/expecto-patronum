@@ -29,7 +29,7 @@
         from `user`
         where phone_num = #{phoneNum};
     </select>
-    <select id="getUserByUserIds" resultType="com.example.dao.model.vo.UserVO">
+    <select id="getUsersByUserIds" resultType="com.example.dao.model.vo.UserVO">
         select user_id,
                    image,
             nickname,
@@ -41,6 +41,14 @@
         </foreach>
 
         ;
+    </select>
+    <select id="getUserByUserId" resultType="com.example.dao.model.entity.UserInfo">
+        select user_id,
+               image,
+               nickname,
+               signature
+        from user_info
+        where user_id = #{userId}
     </select>
 
 

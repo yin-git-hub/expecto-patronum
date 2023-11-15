@@ -6,6 +6,7 @@ import com.example.dao.model.entity.Video;
 import com.example.dao.model.entity.VideoInfo;
 import com.example.dao.model.entity.VideoObject;
 import com.example.dao.model.vo.PageResult;
+import com.example.service.MessageService;
 import com.example.service.MinioService;
 import com.example.service.common.ErrorCode;
 import com.example.service.common.ResultUtils;
@@ -66,6 +67,9 @@ public class MinioServiceImpl implements MinioService {
 
     @Autowired
     UserSupport userSupport;
+
+    @Autowired
+    MessageService messageService;
 
 
     /**
@@ -223,6 +227,8 @@ public class MinioServiceImpl implements MinioService {
 
 
             minioMapper.saveVideoInfo(videoInfo);
+            // todo 推送给粉丝 未进行测试
+            messageService.pushMessage(videoInfo);
 
             // 计算文件的md5
             String fileMd5 = null;
@@ -264,7 +270,7 @@ public class MinioServiceImpl implements MinioService {
                 // 并需要删除对象
                 minioTemplate.deleteObject(targetBucketName, objectName);
 
-                // todo 推送给粉丝
+
 
 
             }

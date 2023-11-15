@@ -1,8 +1,6 @@
 package com.example.dao.model.vo;
 
 import com.example.dao.model.dto.UserFollingDto;
-import com.example.dao.model.entity.User;
-import com.example.dao.model.entity.UserInfo;
 import lombok.Data;
 
 import java.util.List;

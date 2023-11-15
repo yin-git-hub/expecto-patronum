@@ -3,22 +3,30 @@ package com.example;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class RandomInsertGenerator {
-    public static void main(String[] args) {
 
-        System.out.println(StringUtils.isAnyEmpty(""));
-        System.out.println(StringUtils.isAnyEmpty(null));
-        System.out.println(StringUtils.isAnyEmpty(" "));
-        System.out.println(StringUtils.isBlank(""));
-        System.out.println(StringUtils.isBlank(null));
-        System.out.println(StringUtils.isBlank(" "));
+    public static void main(String[] args) {
+        ScheduledExecutorService scheduledExecutorService
+                = Executors.newScheduledThreadPool(1);
+        int i = 1000;
+        scheduledExecutorService.scheduleAtFixedRate(()->{
+            System.out.println(System.currentTimeMillis());
+        }, i, 1000, TimeUnit.MILLISECONDS);
+
     }
     /**
      * 生成sql insergt 语句

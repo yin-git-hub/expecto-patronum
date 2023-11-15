@@ -8,11 +8,13 @@ import com.example.service.common.BaseResponse;
 import com.example.service.common.ResultUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -24,7 +26,10 @@ import java.util.concurrent.ConcurrentHashMap;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    public static ConcurrentHashMap<String,HttpSession> sessionMap = new ConcurrentHashMap<String,HttpSession>();
+    @Autowired
+    ScrollingWebsocketController scrollingWebsocketController;
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
     @Autowired
     UserSupport userSupport;
     @Autowired
@@ -52,7 +57,6 @@ public class UserController {
     public BaseResponse verification(@RequestBody UserVerifyDto user) throws Exception {
 
         Map map = userService.userRegisterByVerify(user);
-
         return ResultUtils.success(map);
     }
 

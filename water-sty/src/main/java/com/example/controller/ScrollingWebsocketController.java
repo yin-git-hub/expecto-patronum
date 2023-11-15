@@ -12,11 +12,13 @@ import com.example.service.utils.TokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,12 +41,6 @@ public class ScrollingWebsocketController {
 
     private Session session;
 
-    private static AtomicInteger onlineCount = new AtomicInteger(0);
-
-    // 在线总人数
-    private static ConcurrentHashMap<Long, ScrollingWebsocketController> onlineMap =
-            new ConcurrentHashMap();
-
     // 视频在线人数
     private static HashMap<String, List<Session>> currentMap
             = new HashMap();
@@ -63,29 +59,18 @@ public class ScrollingWebsocketController {
     @OnOpen
     public void onOpen(Session session
             , @PathParam("token") String token
-            , @PathParam("videoId") String videoId) {
+            , @PathParam("videoId") String videoId
+    ) {
 
 
         try {
-
             this.userId = TokenUtil.verifyToken(token);
 
         } catch (Exception e) {
         }
 
         this.session = session;
-        String sessionId = session.getId();
-        if (onlineMap.containsKey(this.userId)) {
-            onlineMap.remove(this.userId);
-            onlineMap.put(this.userId, this);
-
-        } else {
-            onlineMap.put(this.userId, this);
-            onlineCount.getAndIncrement();
-        }
-
-
-        if ((this.videoId = videoId) == null) {
+         if ((this.videoId = videoId) == null) {
             return;
         }
 
@@ -107,17 +92,11 @@ public class ScrollingWebsocketController {
             }
         }
         noticeOnlineCount();
-        log.info("scrolling onOpen sessionId:{} 当前人数{}", sessionId, onlineCount.get());
 
     }
 
     @OnClose
     public void onClose() {
-
-        onlineCount.decrementAndGet();
-
-        onlineMap.remove(this.userId);
-
         List<Session> currentList = null;
         synchronized (currentMap) {
             currentList = currentMap.get(this.videoId);
