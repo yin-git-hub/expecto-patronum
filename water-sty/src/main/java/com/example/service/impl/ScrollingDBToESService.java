@@ -57,14 +57,19 @@ public class ScrollingDBToESService {
                     entry.getHeader().getSchemaName(), entry.getHeader().getTableName(),
                     eventType));
 
-            for (RowData rowData : rowChage.getRowDatasList()) {
-                if (eventType == EventType.DELETE) {
-                    printColumn(rowData.getBeforeColumnsList());
-                } else if (eventType == EventType.INSERT) {
-                    printColumn(rowData.getAfterColumnsList());
-                } else {
 
-                    printColumn(rowData.getAfterColumnsList());
+
+            for (RowData rowData : rowChage.getRowDatasList()) {
+                if(entry.getHeader().getSchemaName().equals("expecto_patronum")
+                &&entry.getHeader().getTableName().equals("scrolling")
+                ){
+                    if (eventType == EventType.DELETE) {
+                        printColumn(rowData.getBeforeColumnsList());
+                    } else if (eventType == EventType.INSERT) {
+                        printColumn(rowData.getAfterColumnsList());
+                    } else {
+                        printColumn(rowData.getAfterColumnsList());
+                    }
                 }
             }
         }
