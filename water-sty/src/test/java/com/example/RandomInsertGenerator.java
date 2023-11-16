@@ -20,12 +20,11 @@ import java.util.concurrent.TimeUnit;
 public class RandomInsertGenerator {
 
     public static void main(String[] args) {
-        ScheduledExecutorService scheduledExecutorService
-                = Executors.newScheduledThreadPool(1);
-        int i = 1000;
-        scheduledExecutorService.scheduleAtFixedRate(()->{
-            System.out.println(System.currentTimeMillis());
-        }, i, 1000, TimeUnit.MILLISECONDS);
+
+        LinkedList<Integer> integers = null;
+        for (Integer integer : integers) {
+            System.out.println(integer);
+        }
 
     }
     /**

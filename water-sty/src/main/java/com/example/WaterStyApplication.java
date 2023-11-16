@@ -2,13 +2,16 @@ package com.example;
 
  import com.example.controller.ScrollingWebsocketController;
  import com.example.controller.UserWebSocketController;
+ import com.example.service.impl.ScrollingDBToESService;
  import org.slf4j.Logger;
  import org.slf4j.LoggerFactory;
+ import org.springframework.beans.factory.annotation.Autowired;
  import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.env.Environment;
 import org.springframework.context.ApplicationContext;
  import org.springframework.scheduling.annotation.EnableAsync;
+ import org.springframework.scheduling.annotation.EnableScheduling;
  import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
@@ -17,11 +20,14 @@ import org.springframework.context.ApplicationContext;
 @EnableTransactionManagement
 @SpringBootApplication
 @EnableAsync
+@EnableScheduling
 public class WaterStyApplication {
     private static final Logger LOG = LoggerFactory.getLogger(WaterStyApplication.class);
 
     public static void main(String[] args) {
         ApplicationContext run = SpringApplication.run(WaterStyApplication.class, args);
+
+
         ScrollingWebsocketController.setApplicationContext(run);
         UserWebSocketController.setApplicationContext(run);
         Environment env = run.getEnvironment();
