@@ -67,7 +67,6 @@ public class UseDBToESService {
             ) {
                 return;
             }
-            // todo 享元模式优化此处
             String tableName = entry.getHeader().getTableName();
             DBToESService dbToESService = dbToESServiceHashMap.get(tableName);
             for (CanalEntry.RowData rowData : rowChage.getRowDatasList()) {
