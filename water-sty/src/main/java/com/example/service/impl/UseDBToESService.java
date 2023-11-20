@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -25,6 +26,10 @@ public class UseDBToESService {
     UserInfoDBToESService userInfoDBToESService;
     @Autowired
     VideoInfoDBToESService videoInfoDBToESService;
+    private HashMap<String, DBToESService> dbToESServiceHashMap =
+            new HashMap<>();
+
+
 
     @Scheduled(fixedRate = 1000)
     private void printEntry() {
@@ -42,6 +47,9 @@ public class UseDBToESService {
             return;
         }
         connector.ack(batchId); // 提交确认
+        dbToESServiceHashMap.put("scrolling", scrollingDBToESService);
+        dbToESServiceHashMap.put("user_info", userInfoDBToESService);
+        dbToESServiceHashMap.put("video_info", videoInfoDBToESService);
         for (CanalEntry.Entry entry : entrys) {
             if (entry.getEntryType() == CanalEntry.EntryType.TRANSACTIONBEGIN || entry.getEntryType() == CanalEntry.EntryType.TRANSACTIONEND) {
                 continue;
@@ -60,39 +68,15 @@ public class UseDBToESService {
                 return;
             }
             // todo 享元模式优化此处
-            if (entry.getHeader().getTableName().equals("scrolling")) {
-
-                for (CanalEntry.RowData rowData : rowChage.getRowDatasList()) {
-                    if (eventType == CanalEntry.EventType.DELETE) {
-                        scrollingDBToESService.printColumn(rowData.getBeforeColumnsList());
-                    } else if (eventType == CanalEntry.EventType.INSERT) {
-                        scrollingDBToESService.printColumn(rowData.getAfterColumnsList());
-                    } else {
-                        scrollingDBToESService.printColumn(rowData.getAfterColumnsList());
-                    }
-                }
-            } else if (entry.getHeader().getTableName().equals("video_info")) {
-
-                for (CanalEntry.RowData rowData : rowChage.getRowDatasList()) {
-                    if (eventType == CanalEntry.EventType.DELETE) {
-                        videoInfoDBToESService.printColumn(rowData.getBeforeColumnsList());
-                    } else if (eventType == CanalEntry.EventType.INSERT) {
-                        videoInfoDBToESService.printColumn(rowData.getAfterColumnsList());
-                    } else {
-                        videoInfoDBToESService.printColumn(rowData.getAfterColumnsList());
-                    }
-                }
-
-            } else if (entry.getHeader().getTableName().equals("user_info")) {
-
-                for (CanalEntry.RowData rowData : rowChage.getRowDatasList()) {
-                    if (eventType == CanalEntry.EventType.DELETE) {
-                        userInfoDBToESService.printColumn(rowData.getBeforeColumnsList());
-                    } else if (eventType == CanalEntry.EventType.INSERT) {
-                        userInfoDBToESService.printColumn(rowData.getAfterColumnsList());
-                    } else {
-                        userInfoDBToESService.printColumn(rowData.getAfterColumnsList());
-                    }
+            String tableName = entry.getHeader().getTableName();
+            DBToESService dbToESService = dbToESServiceHashMap.get(tableName);
+            for (CanalEntry.RowData rowData : rowChage.getRowDatasList()) {
+                if (eventType == CanalEntry.EventType.DELETE) {
+                    dbToESService.printColumn(rowData.getBeforeColumnsList());
+                } else if (eventType == CanalEntry.EventType.INSERT) {
+                    dbToESService.printColumn(rowData.getAfterColumnsList());
+                } else {
+                    dbToESService.printColumn(rowData.getAfterColumnsList());
                 }
             }
         }
