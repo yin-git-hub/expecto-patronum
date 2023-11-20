@@ -1,6 +1,5 @@
 package com.example.service.impl;
 
-import cn.hutool.json.JSONUtil;
 import com.alibaba.otter.canal.client.CanalConnector;
 import com.alibaba.otter.canal.protocol.CanalEntry.*;
 import com.alibaba.otter.canal.protocol.Message;
@@ -23,7 +22,7 @@ public class ScrollingDBToESService {
     ScrollingESService scrollingESService;
 
 
-    static RowChange rowChage = null;
+    RowChange rowChage = null;
     @Scheduled(fixedRate=10000)
     private void printEntry() {
         List<Entry> entrys=null;
@@ -52,13 +51,6 @@ public class ScrollingDBToESService {
             }
 
             EventType eventType = rowChage.getEventType();
-            System.out.println(String.format("================&gt; binlog[%s:%s] , name[%s,%s] , eventType : %s",
-                    entry.getHeader().getLogfileName(), entry.getHeader().getLogfileOffset(),
-                    entry.getHeader().getSchemaName(), entry.getHeader().getTableName(),
-                    eventType));
-
-
-
             for (RowData rowData : rowChage.getRowDatasList()) {
                 if(entry.getHeader().getSchemaName().equals("expecto_patronum")
                 &&entry.getHeader().getTableName().equals("scrolling")

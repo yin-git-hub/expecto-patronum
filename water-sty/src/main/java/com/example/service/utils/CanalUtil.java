@@ -3,7 +3,6 @@ package com.example.service.utils;
 import com.alibaba.otter.canal.client.CanalConnector;
 import com.alibaba.otter.canal.client.CanalConnectors;
 import com.alibaba.otter.canal.common.utils.AddressUtils;
-import com.alibaba.otter.canal.protocol.Message;
 
 import java.net.InetSocketAddress;
 
