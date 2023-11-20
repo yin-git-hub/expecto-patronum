@@ -2,9 +2,9 @@ package com.example.service.impl;
 
 
 import com.alibaba.otter.canal.protocol.CanalEntry;
-import com.example.dao.model.entity.UserInfoES;
+import com.example.dao.model.entity.VideoInfoES;
 import com.example.service.DBToESService;
-import com.example.service.UserInfoESService;
+import com.example.service.VideoInfoESService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,37 +16,43 @@ import java.util.List;
  * Describe:
  */
 @Component
-public class UserInfoDBToESService  implements DBToESService {
+public class VideoInfoDBToESService  implements DBToESService {
 
     @Autowired
-    UserInfoESService userInfoESService;
+    VideoInfoESService videoInfoESService;
     @Override
-  public void printColumn(List<CanalEntry.Column> columns) {
-        UserInfoES userInfoES = new UserInfoES();
+    public void printColumn(List<CanalEntry.Column> columns) {
+        VideoInfoES videoInfoES = new VideoInfoES();
         for (CanalEntry.Column column : columns) {
             if (column.getName().equals("id")) {
                 String value = column.getValue();
                 if (value == null || value == "") {
                     value = "00000";
                 }
-                userInfoES.setId(Long.valueOf(value));
+                videoInfoES.setId(Long.valueOf(value));
 
             } else if (column.getName().equals("user_id")) {
                 String value = column.getValue();
                 if (value == null || value == "") {
                     value = "00000";
                 }
-                userInfoES.setUserId(Long.valueOf(value));
+                videoInfoES.setUserId(Long.valueOf(value));
 
-            } else if (column.getName().equals("nickname")) {
+            }else if (column.getName().equals("video_id")) {
                 String value = column.getValue();
                 if (value == null || value == "") {
                     value = "00000";
                 }
-                userInfoES.setNickname(value);
+                videoInfoES.setVideoId(Long.valueOf(value));
+            } else if (column.getName().equals("video_name")) {
+                String value = column.getValue();
+                if (value == null || value == "") {
+                    value = "00000";
+                }
+                videoInfoES.setVideoName(value);
             }
         }
-        userInfoESService.save(userInfoES);
+        videoInfoESService.save(videoInfoES);
     }
 
 
