@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.List;
 
@@ -29,13 +30,17 @@ public class UseDBToESService {
     private HashMap<String, DBToESService> dbToESServiceHashMap =
             new HashMap<>();
 
-
-
-    @Scheduled(fixedRate = 1000)
+    @PostConstruct
+    private void initDBToESServiceHashMap(){
+        dbToESServiceHashMap.put("scrolling", scrollingDBToESService);
+        dbToESServiceHashMap.put("user_info", userInfoDBToESService);
+        dbToESServiceHashMap.put("video_info", videoInfoDBToESService);
+    }
+    @Scheduled(fixedRate = 10000)
     private void printEntry() {
         List<CanalEntry.Entry> entrys = null;
         CanalConnector connector = CanalUtil.getConnect();
-        int batchSize = 10;
+        int batchSize = 100;
         connector.connect();
         connector.rollback();
         Message message = connector.getWithoutAck(batchSize); // 获取指定数量的数据
@@ -47,9 +52,7 @@ public class UseDBToESService {
             return;
         }
         connector.ack(batchId); // 提交确认
-        dbToESServiceHashMap.put("scrolling", scrollingDBToESService);
-        dbToESServiceHashMap.put("user_info", userInfoDBToESService);
-        dbToESServiceHashMap.put("video_info", videoInfoDBToESService);
+
         for (CanalEntry.Entry entry : entrys) {
             if (entry.getEntryType() == CanalEntry.EntryType.TRANSACTIONBEGIN || entry.getEntryType() == CanalEntry.EntryType.TRANSACTIONEND) {
                 continue;
