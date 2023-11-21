@@ -1,0 +1,52 @@
+package com.example.service.impl;
+
+import com.example.dao.model.dto.SearchDto;
+import com.example.dao.model.vo.PageResult;
+import com.example.service.SearchAllService;
+import com.example.service.SearchService;
+import com.example.service.common.ErrorCode;
+import com.example.service.common.SearchType;
+import com.example.service.exception.ThrowUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
+import java.util.HashMap;
+
+/**
+ * Author: yin7331
+ * Date: 2023/11/21 12:22
+ * Describe:
+ */
+@Service
+public class SearchAllServiceImpl implements SearchAllService {
+
+    HashMap<String, SearchService> searchServiceMap = new HashMap<String, SearchService>();
+    @Autowired
+    UserInfoSearchServiceImpl userInfoSearchService;
+    @Autowired
+    VideoInfoSearchServiceImpl videoInfoSearchService;
+    @Autowired
+    ScrollingSearchServiceImpl scrollingSearchService;
+    @PostConstruct
+    public void initMap(){
+        searchServiceMap.put(SearchType.UserInfo.getType(),userInfoSearchService );
+        searchServiceMap.put(SearchType.VideoInfo.getType(), videoInfoSearchService);
+        searchServiceMap.put(SearchType.Scrolling.getType(),scrollingSearchService);
+    }
+
+    @Override
+    public PageResult searchAll(SearchDto searchDto) {
+
+        ThrowUtils.throwIf(searchDto==null, ErrorCode.PARAMS_ERROR);
+        String type = searchDto.getType();
+        ThrowUtils.throwIf(StringUtils.isBlank(type), ErrorCode.PARAMS_ERROR);
+        ThrowUtils.throwIf(!SearchType.VerifyType(type), ErrorCode.PARAMS_ERROR);
+
+        SearchService o =   searchServiceMap.get(type);
+        PageResult search = o.search(searchDto);
+
+        return search;
+    }
+}

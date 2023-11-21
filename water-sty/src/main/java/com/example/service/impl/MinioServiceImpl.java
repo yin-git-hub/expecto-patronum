@@ -421,7 +421,10 @@ public class MinioServiceImpl implements MinioService {
         map.put("area",area);
         List<VideoInfo>  videoInfo = minioMapper.getVideoInfo(map);
         Integer totalInfo = minioMapper.getTotalInfo(area);
+        PageResult<VideoInfo> objectPageResult = new PageResult<>();
+        objectPageResult.setTotal(totalInfo);
+        objectPageResult.setValList(videoInfo);
 
-        return new PageResult(totalInfo,videoInfo);
+        return objectPageResult;
     }
 }

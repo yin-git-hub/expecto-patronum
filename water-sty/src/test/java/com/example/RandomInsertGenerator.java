@@ -20,12 +20,12 @@ import java.util.concurrent.TimeUnit;
 public class RandomInsertGenerator {
 
     public static void main(String[] args) {
-
-        LinkedList<Integer> integers = null;
-        for (Integer integer : integers) {
-            System.out.println(integer);
-        }
-
+        System.out.println(StringUtils.isBlank(""));
+        System.out.println(StringUtils.isBlank(" "));
+        System.out.println(StringUtils.isBlank(null));
+        System.out.println(StringUtils.isEmpty(""));
+        System.out.println(StringUtils.isEmpty(" "));
+        System.out.println(StringUtils.isEmpty(null));
     }
     /**
      * 生成sql insergt 语句

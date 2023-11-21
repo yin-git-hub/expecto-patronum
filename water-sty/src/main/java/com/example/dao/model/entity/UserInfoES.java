@@ -22,4 +22,9 @@ public class UserInfoES implements Serializable {
     Long userId;
     @Field(type = FieldType.Text)
     String nickname;
+    @Field(type = FieldType.Keyword)
+    String signature;
+    @Field(type = FieldType.Keyword)
+    String image;
+
 }

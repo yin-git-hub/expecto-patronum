@@ -16,6 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PageResult<T> {
+    Integer pageIndex = 1;
+    Integer pageSize = 10;
     //总数
     Integer total;
     List<T> valList;

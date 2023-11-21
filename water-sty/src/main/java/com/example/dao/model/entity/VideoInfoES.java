@@ -1,5 +1,6 @@
 package com.example.dao.model.entity;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -21,4 +22,12 @@ public class VideoInfoES {
     Long videoId;
     @Field(type = FieldType.Text)
     String videoName;
+    @Field(type = FieldType.Keyword)
+    String videoSummary;
+    @Field(type = FieldType.Keyword)
+
+    private Integer area;
+    @Field(type = FieldType.Keyword)
+
+     private Long videoSize;
 }
