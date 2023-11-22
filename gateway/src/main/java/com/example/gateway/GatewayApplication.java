@@ -15,7 +15,6 @@ public class GatewayApplication {
 
     public static void main(String[] args) {
         ApplicationContext run = SpringApplication.run(GatewayApplication.class, args);
-
         Environment env = run.getEnvironment();
         LOG.info("gateway启动成功！！");
         LOG.info("测试地址: \thttp://127.0.0.1:{}{}/test1", env.getProperty("server.port"), env.getProperty("cloud.water.sty"));

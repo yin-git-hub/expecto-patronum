@@ -45,3 +45,5 @@ build/
 /log/
 /log/member/
 *.log
+
+**/web/VueTemplate1/node_modules/

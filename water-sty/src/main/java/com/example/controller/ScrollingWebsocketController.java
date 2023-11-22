@@ -111,8 +111,8 @@ public class ScrollingWebsocketController {
     @OnMessage
     public void onMessage(String message) {
 
-        // todo 发弹幕必须登录，测试方便先注释掉
-        // ThrowUtils.throwIf(this.userId==null, ErrorCode.NOT_LOGIN_ERROR);
+
+        ThrowUtils.throwIf(this.userId==null, ErrorCode.NOT_LOGIN_ERROR);
         log.info("sessionId {} 发来消息{}", session.getId(), message);
         Scrolling scrolling = JSONObject.parseObject(message, Scrolling.class);
         ThrowUtils.throwIf(scrolling == null, ErrorCode.PARAMS_ERROR);

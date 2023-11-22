@@ -19,15 +19,13 @@ import javax.servlet.http.HttpServletRequest;
 public class UserSupport {
 
     public Long getCurrentUserId(){
-
-        // todo 后面修改过来
-        // ServletRequestAttributes current=(ServletRequestAttributes)
-        //         RequestContextHolder.getRequestAttributes();
-        // HttpServletRequest request = current.getRequest();
-        // String token = request.getHeader("token");
-        // Long userId =  TokenUtil.verifyToken(token) ;
+        ServletRequestAttributes current=(ServletRequestAttributes)
+                RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = current.getRequest();
+        String token = request.getHeader("token");
+        Long userId =  TokenUtil.verifyToken(token) ;
         // Long userId =  123123L ;
-        Long userId =  2L ;
+        // Long userId =  2L ;
         return userId;
     }
 }
