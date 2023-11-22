@@ -46,4 +46,4 @@ build/
 /log/member/
 *.log
 
-**/web/VueTemplate1/node_modules/
+**/web/node_modules/
