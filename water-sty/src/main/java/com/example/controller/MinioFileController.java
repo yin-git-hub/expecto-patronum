@@ -75,7 +75,7 @@ public class MinioFileController {
                                      Long fileSize,Integer area) {
 
         minioService.merge(shardCount, fileName, md5, fileType, fileSize,area);
-        return null;
+        return ResultUtils.success();
     }
 }
 
