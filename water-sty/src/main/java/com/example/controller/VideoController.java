@@ -42,7 +42,7 @@ public class VideoController {
 
     }
 
-    @RequestMapping(value = "/home/{bucketName}/{objectName}")
+    @GetMapping(value = "/home/{bucketName}/{objectName}")
     public ModelAndView videoHome( @PathVariable(value = "bucketName") String bucketName,
                                    @PathVariable(value = "objectName") String objectName) {
         ModelAndView modelAndView = new ModelAndView();

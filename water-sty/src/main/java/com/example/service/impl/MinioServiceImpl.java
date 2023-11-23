@@ -23,6 +23,7 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
@@ -30,6 +31,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedInputStream;
@@ -107,6 +109,74 @@ public class MinioServiceImpl implements MinioService {
         // 获得文件分片数据
         // ((MultipartHttpServletRequest) req).getFile()
         MultipartFile file = multipartRequest.getFile("data");
+
+        // 上传过程中出现异常，状态码设置为50000
+        ThrowUtils.throwIf(file == null, ErrorCode.OPERATION_ERROR);
+
+        // 分片第几片
+        Integer index = Integer.parseInt(multipartRequest.getParameter("index"));
+        // 总片数
+        Integer total = Integer.parseInt(multipartRequest.getParameter("total"));
+        // 获取文件名
+        String fileName = multipartRequest.getParameter("name");
+
+        String md5 = multipartRequest.getParameter("md5");
+
+        // 创建文件桶
+        minioTemplate.makeBucket(md5);
+        String objectName = String.valueOf(index);
+
+        log.info("index: {}, total:{}, fileName:{}, md5:{}, objectName:{}", index, total, fileName, md5, objectName);
+
+        Integer processIndex = (Integer) redisTemplate.opsForValue().get(md5);
+
+        // 查看redia里面的上传进度
+        if (index.equals(processIndex)) {
+            return 20001;
+        }
+
+        // 当不是最后一片时，上传返回的状态码为20001
+        if (index < total) {
+            try {
+                // 上传文件
+                OssFile ossFile = minioTemplate.putChunkObject(file.getInputStream(), md5, objectName);
+                log.info("{} upload success {}", objectName, ossFile);
+                // 在redis里面记录进度 保存一天时间
+                // todo 超过时长没有继续上传，这里的记录删除之后，删除minio 上传中断，没有继续上传的临时桶
+                redisTemplate.opsForValue().set(md5, index, 1, TimeUnit.DAYS);
+                return 20001;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            // 为最后一片时状态码为20002
+            try {
+
+                // 上传文件
+                minioTemplate.putChunkObject(file.getInputStream(), md5, objectName);
+
+                // 上传完成，删除进度
+                redisTemplate.delete(md5);
+                return 20002;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+                return ErrorCode.OPERATION_ERROR.getCode();
+            }
+
+        }
+
+        return ResultUtils.success().getCode();
+    }
+
+    @Override
+    public Integer upload_vue(HttpServletRequest req) throws ServletException, IOException {
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) req;
+
+        // 获得文件分片数据
+        MultipartFile file = multipartRequest.getFile("file");
 
         // 上传过程中出现异常，状态码设置为50000
         ThrowUtils.throwIf(file == null, ErrorCode.OPERATION_ERROR);

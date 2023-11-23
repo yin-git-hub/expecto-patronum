@@ -17,13 +17,13 @@ import java.io.IOException;
 @RestController
 @RequestMapping(value = "/video")
 @Slf4j
-@CrossOrigin
+
 public class MinioFileController {
    @Autowired
    private MinioService minioService;
 
 
-    @RequestMapping(value = "/home")
+    @GetMapping(value = "/home")
     public ModelAndView homeUpload() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("upload");
@@ -53,6 +53,11 @@ public class MinioFileController {
         Integer upload = minioService.upload(req);
         return ResultUtils.success(upload,null);
 
+    }
+    @PostMapping(value = "/upload-vue")
+    public BaseResponse upload_vue(HttpServletRequest req) throws ServletException, IOException {
+        Integer upload = minioService.upload_vue(req);
+        return ResultUtils.success(upload,null);
     }
 
     /**

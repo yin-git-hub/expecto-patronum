@@ -32,6 +32,7 @@ public interface MinioService {
      * @return 上传结果的元数据
      */
     Integer upload(HttpServletRequest req) throws ServletException, IOException;
+    Integer upload_vue(HttpServletRequest req) throws ServletException, IOException;
 
     /**
      * 分片文件合并的核心方法
