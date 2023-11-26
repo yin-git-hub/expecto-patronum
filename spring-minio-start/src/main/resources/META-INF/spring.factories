@@ -1,3 +1,2 @@
 # Auto Configure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.yin.minio.springminiostart.config.MinioClientAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.yin.minio.springminiostart.config.MinioClientAutoConfiguration

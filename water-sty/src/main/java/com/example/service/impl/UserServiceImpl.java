@@ -13,7 +13,7 @@ import com.example.service.exception.BusinessException;
 import com.example.service.exception.ThrowUtils;
 import com.example.service.utils.MD5Util;
 import com.example.service.utils.TokenUtil;
-import com.sun.istack.internal.NotNull;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,7 +78,7 @@ implements UserService {
         return getTokenMap(userId);
     }
 
-    @NotNull
+
     private Map<String, String> getTokenMap(Long userId) throws Exception {
         String accessToken = TokenUtil.generateToken(userId);
         String refreshToken = TokenUtil.generateRefreshToken(userId);

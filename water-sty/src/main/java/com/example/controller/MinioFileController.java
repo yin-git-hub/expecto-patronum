@@ -17,7 +17,6 @@ import java.io.IOException;
 @RestController
 @RequestMapping(value = "/video")
 @Slf4j
-
 public class MinioFileController {
    @Autowired
    private MinioService minioService;

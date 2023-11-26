@@ -18,7 +18,7 @@ public class CanalUtil {
         // 创建链接
         connector
                 = CanalConnectors.newSingleConnector(
-                new InetSocketAddress(AddressUtils.getHostIp(), 11111),
+                new InetSocketAddress("124.220.6.229", 11111),
                 "example",
                 "",
                 "");
