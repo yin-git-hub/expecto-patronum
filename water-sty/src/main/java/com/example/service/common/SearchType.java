@@ -12,6 +12,7 @@ public enum SearchType {
     Artical("artical"),
     VideoInfo("video"),
     UserInfo("user"),
+
     Scrolling("scrolling")
     ;
     private String type;

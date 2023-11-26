@@ -25,7 +25,13 @@ public class SearchController {
     SearchAllService searchService;
     @PostMapping("/all")
     public BaseResponse search(@RequestBody SearchDto searchDto){
-        PageResult pageResult = searchService.searchAll(searchDto);
+        PageResult pageResult = searchService.searchAllES(searchDto);
+        return ResultUtils.success(pageResult);
+    }
+
+    @PostMapping("/all-sql")
+    public BaseResponse searchsql(@RequestBody SearchDto searchDto){
+        PageResult pageResult = searchService.searchAllMySQL(searchDto);
         return ResultUtils.success(pageResult);
     }
 }

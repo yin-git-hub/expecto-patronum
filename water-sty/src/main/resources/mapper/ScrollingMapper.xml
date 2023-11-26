@@ -34,5 +34,10 @@
                    #{scrollingContext}
                );
     </insert>
+    <select id="selectAllSQL" resultType="com.example.dao.model.entity.Scrolling">
+        select *
+        from scrolling
+        where scrolling_context like concat('%', #{content}, '%')
+    </select>
 </mapper>
 

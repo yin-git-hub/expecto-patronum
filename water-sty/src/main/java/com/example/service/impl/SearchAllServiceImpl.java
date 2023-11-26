@@ -1,6 +1,8 @@
 package com.example.service.impl;
 
+import com.example.dao.mapper.ScrollingMapper;
 import com.example.dao.model.dto.SearchDto;
+import com.example.dao.model.entity.Scrolling;
 import com.example.dao.model.vo.PageResult;
 import com.example.service.SearchAllService;
 import com.example.service.SearchService;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Author: yin7331
@@ -37,7 +40,7 @@ public class SearchAllServiceImpl implements SearchAllService {
     }
 
     @Override
-    public PageResult searchAll(SearchDto searchDto) {
+    public PageResult searchAllES(SearchDto searchDto) {
 
         ThrowUtils.throwIf(searchDto==null, ErrorCode.PARAMS_ERROR);
         String type = searchDto.getType();
@@ -48,5 +51,18 @@ public class SearchAllServiceImpl implements SearchAllService {
         PageResult search = o.search(searchDto);
 
         return search;
+    }
+
+
+
+    @Autowired
+    ScrollingMapper scrollingMapper;
+    @Override
+    public PageResult searchAllMySQL(SearchDto searchDto) {
+        List<Scrolling> search = scrollingMapper.selectAllSQL(searchDto);
+        PageResult<Scrolling> objectPageResult = new PageResult<>();
+        objectPageResult.setValList(search);
+
+        return objectPageResult;
     }
 }

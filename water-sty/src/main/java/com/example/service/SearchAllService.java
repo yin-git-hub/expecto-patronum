@@ -9,5 +9,6 @@ import com.example.dao.model.vo.PageResult;
  * Describe:
  */
 public interface SearchAllService {
-    PageResult searchAll(SearchDto searchDto);
+    PageResult searchAllES(SearchDto searchDto);
+    PageResult searchAllMySQL(SearchDto searchDto);
 }
