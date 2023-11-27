@@ -10,9 +10,6 @@ import org.springframework.scheduling.annotation.Async;
  */
 public interface ScrollingService {
     public void saveScroller(Scrolling scrolling);
+    public void testSaveScroller(Scrolling scrolling);
 
-
-
-    @Async
-    void saveScrollingToDB(Scrolling scrolling);
 }

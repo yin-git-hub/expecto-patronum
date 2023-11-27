@@ -44,7 +44,7 @@ public class ScrollingWebsocketController {
     // 视频在线人数
     private static HashMap<String, List<Session>> currentMap
             = new HashMap();
-
+    static ScheduledExecutorService pool = Executors.newScheduledThreadPool(1);
 
     private static ApplicationContext APPLICATION_CONTEXT;
 
@@ -96,7 +96,8 @@ public class ScrollingWebsocketController {
     }
 
     @OnClose
-    public void onClose() {
+    public void onClose()   {
+
         List<Session> currentList = null;
         synchronized (currentMap) {
             currentList = currentMap.get(this.videoId);
@@ -112,19 +113,27 @@ public class ScrollingWebsocketController {
     public void onMessage(String message) {
 
 
-        ThrowUtils.throwIf(this.userId==null, ErrorCode.NOT_LOGIN_ERROR);
+        // ThrowUtils.throwIf(this.userId==null, ErrorCode.NOT_LOGIN_ERROR);
+        // log.info("sessionId {} 发来消息{}", session.getId(), message);
+        // Scrolling scrolling = JSONObject.parseObject(message, Scrolling.class);
+        // ThrowUtils.throwIf(scrolling == null, ErrorCode.PARAMS_ERROR);
+        // scrolling.setUserId(this.userId);
+        // scrolling.setVideoId(Long.valueOf(this.videoId));
+        // ScrollingService scrollingService = (ScrollingService) APPLICATION_CONTEXT.getBean("scrollingServiceImpl");
+        // RabbitTemplate rabbitTemplate = (RabbitTemplate) APPLICATION_CONTEXT.getBean("rabbitTemplate");
+        //
+        // RabbitMQUtil.asyncSendMessage(scrolling, rabbitTemplate);
+        //
+        // scrollingService.saveScroller(scrolling);
+
         log.info("sessionId {} 发来消息{}", session.getId(), message);
         Scrolling scrolling = JSONObject.parseObject(message, Scrolling.class);
         ThrowUtils.throwIf(scrolling == null, ErrorCode.PARAMS_ERROR);
         scrolling.setUserId(this.userId);
         scrolling.setVideoId(Long.valueOf(this.videoId));
         ScrollingService scrollingService = (ScrollingService) APPLICATION_CONTEXT.getBean("scrollingServiceImpl");
-        RabbitTemplate rabbitTemplate = (RabbitTemplate) APPLICATION_CONTEXT.getBean("rabbitTemplate");
-
-        RabbitMQUtil.asyncSendMessage(scrolling, rabbitTemplate);
-
-        scrollingService.saveScroller(scrolling);
-        scrollingService.saveScrollingToDB(scrolling);
+        scrollingService.testSaveScroller(scrolling);
+        sendMessageCurrentVideo(scrolling);
     }
 
     @OnError
@@ -139,16 +148,19 @@ public class ScrollingWebsocketController {
 
         List<Session> currentList = currentMap.get(String.valueOf(scrolling.getVideoId()));
 
-        ThrowUtils.throwIf(currentList == null, ErrorCode.OPERATION_ERROR);
-        for (int i = 0; i < currentList.size(); i++) {
-            try {
-                Session toSession = currentList.get(i);
-                String scrollingJsonStr = JSONUtil.toJsonStr(scrolling);
-                toSession.getBasicRemote().sendText(scrollingJsonStr);
-                log.info("发给 sessionID {},value:{}", toSession.getId(), scrolling.getScrollingContext());
-            } catch (Exception e) {
-                throw new BusinessException(ErrorCode.OPERATION_ERROR, "弹幕发送失败");
+        try {
+            ThrowUtils.throwIf(currentList == null, ErrorCode.OPERATION_ERROR);
+            for (int i = 0; i < currentList.size(); i++) {
+                try {
+                    Session toSession = currentList.get(i);
+                    String scrollingJsonStr = JSONUtil.toJsonStr(scrolling);
+                    toSession.getBasicRemote().sendText(scrollingJsonStr);
+                    log.info("发给 sessionID {},value:{}", toSession.getId(), scrolling.getScrollingContext());
+                } catch (Exception e) {
+                    throw new BusinessException(ErrorCode.OPERATION_ERROR, "弹幕发送失败");
+                }
             }
+        }catch (Exception e){
 
         }
 
@@ -177,7 +189,6 @@ public class ScrollingWebsocketController {
     private void noticeOnlineCount() {
 
         if (!currentMap.isEmpty()) {
-            ScheduledExecutorService pool = Executors.newScheduledThreadPool(1);
             Integer i = 1 * 1000;
             pool.scheduleAtFixedRate(() -> {
                 this.sendCurrentPeopleCount();

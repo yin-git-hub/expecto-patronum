@@ -5,11 +5,16 @@ import com.example.dao.mapper.ScrollingMapper;
 import com.example.dao.model.entity.Scrolling;
 import com.example.service.ScrollingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Author: yin7331
@@ -45,11 +50,30 @@ public class ScrollingServiceImpl implements ScrollingService {
 
     }
 
-
     @Override
-    @Async
-    public void saveScrollingToDB(Scrolling scrolling){
+    public void testSaveScroller(Scrolling scrolling) {
+        scrollingMapper.saveScrolling(scrolling);
+    }
 
-        Integer integer = scrollingMapper.saveScrolling(scrolling);
+
+    @PostConstruct
+    public void saveScrollingToDB(){
+
+        ScheduledExecutorService pool = Executors.newScheduledThreadPool(1);
+        Integer i = 0 * 1000;
+        pool.scheduleAtFixedRate(() -> {
+            BoundHashOperations<String, Object, Object> r = redisTemplate.boundHashOps(SCROLLING_KEY);
+            Set<Object> keys = r.keys();
+            if (keys!=null&&!keys.isEmpty()) {
+                for (Object key : keys) {
+                    Object o =  r.get(key);
+                    List<Scrolling> list = JSONUtil.toList((String) o, Scrolling.class);
+                    for (Scrolling scrolling : list) {
+                        scrollingMapper.saveScrolling(scrolling);
+                    }
+                    r.delete(key);
+                }
+            }
+        }, i, 1000*60*60*24 , TimeUnit.MILLISECONDS);
      }
 }

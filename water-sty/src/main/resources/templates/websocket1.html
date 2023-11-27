@@ -12,7 +12,7 @@
 <p id="displayField"></p>
 
 <script>
-  const ws = new WebSocket("ws://localhost:7331/water-sty/scrolling/123/111");
+  const ws = new WebSocket("ws://localhost:7331/water-sty/scrolling/123/122");
 
   ws.onopen = function() {
     console.log('WebSocket connection established');
@@ -50,10 +50,9 @@
     };
 
     const jsonStr = JSON.stringify(jsonData);
-    ws.setRequestHeader("token", "eyJraWQiOiI4IiwidHlwIjoiSldUIiwiYWxnIjoiUlMyNTYifQ.eyJpc3MiOiLnrb7lj5HogIUiLCJleHAiOjE3MDA1MTUyMjB9.EDoVg613Bn3MVqjFXCQArHrfN7KrlXVIVySwHa2sw7dl69qGTU3RECGcgBVpEGZvCBsgYfwVdSprtAotaR-BKyUBdQZkgAyjdVBfuaJFv955hm0vMI_ddEy-u8RmxZu7dE6Pl01ia4psroQmgX6w38Ir77ug1dL4IfvC2MZLg4U"); // 设置请求头token
-    ws.onopen = function() {
+
       ws.send(jsonStr);
-    };
+
     inputField.value = ''; // 清空输入框
   }
 </script>

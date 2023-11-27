@@ -30,10 +30,4 @@ public class TestController {
         return ResultUtils.success(val);
     }
 
-@Autowired
-    ScrollingService scrollingService;
-    @PostMapping("/scrollingServiceTest")
-        public BaseResponse scrollingServiceTest(@RequestBody Scrolling scrolling){
-        scrollingService.saveScrollingToDB(scrolling);
-        return ResultUtils.success();
-        }}
+     }
