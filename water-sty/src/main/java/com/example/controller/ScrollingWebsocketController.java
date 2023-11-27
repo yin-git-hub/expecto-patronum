@@ -114,26 +114,26 @@ public class ScrollingWebsocketController {
 
 
         // ThrowUtils.throwIf(this.userId==null, ErrorCode.NOT_LOGIN_ERROR);
-        // log.info("sessionId {} 发来消息{}", session.getId(), message);
-        // Scrolling scrolling = JSONObject.parseObject(message, Scrolling.class);
-        // ThrowUtils.throwIf(scrolling == null, ErrorCode.PARAMS_ERROR);
-        // scrolling.setUserId(this.userId);
-        // scrolling.setVideoId(Long.valueOf(this.videoId));
-        // ScrollingService scrollingService = (ScrollingService) APPLICATION_CONTEXT.getBean("scrollingServiceImpl");
-        // RabbitTemplate rabbitTemplate = (RabbitTemplate) APPLICATION_CONTEXT.getBean("rabbitTemplate");
-        //
-        // RabbitMQUtil.asyncSendMessage(scrolling, rabbitTemplate);
-        //
-        // scrollingService.saveScroller(scrolling);
-
         log.info("sessionId {} 发来消息{}", session.getId(), message);
         Scrolling scrolling = JSONObject.parseObject(message, Scrolling.class);
         ThrowUtils.throwIf(scrolling == null, ErrorCode.PARAMS_ERROR);
         scrolling.setUserId(this.userId);
         scrolling.setVideoId(Long.valueOf(this.videoId));
         ScrollingService scrollingService = (ScrollingService) APPLICATION_CONTEXT.getBean("scrollingServiceImpl");
-        scrollingService.testSaveScroller(scrolling);
-        sendMessageCurrentVideo(scrolling);
+        RabbitTemplate rabbitTemplate = (RabbitTemplate) APPLICATION_CONTEXT.getBean("rabbitTemplate");
+
+        RabbitMQUtil.asyncSendMessage(scrolling, rabbitTemplate);
+
+        scrollingService.saveScroller(scrolling);
+
+        // log.info("sessionId {} 发来消息{}", session.getId(), message);
+        // Scrolling scrolling = JSONObject.parseObject(message, Scrolling.class);
+        // ThrowUtils.throwIf(scrolling == null, ErrorCode.PARAMS_ERROR);
+        // scrolling.setUserId(this.userId);
+        // scrolling.setVideoId(Long.valueOf(this.videoId));
+        // ScrollingService scrollingService = (ScrollingService) APPLICATION_CONTEXT.getBean("scrollingServiceImpl");
+        // scrollingService.testSaveScroller(scrolling);
+        // sendMessageCurrentVideo(scrolling);
     }
 
     @OnError
@@ -148,7 +148,7 @@ public class ScrollingWebsocketController {
 
         List<Session> currentList = currentMap.get(String.valueOf(scrolling.getVideoId()));
 
-        try {
+
             ThrowUtils.throwIf(currentList == null, ErrorCode.OPERATION_ERROR);
             for (int i = 0; i < currentList.size(); i++) {
                 try {
@@ -160,9 +160,7 @@ public class ScrollingWebsocketController {
                     throw new BusinessException(ErrorCode.OPERATION_ERROR, "弹幕发送失败");
                 }
             }
-        }catch (Exception e){
 
-        }
 
     }
 
