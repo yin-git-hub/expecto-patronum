@@ -1,6 +1,7 @@
 package com.example.service.impl;
 
 import cn.hutool.json.JSONUtil;
+import com.example.controller.ScrollingWebsocketController;
 import com.example.dao.mapper.ScrollingMapper;
 import com.example.dao.model.entity.Scrolling;
 import com.example.service.ScrollingService;
@@ -58,8 +59,7 @@ public class ScrollingServiceImpl implements ScrollingService {
 
     @PostConstruct
     public void saveScrollingToDB(){
-
-        ScheduledExecutorService pool = Executors.newScheduledThreadPool(1);
+        ScheduledExecutorService pool = ScrollingWebsocketController.poolScheduled;
         Integer i = 0 * 1000;
         pool.scheduleAtFixedRate(() -> {
             BoundHashOperations<String, Object, Object> r = redisTemplate.boundHashOps(SCROLLING_KEY);

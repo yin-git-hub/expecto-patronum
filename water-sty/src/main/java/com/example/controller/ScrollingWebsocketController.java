@@ -18,15 +18,12 @@ import org.springframework.stereotype.Component;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 /**
@@ -44,7 +41,7 @@ public class ScrollingWebsocketController {
     // 视频在线人数
     private static HashMap<String, List<Session>> currentMap
             = new HashMap();
-    static ScheduledExecutorService pool = Executors.newScheduledThreadPool(1);
+    public static ScheduledExecutorService poolScheduled = Executors.newScheduledThreadPool(1);
 
     private static ApplicationContext APPLICATION_CONTEXT;
 
@@ -188,7 +185,7 @@ public class ScrollingWebsocketController {
 
         if (!currentMap.isEmpty()) {
             Integer i = 1 * 1000;
-            pool.scheduleAtFixedRate(() -> {
+            poolScheduled.scheduleAtFixedRate(() -> {
                 this.sendCurrentPeopleCount();
             }, i, 1000, TimeUnit.MILLISECONDS);
         }
