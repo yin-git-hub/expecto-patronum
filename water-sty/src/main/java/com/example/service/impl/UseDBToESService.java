@@ -46,7 +46,7 @@ public class UseDBToESService {
         connector.connect();
         connector.rollback();
         // todo 在linux中部署需要加上
-        connector.subscribe();
+        // connector.subscribe();
         Message message = connector.getWithoutAck(batchSize); // 获取指定数量的数据
         long batchId = message.getId();
         int size = message.getEntries().size();
