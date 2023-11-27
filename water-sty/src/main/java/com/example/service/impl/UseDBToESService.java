@@ -38,7 +38,7 @@ public class UseDBToESService {
         dbToESServiceHashMap.put("user_info", userInfoDBToESService);
         dbToESServiceHashMap.put("video_info", videoInfoDBToESService);
     }
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 60*1000)
     private void printEntry() {
         List<CanalEntry.Entry> entrys = null;
         CanalConnector connector = CanalUtil.getConnect();
