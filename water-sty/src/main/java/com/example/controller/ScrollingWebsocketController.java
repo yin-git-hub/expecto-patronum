@@ -7,12 +7,11 @@ import com.example.service.ScrollingService;
 import com.example.service.common.ErrorCode;
 import com.example.service.exception.BusinessException;
 import com.example.service.exception.ThrowUtils;
-
+import com.example.service.utils.RabbitMQUtil;
 import com.example.service.utils.TokenUtil;
 import lombok.extern.slf4j.Slf4j;
-
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.ApplicationContext;
-
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
@@ -24,6 +23,7 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 /**
@@ -41,7 +41,7 @@ public class ScrollingWebsocketController {
     // 视频在线人数
     private static HashMap<String, List<Session>> currentMap
             = new HashMap();
-    public static ScheduledExecutorService poolScheduled = Executors.newScheduledThreadPool(1);
+    static ScheduledExecutorService pool = Executors.newScheduledThreadPool(1);
 
     private static ApplicationContext APPLICATION_CONTEXT;
 
@@ -106,31 +106,34 @@ public class ScrollingWebsocketController {
         }
      }
 
+  public static AtomicInteger a =    new AtomicInteger(0);
     @OnMessage
     public void onMessage(String message) {
 
 
         // ThrowUtils.throwIf(this.userId==null, ErrorCode.NOT_LOGIN_ERROR);
         log.info("sessionId {} 发来消息{}", session.getId(), message);
-        // Scrolling scrolling = JSONObject.parseObject(message, Scrolling.class);
-        // ThrowUtils.throwIf(scrolling == null, ErrorCode.PARAMS_ERROR);
-        // scrolling.setUserId(this.userId);
-        // scrolling.setVideoId(Long.valueOf(this.videoId));
-        // ScrollingService scrollingService = (ScrollingService) APPLICATION_CONTEXT.getBean("scrollingServiceImpl");
-        // RabbitTemplate rabbitTemplate = (RabbitTemplate) APPLICATION_CONTEXT.getBean("rabbitTemplate");
-        //
-        // RabbitMQUtil.asyncSendMessage(scrolling, rabbitTemplate);
-        //
-        // scrollingService.saveScroller(scrolling);
-
-        log.info("sessionId {} 发来消息{}", session.getId(), message);
         Scrolling scrolling = JSONObject.parseObject(message, Scrolling.class);
         ThrowUtils.throwIf(scrolling == null, ErrorCode.PARAMS_ERROR);
         scrolling.setUserId(this.userId);
         scrolling.setVideoId(Long.valueOf(this.videoId));
         ScrollingService scrollingService = (ScrollingService) APPLICATION_CONTEXT.getBean("scrollingServiceImpl");
-        scrollingService.testSaveScroller(scrolling);
-        sendMessageCurrentVideo(scrolling);
+        RabbitTemplate rabbitTemplate = (RabbitTemplate) APPLICATION_CONTEXT.getBean("rabbitTemplate");
+        RabbitMQUtil.asyncSendMessage(scrolling, rabbitTemplate);
+        scrollingService.saveScroller(scrolling);
+        // log.info("sessionId {} 发来消息{}", session.getId(), message);
+        // Scrolling scrolling = JSONObject.parseObject(message, Scrolling.class);
+        // ThrowUtils.throwIf(scrolling == null, ErrorCode.PARAMS_ERROR);
+        // scrolling.setUserId(this.userId);
+        // scrolling.setVideoId(Long.valueOf(this.videoId));
+        // ScrollingService scrollingService = (ScrollingService) APPLICATION_CONTEXT.getBean("scrollingServiceImpl");
+        // scrollingService.testSaveScroller(scrolling);
+        // try {
+        //
+        //     sendMessageCurrentVideo(scrolling);
+        // }finally {
+        //
+        // }
     }
 
     @OnError
@@ -145,20 +148,18 @@ public class ScrollingWebsocketController {
 
         List<Session> currentList = currentMap.get(String.valueOf(scrolling.getVideoId()));
 
-
-            ThrowUtils.throwIf(currentList == null, ErrorCode.OPERATION_ERROR);
-            for (int i = 0; i < currentList.size(); i++) {
-                try {
-                    Session toSession = currentList.get(i);
-                    String scrollingJsonStr = JSONUtil.toJsonStr(scrolling);
-                    toSession.getBasicRemote().sendText(scrollingJsonStr);
-                    log.info("发给 sessionID {},value:{}", toSession.getId(), scrolling.getScrollingContext());
-                } catch (Exception e) {
-                    throw new BusinessException(ErrorCode.OPERATION_ERROR, "弹幕发送失败");
+            if (currentList != null){
+                for (int i = 0; i < currentList.size(); i++) {
+                    try {
+                        Session toSession = currentList.get(i);
+                        String scrollingJsonStr = JSONUtil.toJsonStr(scrolling);
+                        toSession.getBasicRemote().sendText(scrollingJsonStr);
+                        log.info("发给 sessionID {},value:{}", toSession.getId(), scrolling.getScrollingContext());
+                    } catch (Exception e) {
+                        throw new BusinessException(ErrorCode.OPERATION_ERROR, "弹幕发送失败"+e);
+                    }
                 }
             }
-
-
     }
 
 
@@ -185,7 +186,7 @@ public class ScrollingWebsocketController {
 
         if (!currentMap.isEmpty()) {
             Integer i = 1 * 1000;
-            poolScheduled.scheduleAtFixedRate(() -> {
+            pool.scheduleAtFixedRate(() -> {
                 this.sendCurrentPeopleCount();
             }, i, 1000, TimeUnit.MILLISECONDS);
         }

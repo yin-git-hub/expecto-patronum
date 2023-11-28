@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -26,29 +27,19 @@ import java.util.concurrent.TimeUnit;
 public class ScrollingServiceImpl implements ScrollingService {
 
     @Autowired
-     StringRedisTemplate redisTemplate;
+    StringRedisTemplate redisTemplate;
 
     private String SCROLLING_KEY = "ScrollingKey";
 
     @Autowired
     ScrollingMapper scrollingMapper;
 
+
+    static ExecutorService executorService = Executors.newFixedThreadPool(2);
     @Override
     public void saveScroller(Scrolling scrolling) {
-
         String videoid = String.valueOf(scrolling.getVideoId());
-        List<Scrolling> scrollingList = JSONUtil.toList((String) redisTemplate.boundHashOps(SCROLLING_KEY).get(videoid), Scrolling.class);
-
-
-        if(scrollingList==null){
-            scrollingList = new LinkedList<>();
-        }
-        scrollingList.add(scrolling);
-        String jsonStrScrolling = JSONUtil.toJsonStr(scrollingList);
-        redisTemplate.boundHashOps(SCROLLING_KEY).put(videoid,jsonStrScrolling );
-
-        // saveScrollingToDB(scrolling);
-
+        redisTemplate.opsForList().rightPush(SCROLLING_KEY+":"+videoid, JSONUtil.toJsonStr(scrolling));
     }
 
     @Override
@@ -58,15 +49,16 @@ public class ScrollingServiceImpl implements ScrollingService {
 
 
     @PostConstruct
-    public void saveScrollingToDB(){
-        ScheduledExecutorService pool = ScrollingWebsocketController.poolScheduled;
+    public void saveScrollingToDB() {
+
+        ScheduledExecutorService pool = Executors.newScheduledThreadPool(1);
         Integer i = 0 * 1000;
         pool.scheduleAtFixedRate(() -> {
             BoundHashOperations<String, Object, Object> r = redisTemplate.boundHashOps(SCROLLING_KEY);
             Set<Object> keys = r.keys();
-            if (keys!=null&&!keys.isEmpty()) {
+            if (keys != null && !keys.isEmpty()) {
                 for (Object key : keys) {
-                    Object o =  r.get(key);
+                    Object o = r.get(key);
                     List<Scrolling> list = JSONUtil.toList((String) o, Scrolling.class);
                     for (Scrolling scrolling : list) {
                         scrollingMapper.saveScrolling(scrolling);
@@ -74,6 +66,6 @@ public class ScrollingServiceImpl implements ScrollingService {
                     r.delete(key);
                 }
             }
-        }, i, 1000*60*60*24 , TimeUnit.MILLISECONDS);
-     }
+        }, i, 1000 * 60 * 60 * 24, TimeUnit.MILLISECONDS);
+    }
 }
