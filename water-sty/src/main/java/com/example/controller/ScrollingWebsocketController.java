@@ -12,14 +12,17 @@ import com.example.service.utils.TokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -106,7 +109,6 @@ public class ScrollingWebsocketController {
         }
      }
 
-  public static AtomicInteger a =    new AtomicInteger(0);
     @OnMessage
     public void onMessage(String message) {
 
@@ -119,8 +121,11 @@ public class ScrollingWebsocketController {
         scrolling.setVideoId(Long.valueOf(this.videoId));
         ScrollingService scrollingService = (ScrollingService) APPLICATION_CONTEXT.getBean("scrollingServiceImpl");
         RabbitTemplate rabbitTemplate = (RabbitTemplate) APPLICATION_CONTEXT.getBean("rabbitTemplate");
+
         RabbitMQUtil.asyncSendMessage(scrolling, rabbitTemplate);
+
         scrollingService.saveScroller(scrolling);
+
         // log.info("sessionId {} 发来消息{}", session.getId(), message);
         // Scrolling scrolling = JSONObject.parseObject(message, Scrolling.class);
         // ThrowUtils.throwIf(scrolling == null, ErrorCode.PARAMS_ERROR);
@@ -128,12 +133,7 @@ public class ScrollingWebsocketController {
         // scrolling.setVideoId(Long.valueOf(this.videoId));
         // ScrollingService scrollingService = (ScrollingService) APPLICATION_CONTEXT.getBean("scrollingServiceImpl");
         // scrollingService.testSaveScroller(scrolling);
-        // try {
-        //
-        //     sendMessageCurrentVideo(scrolling);
-        // }finally {
-        //
-        // }
+        // sendMessageCurrentVideo(scrolling);
     }
 
     @OnError
@@ -148,18 +148,21 @@ public class ScrollingWebsocketController {
 
         List<Session> currentList = currentMap.get(String.valueOf(scrolling.getVideoId()));
 
-            if (currentList != null){
-                for (int i = 0; i < currentList.size(); i++) {
-                    try {
-                        Session toSession = currentList.get(i);
-                        String scrollingJsonStr = JSONUtil.toJsonStr(scrolling);
-                        toSession.getBasicRemote().sendText(scrollingJsonStr);
-                        log.info("发给 sessionID {},value:{}", toSession.getId(), scrolling.getScrollingContext());
-                    } catch (Exception e) {
-                        throw new BusinessException(ErrorCode.OPERATION_ERROR, "弹幕发送失败"+e);
-                    }
+         if (currentList != null) {
+            for (int i = 0; i < currentList.size(); i++) {
+                try {
+                    Session toSession = currentList.get(i);
+                    String scrollingJsonStr = JSONUtil.toJsonStr(scrolling);
+                    toSession.getBasicRemote().sendText(scrollingJsonStr);
+                    log.info("发给 sessionID {},value:{}", toSession.getId(), scrolling.getScrollingContext());
+                } catch (Exception e) {
+                    throw new BusinessException(ErrorCode.OPERATION_ERROR, "弹幕发送失败");
                 }
             }
+        }
+
+
+
     }
 
 

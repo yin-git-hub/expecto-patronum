@@ -23,7 +23,7 @@ public class RabbitMQUtil {
 
     RabbitTemplate rabbitTemplate;
 
-    private static final ExecutorService executorService = Executors.newFixedThreadPool(3);
+    private static final ExecutorService executorService = Executors.newFixedThreadPool(5);
 
     public static void asyncSendMessage(Scrolling message, RabbitTemplate rabbit) {
         executorService.submit(() -> {
