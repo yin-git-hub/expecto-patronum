@@ -31,7 +31,6 @@
         <router-link to="/create">
           创作
         </router-link>
-
       </a-menu-item>
     </a-menu>
   </a-layout-header>

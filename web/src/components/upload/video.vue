@@ -23,19 +23,28 @@ import { InboxOutlined } from '@ant-design/icons-vue';
 import { message } from 'ant-design-vue';
 import { defineComponent, ref } from 'vue';
 import axios from "axios";
+import {md5} from "js-md5";
 export default defineComponent({
   name: "the-video-upload",
   components: {
     InboxOutlined,
   },
   setup() {
-    const actionUrl = ""
-    const chunkSize = ref(1024 * 1024)
+    const actionUrl = "/video/upload"
+    const fileVideo = ref()
+    const chunkSize = ref(5 * 1024 * 1024)
+    const fileName = ref('')
+    const fileSize = ref('')
+    const fileType = ref('')
+    const videoMD5 = ref('')
     const handleChange = info => {
       const status = info.file.status;
-      if (status !== 'uploading') {
-        console.log(info.file, info.fileList);
-      }
+      fileName.value = info.file.name
+      fileSize.value = info.file.size
+      fileType.value = info.file.type
+      console.log(info.file)
+      // if (status !== 'uploading') {
+      // }
       if (status === 'done') {
         message.success(`${info.file.name} file uploaded successfully.`);
       } else if (status === 'error') {
@@ -45,17 +54,18 @@ export default defineComponent({
 
     const customRequest = options => {
       // 获取文件对象
-      const file = options.file;
+      fileVideo.value = options.file;
       // 获取文件名
-      const filename = file.name;
+      const filename = fileVideo.value.name;
       // 获取文件总大小
-      const totalSize = file.size;
+      const totalSize = fileVideo.value.size;
       // 计算分片总数
       const total = Math.ceil(totalSize / chunkSize.value);
       // 定义一个数组，用来存储分片的索引
       const chunks = [];
       // 定义一个变量，用来记录已上传的分片数
       let uploaded = 0;
+      videoMD5.value = md5(fileVideo.value.toString())
       // 定义一个函数，用来发送分片
       const sendChunk = index => {
         // 创建一个表单对象，用来存储分片数据
@@ -65,13 +75,14 @@ export default defineComponent({
         // 获取分片的结束位置
         const end = Math.min(start + chunkSize.value, totalSize);
         // 获取分片的内容
-        const chunk = file.slice(start, end);
+        const chunk = fileVideo.value.slice(start, end);
         // 将分片的文件名、大小、总数、索引、内容添加到表单中
         formData.append("filename", filename);
         formData.append("size", totalSize);
         formData.append("total", total);
         formData.append("index", index);
         formData.append("file", chunk);
+        formData.append("md5",videoMD5.value)
         // 创建一个 axios 实例，用来发送请求
         const axiosInstance = axios.create();
         // 发送请求

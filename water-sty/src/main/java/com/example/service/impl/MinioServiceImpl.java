@@ -108,7 +108,7 @@ public class MinioServiceImpl implements MinioService {
 
         // 获得文件分片数据
         // ((MultipartHttpServletRequest) req).getFile()
-        MultipartFile file = multipartRequest.getFile("data");
+        MultipartFile file = multipartRequest.getFile("file");
 
         // 上传过程中出现异常，状态码设置为50000
         ThrowUtils.throwIf(file == null, ErrorCode.OPERATION_ERROR);
