@@ -16,9 +16,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PageResult<T> {
+    // 当前页码
     Integer pageIndex = 1;
+    // 请求数据量
     Integer pageSize = 10;
-    //总数
+    // 共有多少页
+    Integer totalPages = 0;
+    // 共有多少数据量
+    Long totalElements;
+    //单页数据量
     Integer total;
     List<T> valList;
 }

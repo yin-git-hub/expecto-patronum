@@ -42,11 +42,11 @@ public class UseDBToESService {
     private void printEntry() {
         List<CanalEntry.Entry> entrys = null;
         CanalConnector connector = CanalUtil.getConnect();
-        int batchSize = 100;
+        int batchSize = 100000;
         connector.connect();
+        connector.subscribe(".*\\..*");
         connector.rollback();
         // todo 在linux中部署需要加上
-        // connector.subscribe();
         Message message = connector.getWithoutAck(batchSize); // 获取指定数量的数据
         long batchId = message.getId();
         int size = message.getEntries().size();
@@ -76,13 +76,15 @@ public class UseDBToESService {
             }
             String tableName = entry.getHeader().getTableName();
             DBToESService dbToESService = dbToESServiceHashMap.get(tableName);
-            for (CanalEntry.RowData rowData : rowChage.getRowDatasList()) {
-                if (eventType == CanalEntry.EventType.DELETE) {
-                    dbToESService.printColumn(rowData.getBeforeColumnsList());
-                } else if (eventType == CanalEntry.EventType.INSERT) {
-                    dbToESService.printColumn(rowData.getAfterColumnsList());
-                } else {
-                    dbToESService.printColumn(rowData.getAfterColumnsList());
+            if(dbToESService!=null){
+                for (CanalEntry.RowData rowData : rowChage.getRowDatasList()) {
+                    if (eventType == CanalEntry.EventType.DELETE) {
+                        dbToESService.printColumn(rowData.getBeforeColumnsList());
+                    } else if (eventType == CanalEntry.EventType.INSERT) {
+                        dbToESService.printColumn(rowData.getAfterColumnsList());
+                    } else {
+                        dbToESService.printColumn(rowData.getAfterColumnsList());
+                    }
                 }
             }
         }

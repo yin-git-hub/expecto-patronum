@@ -50,6 +50,18 @@ public class VideoInfoDBToESService  implements DBToESService {
                     value = "00000";
                 }
                 videoInfoES.setVideoName(value);
+            }else if (column.getName().equals("video_cover")) {
+                String value = column.getValue();
+                if (value == null || value == "") {
+                    value = "00000";
+                }
+                videoInfoES.setVideoCover(value);
+            }else if (column.getName().equals("video_summary")) {
+                String value = column.getValue();
+                if (value == null || value == "") {
+                    value = "00000";
+                }
+                videoInfoES.setVideoSummary(value);
             }
         }
         videoInfoESService.save(videoInfoES);

@@ -5,6 +5,7 @@ import com.example.dao.model.entity.VideoInfoES;
 import com.example.dao.model.vo.PageResult;
 import com.example.service.SearchService;
 import com.example.service.VideoInfoESService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,10 +27,21 @@ public class VideoInfoSearchServiceImpl implements SearchService {
     public PageResult search(SearchDto searchDto) {
         String content = searchDto.getContent();
         Pageable pageable = PageRequest.of(searchDto.getPageIndex()-1, searchDto.getPageSize());
-        Page<VideoInfoES> videoInfoES =  videoInfoESService.findByVideoNameLike(content,pageable);
+        Page<VideoInfoES> videoInfoES ;
+        if(StringUtils.isBlank(content)){
+            videoInfoES = videoInfoESService.findAll(pageable);
+        }else {
+            videoInfoES =  videoInfoESService.findByVideoNameLike(content,pageable);
+        }
+
+        System.out.println(videoInfoES.getTotalElements());
+
         PageResult pageResult = new PageResult();
         pageResult.setTotal(videoInfoES.getSize());
         pageResult.setValList(videoInfoES.getContent());
+        pageResult.setTotalPages(videoInfoES.getTotalPages());
+        pageResult.setPageIndex(videoInfoES.getNumber()+1);
+        pageResult.setTotalElements(videoInfoES.getTotalElements());
         return pageResult;
     }
 }

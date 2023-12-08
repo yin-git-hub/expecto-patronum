@@ -42,6 +42,7 @@
 import { defineComponent, reactive } from 'vue';
 import axios from "axios";
 import {notification} from "ant-design-vue";
+import router from "@/router";
 
 
 
@@ -95,6 +96,8 @@ export default defineComponent({
         console.log(response)
         if (response.code===200) {
           notification.success({ description: '登陆成功！' });
+          // 登录成功后，跳转到控制台主页
+          router.push("/welcome");
         } else {
           notification.error({ description: response.message });
         }
