@@ -17,13 +17,16 @@
       band files
     </p>
   </a-upload-dragger>
+
 </template>
 <script>
-import { InboxOutlined } from '@ant-design/icons-vue';
-import { message } from 'ant-design-vue';
-import { defineComponent, ref } from 'vue';
+import {InboxOutlined} from '@ant-design/icons-vue';
+import {message} from 'ant-design-vue';
+import {defineComponent, ref} from 'vue';
 import axios from "axios";
 import {md5} from "js-md5";
+import store from "@/store";
+
 export default defineComponent({
   name: "the-video-upload",
   components: {
@@ -37,15 +40,20 @@ export default defineComponent({
     const fileSize = ref('')
     const fileType = ref('')
     const videoMD5 = ref('')
+    const videoInfo = ''
     const handleChange = info => {
       const status = info.file.status;
       fileName.value = info.file.name
       fileSize.value = info.file.size
       fileType.value = info.file.type
-      console.log(info.file)
-      // if (status !== 'uploading') {
-      // }
+      if (status !== 'uploading') {
+        console.log(1111)
+        console.log("aaaa")
+
+      }
       if (status === 'done') {
+        console.log(2222)
+        console.log('bbbb')
         message.success(`${info.file.name} file uploaded successfully.`);
       } else if (status === 'error') {
         message.error(`${info.file.name} file upload failed.`);
@@ -55,6 +63,8 @@ export default defineComponent({
     const customRequest = options => {
       // 获取文件对象
       fileVideo.value = options.file;
+
+      console.log('options===>', fileVideo.value)
       // 获取文件名
       const filename = fileVideo.value.name;
       // 获取文件总大小
@@ -67,6 +77,20 @@ export default defineComponent({
       let uploaded = 0;
       videoMD5.value = md5(fileVideo.value.toString())
       // 定义一个函数，用来发送分片
+
+      //父传子
+      const videoInfo = {
+        "filename": filename,
+        "totalSize": totalSize,
+        "md5": videoMD5.value,
+        "total":total,
+      }
+      store.commit("setVideoInfo",videoInfo)
+
+      store.commit("setFilename", filename)
+      console.log('filename store===>', store.state.filename)
+
+
       const sendChunk = index => {
         // 创建一个表单对象，用来存储分片数据
         const formData = new FormData();
@@ -82,7 +106,7 @@ export default defineComponent({
         formData.append("total", total);
         formData.append("index", index);
         formData.append("file", chunk);
-        formData.append("md5",videoMD5.value)
+        formData.append("md5", videoMD5.value)
         // 创建一个 axios 实例，用来发送请求
         const axiosInstance = axios.create();
         // 发送请求
@@ -92,7 +116,7 @@ export default defineComponent({
               // 请求成功，更新上传进度
               uploaded++;
               const percent = (uploaded / total) * 100;
-              options.onProgress({ percent });
+              options.onProgress({percent});
               // 判断是否还有未上传的分片
               if (chunks.length > 0) {
                 // 从数组中取出一个分片的索引，继续发送
@@ -122,6 +146,7 @@ export default defineComponent({
       customRequest,
       actionUrl,
       chunkSize,
+      videoInfo,
       fileList: ref([]),
     };
   },
