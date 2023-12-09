@@ -55,7 +55,7 @@ public class VideoInfo implements Serializable {
     *
     */
     @ApiModelProperty("")
-    private Long videoSize;
+    private String videoSize;
     /**
     *
     */

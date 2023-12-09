@@ -51,30 +51,6 @@ public class MinioFileController {
     public BaseResponse upload(HttpServletRequest req) throws ServletException, IOException {
         Integer upload = minioService.upload(req);
         return ResultUtils.success(upload,null);
-
-    }
-    @PostMapping(value = "/upload-vue")
-    public BaseResponse upload_vue(HttpServletRequest req) throws ServletException, IOException {
-        Integer upload = minioService.upload_vue(req);
-        return ResultUtils.success(upload,null);
-    }
-
-    /**
-     * 文件合并
-     *
-     * @param shardCount 分片总数
-     * @param fileName   文件名
-     * @param md5        文件的md5
-     * @param fileType   文件类型
-     * @param fileSize   文件大小
-     * @return 分片合并的状态
-     */
-    @GetMapping(value = "/merge")
-    public BaseResponse merge(Integer shardCount, String fileName, String md5, String fileType,
-                                     Long fileSize,Integer area) {
-
-        minioService.merge(shardCount, fileName, md5, fileType, fileSize,area);
-        return ResultUtils.success();
     }
 }
 

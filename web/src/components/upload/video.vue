@@ -85,12 +85,8 @@ export default defineComponent({
         "md5": videoMD5.value,
         "total":total,
       }
+      console.log("totalSize===>",totalSize)
       store.commit("setVideoInfo",videoInfo)
-
-      store.commit("setFilename", filename)
-      console.log('filename store===>', store.state.filename)
-
-
       const sendChunk = index => {
         // 创建一个表单对象，用来存储分片数据
         const formData = new FormData();
@@ -102,7 +98,7 @@ export default defineComponent({
         const chunk = fileVideo.value.slice(start, end);
         // 将分片的文件名、大小、总数、索引、内容添加到表单中
         formData.append("filename", filename);
-        formData.append("size", totalSize);
+        formData.append("totalSize", totalSize);
         formData.append("total", total);
         formData.append("index", index);
         formData.append("file", chunk);

@@ -32,20 +32,16 @@ public interface MinioService {
      * @return 上传结果的元数据
      */
     Integer upload(HttpServletRequest req) throws ServletException, IOException;
-    Integer upload_vue(HttpServletRequest req) throws ServletException, IOException;
 
     /**
      * 分片文件合并的核心方法
      *
      * @param shardCount 分片数
-     * @param fileName   文件名
      * @param md5        文件的md5值
-     * @param fileType   文件类型
      * @param fileSize   文件大小
      * @return 合并成功的元数据
      */
-    void merge(Integer shardCount, String fileName, String md5, String fileType,
-                              Long fileSize,Integer area);
+
 
     /**
      * 视频播放的核心功能

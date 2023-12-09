@@ -8,10 +8,10 @@ import com.example.dao.model.entity.VideoObject;
 import com.example.dao.model.vo.PageResult;
 import com.example.service.MessageService;
 import com.example.service.MinioService;
+import com.example.service.VideoService;
 import com.example.service.common.ErrorCode;
 import com.example.service.common.ResultUtils;
 import com.example.service.exception.ThrowUtils;
-import com.example.service.utils.FileTypeUtil;
 import com.example.service.utils.MD5Util;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yin.minio.springminiostart.MinioTemplate;
@@ -73,6 +73,8 @@ public class MinioServiceImpl implements MinioService {
     @Autowired
     MessageService messageService;
 
+    @Autowired
+    VideoService videoService;
 
     /**
      * 文件上传前的检查，这是为了实现秒传接口
@@ -119,7 +121,7 @@ public class MinioServiceImpl implements MinioService {
         Integer total = Integer.parseInt(multipartRequest.getParameter("total"));
         // 获取文件名
         String fileName = multipartRequest.getParameter("name");
-
+        String totalSize = multipartRequest.getParameter("totalSize");
         String md5 = multipartRequest.getParameter("md5");
 
         // 创建文件桶
@@ -136,7 +138,7 @@ public class MinioServiceImpl implements MinioService {
         }
 
         // 当不是最后一片时，上传返回的状态码为20001
-        if (index < total) {
+        if (index + 1 < total) {
             try {
                 // 上传文件
                 OssFile ossFile = minioTemplate.putChunkObject(file.getInputStream(), md5, objectName);
@@ -158,74 +160,8 @@ public class MinioServiceImpl implements MinioService {
 
                 // 上传完成，删除进度
                 redisTemplate.delete(md5);
-                return 20002;
 
-            } catch (Exception e) {
-                e.printStackTrace();
-
-                return ErrorCode.OPERATION_ERROR.getCode();
-            }
-
-        }
-
-        return ResultUtils.success().getCode();
-    }
-
-    @Override
-    public Integer upload_vue(HttpServletRequest req) throws ServletException, IOException {
-        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) req;
-
-        // 获得文件分片数据
-        MultipartFile file = multipartRequest.getFile("file");
-
-        // 上传过程中出现异常，状态码设置为50000
-        ThrowUtils.throwIf(file == null, ErrorCode.OPERATION_ERROR);
-
-        // 分片第几片
-        Integer index = Integer.parseInt(multipartRequest.getParameter("index"));
-        // 总片数
-        Integer total = Integer.parseInt(multipartRequest.getParameter("total"));
-        // 获取文件名
-        String fileName = multipartRequest.getParameter("name");
-
-        String md5 = multipartRequest.getParameter("md5");
-
-        // 创建文件桶
-        minioTemplate.makeBucket(md5);
-        String objectName = String.valueOf(index);
-
-        log.info("index: {}, total:{}, fileName:{}, md5:{}, objectName:{}", index, total, fileName, md5, objectName);
-
-        Integer processIndex = (Integer) redisTemplate.opsForValue().get(md5);
-
-        // 查看redia里面的上传进度
-        if (index.equals(processIndex)) {
-            return 20001;
-        }
-
-        // 当不是最后一片时，上传返回的状态码为20001
-        if (index < total) {
-            try {
-                // 上传文件
-                OssFile ossFile = minioTemplate.putChunkObject(file.getInputStream(), md5, objectName);
-                log.info("{} upload success {}", objectName, ossFile);
-                // 在redis里面记录进度 保存一天时间
-                // todo 超过时长没有继续上传，这里的记录删除之后，删除minio 上传中断，没有继续上传的临时桶
-                redisTemplate.opsForValue().set(md5, index, 1, TimeUnit.DAYS);
-                return 20001;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            // 为最后一片时状态码为20002
-            try {
-
-                // 上传文件
-                minioTemplate.putChunkObject(file.getInputStream(), md5, objectName);
-
-                // 上传完成，删除进度
-                redisTemplate.delete(md5);
+                merge(total, md5, totalSize);
                 return 20002;
 
             } catch (Exception e) {
@@ -253,101 +189,39 @@ public class MinioServiceImpl implements MinioService {
     MinioMapper minioMapper;
 
     @Transactional
-    @Override
-    public void merge(Integer shardCount, String fileName,
-                      String md5, String fileType,
-                      Long fileSize,Integer area) {
-        Map<String, Object> retMap = new HashMap<>();
-
-        try {
-            // 查询片数据
-            List<String> objectNameList = minioTemplate.listObjectNames(md5);
-
-            ThrowUtils.throwIf(shardCount != objectNameList.size(), ErrorCode.OPERATION_ERROR);
-
-            // 开始合并请求
-            String targetBucketName = minioTemplate.getDefaultBucketName();
-            String filenameExtension = StringUtils.getFilenameExtension(fileName);
-            String fileNameWithoutExtension = UUID.randomUUID().toString();
-            String objectName = fileNameWithoutExtension + "." + filenameExtension;
-            minioTemplate.composeObject(md5, targetBucketName, objectName);
-
-            log.info("桶：{} 中的分片文件，已经在桶：{},文件 {} 合并成功", md5, targetBucketName, objectName);
-
-            // 合并成功之后删除对应的临时桶
-            minioTemplate.removeBucket(md5, true);
-            log.info("删除桶 {} 成功", md5);
+    public void merge(Integer shardCount,
+                      String md5,
+                      String fileSize
+    ) {
 
 
-            Video video = new Video();
-            video.setObjectKey(objectName);
-            video.setBucketName(targetBucketName);
-            minioMapper.saveVideo(video);
+        // 查询片数据
+        List<String> objectNameList = minioTemplate.listObjectNames(md5);
 
-            VideoInfo videoInfo = new VideoInfo();
-            videoInfo.setUserId(userSupport.getCurrentUserId());
-            videoInfo.setVideoId(video.getId());
-            // todo 获取简介,设置图片地址
-            videoInfo.setVideoCover(null);
-            videoInfo.setVideoSummary(null);
-            videoInfo.setVideoName(fileName);
-            videoInfo.setVideoMd5(md5);
-            videoInfo.setVideoSize(fileSize);
-            videoInfo.setArea(area);
+        ThrowUtils.throwIf(shardCount != objectNameList.size(), ErrorCode.OPERATION_ERROR);
+
+        // 开始合并请求
+        String targetBucketName = minioTemplate.getDefaultBucketName();
+        minioTemplate.composeObject(md5, targetBucketName, md5 + ".mp4");
+        // 合并成功之后删除对应的临时桶
+        minioTemplate.removeBucket(md5, true);
 
 
-            minioMapper.saveVideoInfo(videoInfo);
-            // todo 推送给粉丝 未进行测试
-            messageService.pushMessage(videoInfo);
+        Video video = new Video();
+        video.setBucketName("minio-demo");
+        video.setObjectKey(md5 + ".mp4");
+        videoService.saveVideo(video);
 
-            // 计算文件的md5
-            String fileMd5 = null;
-            try (InputStream inputStream = minioTemplate.getObject(targetBucketName, objectName)) {
-                fileMd5 = MD5Util.getFileMD5(inputStream);
+        VideoInfo videoInfo = new VideoInfo();
+        // videoInfo.setUserId(userSupport.getCurrentUserId());
+        videoInfo.setVideoId(video.getId());
+        videoInfo.setVideoMd5(md5);
+        videoInfo.setVideoSize(fileSize);
+        minioMapper.saveVideoInfo(videoInfo);
 
+        // todo 推送给粉丝 未进行测试
+        // messageService.pushMessage(videoInfo);
 
-            } catch (IOException e) {
-                log.error("", e);
-            }
-
-
-            // 计算文件真实的类型
-            List<String> typeList = new ArrayList<>();
-            try (InputStream inputStreamCopy = minioTemplate.getObject(targetBucketName, objectName)) {
-                typeList.addAll(FileTypeUtil.getFileRealTypeList(inputStreamCopy, fileName, fileSize));
-            } catch (IOException e) {
-                log.error("", e);
-            }
-
-
-
-            // 并和前台的md5进行对比
-            if (!ObjectUtils.isEmpty(fileMd5) && !ObjectUtils.isEmpty(typeList) && fileMd5.equalsIgnoreCase(md5) && typeList.contains(fileType.toLowerCase(Locale.ENGLISH))) {
-                // 表示是同一个文件, 且文件后缀名没有被修改过
-                String url = minioTemplate.getPresignedObjectUrl(targetBucketName, objectName);
-
-                // 存入redis中
-                redisTemplate.boundHashOps(MD5_KEY).put(fileMd5, url);
-
-                // 成功
-
-            } else {
-                log.info("非法的文件信息: 分片数量:{}, 文件名称:{}, 文件fileMd5:{}, 文件真实类型:{}, 文件大小:{}",
-                        shardCount, fileName, fileMd5, typeList, fileSize);
-                log.info("非法的文件信息: 分片数量:{}, 文件名称:{}, 文件md5:{}, 文件类型:{}, 文件大小:{}",
-                        shardCount, fileName, md5, fileType, fileSize);
-
-                // 并需要删除对象
-                minioTemplate.deleteObject(targetBucketName, objectName);
-
-
-
-
-            }
-        } catch (Exception e) {
-            log.error("", e);
-            // 失败
-        }
 
     }
 
@@ -478,18 +352,18 @@ public class MinioServiceImpl implements MinioService {
 
     @Override
     public PageResult getVideoInfo(Integer pageIndex, Integer pageSize, Integer area) {
-        if(pageIndex==null){
-            pageIndex =  1 ;
+        if (pageIndex == null) {
+            pageIndex = 1;
         }
-        if(pageSize==null||pageSize<=0){
-            pageSize =  10 ;
+        if (pageSize == null || pageSize <= 0) {
+            pageSize = 10;
         }
-         Integer start =  (pageIndex -1)* pageSize ;
+        Integer start = (pageIndex - 1) * pageSize;
         HashMap<String, Object> map = new HashMap<>();
-        map.put("start",start);
-        map.put("pageSize",pageSize);
-        map.put("area",area);
-        List<VideoInfo>  videoInfo = minioMapper.getVideoInfo(map);
+        map.put("start", start);
+        map.put("pageSize", pageSize);
+        map.put("area", area);
+        List<VideoInfo> videoInfo = minioMapper.getVideoInfo(map);
         Integer totalInfo = minioMapper.getTotalInfo(area);
         PageResult<VideoInfo> objectPageResult = new PageResult<>();
         objectPageResult.setTotal(totalInfo);

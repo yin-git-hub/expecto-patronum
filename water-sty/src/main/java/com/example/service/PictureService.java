@@ -1,6 +1,7 @@
 package com.example.service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.InputStream;
 
 /**
  * Author: yin7331
@@ -9,4 +10,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface PictureService {
     void saveVideoPicture(HttpServletRequest req);
+
+    InputStream getPictureUrl(String bucketName, String objectName);
 }

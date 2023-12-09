@@ -10,7 +10,7 @@
       :custom-request="customRequest"
       @change="handleChange"
   >
-    <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
+   <img v-if="imageUrl" :src="imageUrl" alt="avatar" style="width: 100px; height: 100px;" />
     <div v-else>
       <loading-outlined v-if="loading"></loading-outlined>
       <plus-outlined v-else></plus-outlined>
@@ -23,6 +23,7 @@ import { PlusOutlined, LoadingOutlined } from '@ant-design/icons-vue';
 import { message } from 'ant-design-vue';
 import { defineComponent, ref } from 'vue';
 import store from "@/store";
+import axios from "axios";
 function getBase64(img, callback) {
   const reader = new FileReader();
   reader.addEventListener('load', () => callback(reader.result));
@@ -57,19 +58,27 @@ export default defineComponent({
       }
     };
     const beforeUpload = file => {
-      const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-      if (!isJpgOrPng) {
-        message.error('You can only upload JPG file!');
-      }
+
       const isLt2M = file.size / 1024 / 1024 < 10;
       if (!isLt2M) {
         message.error('Image must smaller than 10MB!');
       }
-      return isJpgOrPng && isLt2M;
+      return   isLt2M;
     };
     const customRequest = file=>{
-      console.log('file===>',file)
+      console.log('file===>',file.file.name)
       console.log('md5===>',store.state.videoInfo.md5)
+      // 后缀 suffix
+      const suffix =  file.file.name.toString().split('.')[1]
+      const formData = new FormData();
+      formData.append("picture",file.file)
+      formData.append("suffix",suffix)
+      formData.append("md5",store.state.videoInfo.md5)
+
+      axios.post(actionUrl,formData).then(resp=>{
+        console.log(resp)
+        file.onSuccess(resp.data)
+      })
     }
     return {
       fileList,

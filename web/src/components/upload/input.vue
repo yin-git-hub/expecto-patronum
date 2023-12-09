@@ -13,6 +13,9 @@
 
   </a-form>
 
+  <img src="http://localhost:7330/water-sty/picture/video-picture-bucket/picture:709d1d31dc47636e4f5ccbfd07601c19.png">
+
+
 </template>
 <script>
 import {defineComponent, reactive, toRaw} from 'vue';
