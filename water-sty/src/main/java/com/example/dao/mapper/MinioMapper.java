@@ -28,4 +28,6 @@ public interface MinioMapper {
     List<VideoInfo> getVideoInfo(HashMap<String, Object> map);
 
     Integer getTotalInfo(@Param("area") Integer area);
+
+    void updateVideoInfo(VideoInfo videoInfo);
 }

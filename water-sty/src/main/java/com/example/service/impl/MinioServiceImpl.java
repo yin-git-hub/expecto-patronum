@@ -213,6 +213,7 @@ public class MinioServiceImpl implements MinioService {
         videoService.saveVideo(video);
 
         VideoInfo videoInfo = new VideoInfo();
+        // todo 用户名登录
         // videoInfo.setUserId(userSupport.getCurrentUserId());
         videoInfo.setVideoId(video.getId());
         videoInfo.setVideoMd5(md5);
@@ -370,5 +371,10 @@ public class MinioServiceImpl implements MinioService {
         objectPageResult.setValList(videoInfo);
 
         return objectPageResult;
+    }
+
+    @Override
+    public void updateVideoInfo(VideoInfo videoInfo) {
+        minioMapper.updateVideoInfo(videoInfo);
     }
 }

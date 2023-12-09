@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.dao.model.entity.VideoInfo;
 import com.example.dao.model.vo.PageResult;
 
 import javax.servlet.ServletException;
@@ -56,4 +57,6 @@ public interface MinioService {
                    String objectName);
 
     PageResult getVideoInfo(Integer pageIndex, Integer pageSize, Integer area);
+
+    void updateVideoInfo(VideoInfo videoInfo);
 }

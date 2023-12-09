@@ -1,6 +1,7 @@
 package com.example.controller;
 
 
+import com.example.dao.model.entity.VideoInfo;
 import com.example.service.MinioService;
 import com.example.service.common.BaseResponse;
 import com.example.service.common.ResultUtils;
@@ -51,6 +52,12 @@ public class MinioFileController {
     public BaseResponse upload(HttpServletRequest req) throws ServletException, IOException {
         Integer upload = minioService.upload(req);
         return ResultUtils.success(upload,null);
+    }
+
+    @PostMapping("/updateVideoInfo")
+    public BaseResponse updateVideoInfo(@RequestBody VideoInfo videoInfo){
+        minioService.updateVideoInfo(videoInfo);
+        return ResultUtils.success();
     }
 }
 

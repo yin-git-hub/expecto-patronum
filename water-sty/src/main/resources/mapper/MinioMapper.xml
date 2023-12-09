@@ -52,6 +52,12 @@
                 #{videoSize},
                 #{videoMd5});
     </insert>
+    <update id="updateVideoInfo">
+        update video_info
+        set video_name= #{videoName},
+            video_summary=#{videoSummary}
+        where video_md5=#{videoMd5}
+    </update>
 
     <select id="getVideoInfo" resultType="com.example.dao.model.entity.VideoInfo">
         select
