@@ -7,12 +7,12 @@ import 'ant-design-vue/dist/antd.css';
 import * as Icons from '@ant-design/icons-vue';
 import store from "./store";
 import axios from "axios";
-import VueVideoPlayer from 'vue-video-player';
-import 'video.js/dist/video-js.css'
 
+import vue3videoPlay from "vue3-video-play"; // 引入组件
+import "vue3-video-play/dist/style.css"; // 引入css
 
 const app = createApp(App);
-app.use(VueVideoPlayer).use(Antd).use(store).use(router).mount('#app');
+app.use(vue3videoPlay).use(Antd).use(store).use(router).mount('#app');
 
 // 全局使用图标
 const icons = Icons;

@@ -25,7 +25,19 @@ const routes = [
         ],
     }, {
         path: "/player",
-        component:()=>import('../views/main/videoPlayer.vue')
+        component:()=>import('../components/videoPlayer/vueVideoPlayer.vue')
+
+    }, {
+        path: "/dplayer",
+        component:()=>import('../components/videoPlayer/vueDplayer.vue')
+
+    }, {
+        path: "/comment",
+        component:()=>import('../components/comments.vue')
+
+    }, {
+        path: "/test",
+        component:()=>import('../components/theTest.vue')
 
     }
 
