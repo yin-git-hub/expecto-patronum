@@ -1,27 +1,55 @@
 <template>
-  <div>
-    <a-pagination
-        v-model:current="current1"
-        v-model:pageSize="pageSize"
-        show-size-changer
-        :total="500"
-        @showSizeChange="onShowSizeChange"
-    />
-    <br />
-  </div>
-</template>
-<script setup>
-import { ref, watch } from 'vue';
-const pageSize = ref(20);
-const current1 = ref(3);
-const onShowSizeChange = (current, pageSize) => {
-  console.log(current, pageSize);
-};
-watch(pageSize, () => {
-  console.log('pageSize', pageSize.value);
-});
-watch(current1, () => {
-  console.log('current', current1.value);
-});
+  <input type="text" id="inputField" placeholder="context">
+  <button @click="sendMessage()">Send</button>
+  <div><p id="videoIdShow"></p>:<p id="currentCount"></p></div>
+  <p id="displayField"></p>
 
+</template>
+
+<script setup >
+const ws = new WebSocket("ws://localhost:7330/water-sty/scrolling/123/122");
+
+ws.onopen = function() {
+  console.log('WebSocket connection established');
+};
+
+ws.onmessage = function(message) {
+  console.log("message.data===>",message.data)
+  const data = JSON.parse(message.data);
+  if(data.scrollingContext!=null){
+    const displayField = document.getElementById("displayField");
+    const videoIdShow = document.getElementById("videoIdShow");
+    const timestamp = new Date(data.relativeTime).toLocaleString();
+    displayField.innerHTML += `<div>Received at ${timestamp}: ${data.scrollingContext}</div>`;
+    videoIdShow.innerHTML = `<div>${data.videoId}</div>`;
+
+  }
+  if(!isNaN(message.data)){
+    const currentCount = document.getElementById("currentCount");
+    currentCount.innerHTML = `<div>${message.data}</div>`;
+
+  }
+
+};
+
+const sendMessage=()=> {
+
+  const inputField = document.getElementById("inputField");
+  const relativeTime = Date.now();
+  const scrollingContext = inputField.value;
+
+  const jsonData = {
+    currentCount:0,
+    videoId:"121",
+    relativeTime: relativeTime,
+    scrollingContext: scrollingContext
+  };
+
+  const jsonStr = JSON.stringify(jsonData);
+
+  ws.send(jsonStr);
+
+  inputField.value = ''; // 清空输入框
+}
 </script>
+

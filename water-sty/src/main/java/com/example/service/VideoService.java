@@ -9,6 +9,7 @@ import com.example.dao.model.entity.Video;
  */
 public interface VideoService {
     void savePicturePath(String picturePath,String md5);
-
     void saveVideo(Video video);
+
+    String getVideoUrl(Integer id);
 }

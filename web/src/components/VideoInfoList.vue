@@ -3,10 +3,10 @@
     <a-list :data-source="userListData.valList" :grid="{ gutter: 16, column: 5 }">
 
       <template #renderItem="{ item }">
-        <a-list-item>
-          <a-card hoverable style="width: 240px;height: 300px">
+        <a-list-item >
+          <a-card hoverable style="width: 240px;height: 300px" @click="() => onVideo(item.videoId,item.videoCover)">
             <template  #cover>
-              <img class="cover" alt="example" :src=item.videoCover />
+              <img  class="cover" alt="example" :src=item.videoCover />
             </template>
             <a-card-meta :title="item.videoName">
               <template #description>
@@ -23,6 +23,9 @@
 
 import {List} from "ant-design-vue";
 import { defineComponent  } from 'vue';
+import axios from "axios";
+import store from "@/store";
+import router from "@/router";
 
 
 export default defineComponent({
@@ -31,6 +34,25 @@ export default defineComponent({
     type: String,
     content: String
   },
+  setup(){
+    const onVideo = (_id,_cover)=>{
+      axios.post("/video/getVideoUrl",{id:_id}).then(resp=>{
+        console.log(resp,_cover)
+        if (resp.code===200){
+          store.commit("setVideoInfo", {
+            videoUrl:resp.data,
+            cover:_cover
+          });
+
+          router.push('/player')
+        }
+
+      })
+    }
+    return{
+      onVideo,
+    }
+  }
 });
 </script>
 <style scoped>

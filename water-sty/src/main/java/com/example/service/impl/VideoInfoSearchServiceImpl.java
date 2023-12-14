@@ -33,9 +33,6 @@ public class VideoInfoSearchServiceImpl implements SearchService {
         }else {
             videoInfoES =  videoInfoESService.findByVideoNameLike(content,pageable);
         }
-
-        System.out.println(videoInfoES.getTotalElements());
-
         PageResult pageResult = new PageResult();
         pageResult.setTotal(videoInfoES.getSize());
         pageResult.setValList(videoInfoES.getContent());

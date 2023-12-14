@@ -1,8 +1,11 @@
 package com.example.dao.mapper;
 
 import com.example.dao.model.entity.Video;
+import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.Map;
 
 /**
  * Author: yin7331
@@ -14,4 +17,5 @@ public interface VideoMapper {
     void savePicturePath(@Param("picturePath") String picturePath,@Param("md5") String md5);
 
     void saveVideo(Video video);
+    Map<String, String> getVideoUrlFromVideo(@Param("id") Integer id);
 }

@@ -20,13 +20,13 @@ const routes = [
             path: '/search/:select',
             name: 'search',
             component: () => import( '../views/main/search.vue')
-        },
+        }, {
+            path: "/player",
+            component:()=>import('../components/videoPlayer/vueVideoPlayer.vue')
+
+        }
 
         ],
-    }, {
-        path: "/player",
-        component:()=>import('../components/videoPlayer/vueVideoPlayer.vue')
-
     }, {
         path: "/dplayer",
         component:()=>import('../components/videoPlayer/vueDplayer.vue')

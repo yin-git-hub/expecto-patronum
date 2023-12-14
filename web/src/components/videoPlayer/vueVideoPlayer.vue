@@ -2,7 +2,7 @@
   <div>
     <vue3VideoPlay
         v-bind="options"
-        poster="https://cdn.jsdelivr.net/gh/xdlumia/files/video-play/ironMan.jpg"
+        :poster="coverUrl"
     />
     <vue-danmaku v-model:danmus="danmus" style="height:100px; width:900px;"></vue-danmaku>
     <template  >
@@ -15,15 +15,17 @@
 import {reactive, ref} from "vue";
 
 import vueDanmaku from "vue3-danmaku";
+import store from "@/store";
 
 const danmus = ref(['danmu1', 'danmu2', 'danmu3'])
-
+const videoUrl  = ref(store.state.videoInfo.videoUrl||"")
+const coverUrl = ref(store.state.videoInfo.cover||"")
 const options = reactive({
   width: "800px", //播放器宽度
   height: "450px", //播放器高度
   color: "#409eff", //主题色
   title: "", //视频名称
-  src: "https://cdn.jsdelivr.net/gh/xdlumia/files/video-play/IronMan.mp4", //视频源
+  src: videoUrl.value, //视频源
   muted: false, //静音
   webFullScreen: false,
   speedRate: ["0.75", "1.0", "1.25", "1.5", "2.0"], //播放倍速

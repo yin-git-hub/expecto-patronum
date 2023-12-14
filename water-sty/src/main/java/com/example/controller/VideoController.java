@@ -2,8 +2,10 @@ package com.example.controller;
 
  import com.example.dao.model.vo.PageResult;
  import com.example.service.MinioService;
+ import com.example.service.VideoService;
  import com.example.service.common.BaseResponse;
   import com.example.service.common.ResultUtils;
+ import io.swagger.models.auth.In;
  import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +13,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+ import javax.websocket.server.PathParam;
+ import java.util.Map;
 
 
 @RestController
@@ -20,7 +24,8 @@ public class VideoController {
 
     @Autowired
     private MinioService minioService;
-
+    @Autowired
+    VideoService videoService;
 
     /**
      * 支持分段读取视频流
@@ -63,5 +68,12 @@ public class VideoController {
     ){
         PageResult pageResult = minioService.getVideoInfo(pageIndex,pageSize,area);
         return ResultUtils.success(pageResult);
+    }
+    @PostMapping("/getVideoUrl")
+    public BaseResponse getVideoUrl(@RequestBody Map<String, Integer> requestBody){
+
+        String url = videoService.getVideoUrl(requestBody.get("id"));
+
+        return ResultUtils.success(url);
     }
 }

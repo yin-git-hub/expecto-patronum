@@ -7,6 +7,7 @@ export default createStore({
     member: JSON.parse(window.sessionStorage.getItem(MEMBER_KEY)) || {},
     videoInfo: JSON,
     filename:String,
+
   },
   getters: {
   },

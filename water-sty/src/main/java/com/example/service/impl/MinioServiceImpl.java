@@ -125,12 +125,13 @@ public class MinioServiceImpl implements MinioService {
         String md5 = multipartRequest.getParameter("md5");
 
         // 创建文件桶
-        minioTemplate.makeBucket(md5);
+        String bucketName = "md5"+md5;
+        minioTemplate.makeBucket(bucketName);
         String objectName = String.valueOf(index);
 
         log.info("index: {}, total:{}, fileName:{}, md5:{}, objectName:{}", index, total, fileName, md5, objectName);
 
-        Integer processIndex = (Integer) redisTemplate.opsForValue().get(md5);
+        Integer processIndex = (Integer) redisTemplate.opsForValue().get(bucketName);
 
         // 查看redia里面的上传进度
         if (index.equals(processIndex)) {
@@ -141,11 +142,11 @@ public class MinioServiceImpl implements MinioService {
         if (index + 1 < total) {
             try {
                 // 上传文件
-                OssFile ossFile = minioTemplate.putChunkObject(file.getInputStream(), md5, objectName);
+                OssFile ossFile = minioTemplate.putChunkObject(file.getInputStream(), bucketName, objectName);
                 log.info("{} upload success {}", objectName, ossFile);
                 // 在redis里面记录进度 保存一天时间
                 // todo 超过时长没有继续上传，这里的记录删除之后，删除minio 上传中断，没有继续上传的临时桶
-                redisTemplate.opsForValue().set(md5, index, 1, TimeUnit.DAYS);
+                redisTemplate.opsForValue().set(bucketName, index, 1, TimeUnit.DAYS);
                 return 20001;
 
             } catch (Exception e) {
@@ -156,12 +157,12 @@ public class MinioServiceImpl implements MinioService {
             try {
 
                 // 上传文件
-                minioTemplate.putChunkObject(file.getInputStream(), md5, objectName);
+                minioTemplate.putChunkObject(file.getInputStream(), bucketName, objectName);
 
                 // 上传完成，删除进度
-                redisTemplate.delete(md5);
+                redisTemplate.delete(bucketName);
 
-                merge(total, md5, totalSize);
+                merge(total, bucketName, totalSize,md5);
                 return 20002;
 
             } catch (Exception e) {
@@ -190,26 +191,27 @@ public class MinioServiceImpl implements MinioService {
 
     @Transactional
     public void merge(Integer shardCount,
-                      String md5,
-                      String fileSize
+                      String bucketName,
+                      String fileSize,
+                      String md5
     ) {
 
 
         // 查询片数据
-        List<String> objectNameList = minioTemplate.listObjectNames(md5);
+        List<String> objectNameList = minioTemplate.listObjectNames(bucketName);
 
         ThrowUtils.throwIf(shardCount != objectNameList.size(), ErrorCode.OPERATION_ERROR);
 
         // 开始合并请求
         String targetBucketName = minioTemplate.getDefaultBucketName();
-        minioTemplate.composeObject(md5, targetBucketName, md5 + ".mp4");
+        minioTemplate.composeObject(bucketName, targetBucketName, bucketName + ".mp4");
         // 合并成功之后删除对应的临时桶
-        minioTemplate.removeBucket(md5, true);
+        minioTemplate.removeBucket(bucketName, true);
 
 
         Video video = new Video();
         video.setBucketName("minio-demo");
-        video.setObjectKey(md5 + ".mp4");
+        video.setObjectKey(bucketName + ".mp4");
         videoService.saveVideo(video);
 
         VideoInfo videoInfo = new VideoInfo();

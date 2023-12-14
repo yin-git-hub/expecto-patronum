@@ -24,7 +24,6 @@ import {InboxOutlined} from '@ant-design/icons-vue';
 import {message} from 'ant-design-vue';
 import {defineComponent, ref} from 'vue';
 import axios from "axios";
-import {md5} from "js-md5";
 import store from "@/store";
 
 export default defineComponent({
@@ -75,18 +74,29 @@ export default defineComponent({
       const chunks = [];
       // 定义一个变量，用来记录已上传的分片数
       let uploaded = 0;
-      videoMD5.value = md5(fileVideo.value.toString())
-      // 定义一个函数，用来发送分片
 
-      //父传子
-      const videoInfo = {
-        "filename": filename,
-        "totalSize": totalSize,
-        "md5": videoMD5.value,
-        "total":total,
-      }
-      console.log("totalSize===>",totalSize)
-      store.commit("setVideoInfo",videoInfo)
+      calcFileMD5(fileVideo.value).then(res => {
+        videoMD5.value = res
+        //父传子
+        const videoInfo = {
+          "filename": filename,
+          "totalSize": totalSize,
+          "md5": videoMD5.value,
+          "total":total,
+        }
+
+        store.commit("setVideoInfo",videoInfo)
+
+        // 遍历所有分片，将分片的索引添加到数组中
+        for (let i = 0; i < total; i++) {
+          chunks.push(i);
+        }
+        // 从数组中取出一个分片的索引，开始发送
+        const firstIndex = chunks.shift();
+        sendChunk(firstIndex);
+        console.log('md5值:', res)
+      });
+
       const sendChunk = index => {
         // 创建一个表单对象，用来存储分片数据
         const formData = new FormData();
@@ -128,15 +138,24 @@ export default defineComponent({
               options.onError(error);
             });
       };
-      // 遍历所有分片，将分片的索引添加到数组中
-      for (let i = 0; i < total; i++) {
-        chunks.push(i);
-      }
-      // 从数组中取出一个分片的索引，开始发送
-      const firstIndex = chunks.shift();
-      sendChunk(firstIndex);
+
     };
 
+    //导入计算文件MD5
+    const calcFileMD5 = (file) =>{
+      let CryptoJS = require("crypto-js");
+      return new Promise(resolve => {
+        const fileReader = new FileReader();
+        fileReader.onloadend = ev => {
+          resolve(
+              CryptoJS.MD5(CryptoJS.enc.Latin1.parse(ev.target.result)).toString(
+                  CryptoJS.enc.Hex
+              )
+          );
+        };
+        fileReader.readAsBinaryString(file);
+      });
+    }
     return {
       handleChange,
       customRequest,

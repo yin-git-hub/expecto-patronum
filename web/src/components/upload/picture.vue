@@ -67,7 +67,7 @@ export default defineComponent({
     };
     const customRequest = file=>{
       console.log('file===>',file.file.name)
-      console.log('md5===>',store.state.videoInfo.md5)
+      console.log('picture md5===>',store.state.videoInfo)
       // 后缀 suffix
       const suffix =  file.file.name.toString().split('.')[1]
       const formData = new FormData();

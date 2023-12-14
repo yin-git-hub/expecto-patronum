@@ -15,6 +15,9 @@
         set video_cover=#{picturePath}
         where video_md5 = #{md5}
     </update>
+    <select id="getVideoUrlFromVideo" resultType="java.util.Map">
+        select bucket_name,object_key from video where id = #{id}
+    </select>
     <insert id="saveVideo" useGeneratedKeys="true" keyProperty="id">
         insert into video (bucket_name, object_key)
         values (#{bucketName}, #{objectKey})
