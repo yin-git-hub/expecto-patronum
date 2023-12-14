@@ -6,7 +6,7 @@
       </router-link>
     </div>
     <div style="float: right; color: white;">
-      您好： &nbsp;&nbsp;
+      您好：{{ userInfo.nickname }}
       <router-link to="/login" style="color: white;">
         退出登录
       </router-link>
@@ -44,7 +44,7 @@ import router from '@/router'
 export default defineComponent({
   name: "the-header-view",
   setup() {
-    let member = store.state.member;
+    let userInfo = store.state.userInfo;
     const selectedKeys = ref([]);
 
     watch(() => router.currentRoute.value.path, (newValue) => {
@@ -53,7 +53,7 @@ export default defineComponent({
       selectedKeys.value.push(newValue);
     }, {immediate: true});
     return {
-      member,
+      userInfo,
       selectedKeys
     };
   },

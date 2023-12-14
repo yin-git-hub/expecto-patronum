@@ -24,7 +24,11 @@ public interface UserMapper   {
 
     List<UserVO> getUsersByUserIds(List<Long> ups);
 
-    UserInfo getUserByUserId(Long userId);
+    UserInfo getUserInfoByUserId(Long userId);
+
+    Integer registerUserInfo(UserInfo userInfo);
+
+
 }
 
 

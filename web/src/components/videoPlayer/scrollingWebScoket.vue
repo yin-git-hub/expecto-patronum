@@ -10,7 +10,10 @@
 import store from "@/store";
 
 const _token = store.state.userInfo.token
-const ws = new WebSocket("ws://localhost:7330/water-sty/scrolling/"+_token+"/122");
+const ws = new WebSocket("ws://localhost:7330/water-sty/scrolling/"+_token+"/"+store.state.videoInfo.videoId);
+
+
+
 
 ws.onopen = function() {
   console.log('WebSocket connection established');

@@ -1,4 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router'
+import {notification} from "ant-design-vue";
+import store from "@/store";
 
 
 const routes = [
@@ -6,6 +8,9 @@ const routes = [
     {
         path: '/',
         component: () => import( '../views/main.vue'),
+        meta: {
+            loginRequire: true
+        },
         children: [{
             path: 'welcome',
             component: () => import('../views/main/welcome.vue'),
@@ -22,7 +27,7 @@ const routes = [
             component: () => import( '../views/main/search.vue')
         }, {
             path: "/player",
-            component:()=>import('../components/videoPlayer/vueVideoPlayer.vue')
+            component:()=>import('../views/main/videoPlayer.vue')
 
         }
 
@@ -39,6 +44,10 @@ const routes = [
         path: "/test",
         component:()=>import('../components/theTest.vue')
 
+    }, {
+        path: '/login',
+        name: 'login',
+        component: () => import( '../views/login.vue')
     }
 
 
@@ -48,5 +57,24 @@ const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes
 })
-
+// 路由登录拦截
+router.beforeEach((to, from, next) => {
+    // 要不要对meta.loginRequire属性做监控拦截
+    if (to.matched.some(function (item) {
+        console.log(item, "是否需要登录校验：", item.meta.loginRequire || false);
+        return item.meta.loginRequire
+    })) {
+        const _userInfo = store.state.userInfo;
+        console.log("页面登录校验开始：", _userInfo);
+        if (!_userInfo.token) {
+            console.log("用户未登录或登录超时！");
+            next('/login');
+            notification.error({description: "未登录或登录超时"});
+        } else {
+            next();
+        }
+    } else {
+        next();
+    }
+});
 export default router

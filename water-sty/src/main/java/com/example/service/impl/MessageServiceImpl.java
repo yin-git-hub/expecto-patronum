@@ -45,7 +45,7 @@ public class MessageServiceImpl implements MessageService {
     public void pushMessage(VideoInfo videoInfo) {
         PushMessageEntity pushMessageEntity = new PushMessageEntity();
         BeanUtil.copyProperties(videoInfo,pushMessageEntity);
-        UserInfo userInfo = userMapper.getUserByUserId(pushMessageEntity.getUserId());
+        UserInfo userInfo = userMapper.getUserInfoByUserId(pushMessageEntity.getUserId());
         pushMessageEntity.setNickname(userInfo.getNickname());
         sendVideoMessage(pushMessageEntity);
     }

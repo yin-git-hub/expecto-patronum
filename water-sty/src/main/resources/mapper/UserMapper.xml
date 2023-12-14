@@ -42,7 +42,7 @@
 
         ;
     </select>
-    <select id="getUserByUserId" resultType="com.example.dao.model.entity.UserInfo">
+    <select id="getUserInfoByUserId" resultType="com.example.dao.model.entity.UserInfo">
         select user_id,
                image,
                nickname,
@@ -50,6 +50,11 @@
         from user_info
         where user_id = #{userId}
     </select>
+    <insert id="registerUserInfo">
+        insert into
+            user_info (user_id, image, nickname, signature)
+        values (#{userId}, #{image}, #{nickname}, #{signature})
+    </insert>
 
 
 </mapper>

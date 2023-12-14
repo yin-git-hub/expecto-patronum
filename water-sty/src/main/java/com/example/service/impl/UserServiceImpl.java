@@ -1,12 +1,17 @@
 package com.example.service.impl;
+import java.util.Date;
 
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.map.MapUtil;
+import cn.hutool.json.JSONUtil;
 import com.example.dao.mapper.RefreshTokenMapper;
 import com.example.dao.mapper.UserMapper;
 import com.example.dao.model.dto.UserDto;
 import com.example.dao.model.dto.UserVerifyDto;
 import com.example.dao.model.entity.RefreshToken;
 import com.example.dao.model.entity.User;
+import com.example.dao.model.entity.UserInfo;
 import com.example.service.UserService;
 import com.example.service.common.ErrorCode;
 import com.example.service.exception.BusinessException;
@@ -16,9 +21,14 @@ import com.example.service.utils.TokenUtil;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +48,10 @@ implements UserService {
     RefreshTokenMapper refreshTokenMapper;
     @Autowired
     StringRedisTemplate redisTemplate;
+    // 注入TransactionTemplate对象
+    @Autowired
+    private TransactionTemplate transactionTemplate;
+
 
     @Override
     public void userRegister(UserDto user) {
@@ -108,7 +122,7 @@ implements UserService {
     }
 
     @Override
-    public Map<String, String> userRegisterByVerify(UserVerifyDto userVerifyDto) throws Exception {
+    public Map<String, Object> userRegisterByVerify(UserVerifyDto userVerifyDto) throws Exception {
         String phoneNum = userVerifyDto.getPhoneNum();
         String verifyCode = userVerifyDto.getVerifyCode();
         // TODO 添加图形验证
@@ -121,25 +135,45 @@ implements UserService {
                 ErrorCode.PARAMS_ERROR,"验证码错误");
         redisTemplate.delete(phoneNum + ":code");
 
-        //   if存在，调用登录接口
-        if(userByPhoneNum!=null){
-            Long userId = userByPhoneNum.getId();
-            Map<String, String> tokenMap = getTokenMap(userId);
-            return tokenMap;
-        }
-
-        //   if不存在，调用注册接口，并登录
-        else {
+        UserInfo userInfo = new UserInfo();
+        //   if 不存在
+        if(userByPhoneNum==null){
             User user = new User();
             user.setPhoneNum(phoneNum);
-            userMapper.registerUser(user);
-            Long userId = user.getId();
-            return getTokenMap(userId);
+            // 设置事务的传播行为为PROPAGATION_REQUIRED，表示如果当前没有事务，就新建一个事务，如果当前存在事务，就加入该事务
+            transactionTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+            // 使用execute方法执行事务操作，传入一个TransactionCallback接口的实现类
+            transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+                @Override
+                protected void doInTransactionWithoutResult(TransactionStatus status) {
+                    try {
+                        // 调用UserMapper的方法，执行数据库操作
+                        userMapper.registerUser(user);
+                        Long userId = user.getId();
+                        userInfo.setUserId(userId);
+                        String userName = "user".concat(String.valueOf(System.currentTimeMillis()));
+                        userInfo.setNickname(userName);
+                        userMapper.registerUserInfo(userInfo);
+                    } catch (Exception e) {
+                        // 如果发生异常，设置事务为回滚状态
+                        status.setRollbackOnly();
+                    }
+                }
+            });
         }
 
+        return login(userByPhoneNum.getId());
+    }
 
+    @NotNull
+    private Map<String, Object> login(Long userId) throws Exception {
 
-
+        UserInfo userInfo = userMapper.getUserInfoByUserId(userId);
+        Map<String, Object> stringObjectMap = BeanUtil.beanToMap(userInfo);
+        Map<String, String> tokenMap = getTokenMap(userId);
+        stringObjectMap.put("refreshToken", tokenMap.get("refreshToken"));
+        stringObjectMap.put("token", tokenMap.get("accessToken"));
+        return stringObjectMap;
     }
 
     @Override

@@ -15,6 +15,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpSession;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
@@ -55,6 +56,7 @@ public class ScrollingWebsocketController {
     private Long userId = null;
     private String videoId = null;
 
+    // 通过 EndpointConfig 对象获取 HttpSession 中的属性
 
     @OnOpen
     public void onOpen(Session session
@@ -67,6 +69,7 @@ public class ScrollingWebsocketController {
             this.userId = TokenUtil.verifyToken(token);
 
         } catch (Exception e) {
+            throw new BusinessException(5000,"用户未登录或过期");
         }
 
         this.session = session;

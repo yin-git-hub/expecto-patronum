@@ -34,6 +34,8 @@ public class VideoServiceImpl implements VideoService {
         Map<String,String> videoInfo = videoMapper.getVideoUrlFromVideo(id);
         String objectKey = videoInfo.get("object_key");
         String bucketName = videoInfo.get("bucket_name");
+
+
         String url = "http://localhost:7330/water-sty/video/play/"+bucketName+"/"+objectKey;
         return url;
     }

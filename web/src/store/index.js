@@ -1,10 +1,10 @@
 import { createStore } from 'vuex'
 
-const MEMBER_KEY = "MEMBER";
+const USER_KEY = "USERINFO";
 
 export default createStore({
   state: {
-    member: JSON.parse(window.sessionStorage.getItem(MEMBER_KEY)) || {},
+    userInfo: JSON.parse(window.localStorage.getItem(USER_KEY)) || {},
     videoInfo: JSON,
     filename:String,
 
@@ -12,9 +12,10 @@ export default createStore({
   getters: {
   },
   mutations: {
-    setMember (state, _member) {
-      state.member = _member;
-      window.sessionStorage.setItem(MEMBER_KEY, JSON.stringify(_member));
+    setUserInfo (state, _userInfo) {
+      state.userInfo = _userInfo;
+
+      window.localStorage.setItem(USER_KEY, JSON.stringify(_userInfo));
     },
     setVideoInfo(state,_videoInfo){
       state.videoInfo = _videoInfo;

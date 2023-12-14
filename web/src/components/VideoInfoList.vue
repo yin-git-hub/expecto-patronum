@@ -37,14 +37,16 @@ export default defineComponent({
   setup(){
     const onVideo = (_id,_cover)=>{
       axios.post("/video/getVideoUrl",{id:_id}).then(resp=>{
-        console.log(resp,_cover)
+
         if (resp.code===200){
           store.commit("setVideoInfo", {
             videoUrl:resp.data,
-            cover:_cover
+            cover:_cover,
+            videoId:_id,
           });
 
           router.push('/player')
+          console.log('resp.data,_cover===>',resp,_cover)
         }
 
       })

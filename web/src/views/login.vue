@@ -39,48 +39,49 @@
 
 
 <script>
-import { defineComponent, reactive } from 'vue';
+import {defineComponent,   ref} from 'vue';
 import axios from "axios";
 import {notification} from "ant-design-vue";
 import router from "@/router";
+import store from "@/store";
 
 
 
 export default defineComponent({
   name: "login-view",
   setup() {
-    const loginForm = reactive({
+    const loginForm = ref({
       disabled: false,
       total: 60,
       count: 0,
-
       phoneNum: '',
       verifyCode: '',
     });
 
 
     const timerHandler = () => {
-      loginForm.count = loginForm.total
-      loginForm.disabled = true
+      loginForm.value.count = loginForm.value.total
+      loginForm.value.disabled = true
 
       const timer = setInterval(() => {
-        if (loginForm.count > 1 && loginForm.count <= loginForm.total) {
-          loginForm.count--
+        if (loginForm.value.count > 1 && loginForm.value.count <= loginForm.value.total) {
+          loginForm.value.count--
         } else {
-          loginForm.disabled = false
+          loginForm.value.disabled = false
           clearInterval(timer)
         }
       }, 1000)
     }
 
     const sendCode = () => {
+      console.log('loginForm===。',loginForm)
       axios.post("/user/getVerifyCode", {
-        phoneNum: loginForm.phoneNum
+        phoneNum: loginForm.value.phoneNum
       }).then(response => {
         timerHandler();
         if (response.code===200) {
           notification.success({ description: '发送验证码成功！' });
-          loginForm.code = response;
+          loginForm.value.code = response;
         } else {
           notification.error({ description: response.data });
         }
@@ -90,11 +91,12 @@ export default defineComponent({
     const login = () => {
       // 发送登录请求到服务器
       axios.post("/user/verification", {
-        phoneNum: loginForm.phoneNum,
-        verifyCode: loginForm.verifyCode
+        phoneNum: loginForm.value.phoneNum,
+        verifyCode: loginForm.value.verifyCode
       }).then(response => {
         console.log(response)
         if (response.code===200) {
+          store.commit("setUserInfo",response.data)
           notification.success({ description: '登陆成功！' });
           // 登录成功后，跳转到控制台主页
           router.push("/welcome");
@@ -115,7 +117,7 @@ export default defineComponent({
 </script>
 
 
-<style>
+<style scoped>
 /* 设置标题样式 */
 .login-main h1 {
   font-size: 30px; /* 设置字体大小 */

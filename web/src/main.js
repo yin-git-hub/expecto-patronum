@@ -26,7 +26,7 @@ for (const i in icons) {
  */
 axios.interceptors.request.use(function (config) {
     console.log('请求参数：', config);
-    const _token = store.state.member.token;
+    const _token = store.state.userInfo.token;
     if (_token) {
         config.headers.token = _token;
         console.log("请求headers增加token:", _token);
