@@ -24,7 +24,7 @@ public class TokenUtil {
         calendar.setTime(new Date());
 
         // 在当前时间的基础上增加1小时
-        calendar.add(Calendar.HOUR, 1);
+        calendar.add(Calendar.HOUR, 24*7);
 
         // 创建JWT并设置其KeyId为userId的字符串表示
         // 设置JWT的签发者为常量ISSUER所指定的值

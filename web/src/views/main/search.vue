@@ -48,6 +48,7 @@ import UserInfoList from "@/components/UserInfoList.vue";
 import axios from "axios";
 import router from "@/router";
 import VideoInfoList from "@/components/VideoInfoList.vue";
+import store from "@/store";
 
 const urlValue = router.currentRoute._rawValue.query.text
 const urlTagKey = router.currentRoute._rawValue.query.tagKey
@@ -125,6 +126,7 @@ const onSearch = searchValue => {
       .then(response => {
 
         console.log('response===》', response)
+        console.log('refreshToken===》',store.state.userInfo.refreshToken )
         videoInfoValue.value = response.data
 
         totalElements.value = response.data.totalElements

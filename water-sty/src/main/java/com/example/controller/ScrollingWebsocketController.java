@@ -69,13 +69,14 @@ public class ScrollingWebsocketController {
             this.userId = TokenUtil.verifyToken(token);
 
         } catch (Exception e) {
-            throw new BusinessException(5000,"用户未登录或过期");
+            throw new BusinessException(5000, "用户未登录或过期");
         }
 
         this.session = session;
-         if ((this.videoId = videoId) == null) {
-            return;
-        }
+        this.videoId = videoId;
+
+        ThrowUtils.throwIf(videoId == null, ErrorCode.PARAMS_ERROR);
+
 
         if (currentMap.containsKey(videoId)) {
             synchronized (currentMap) {
@@ -86,7 +87,6 @@ public class ScrollingWebsocketController {
         } else {
             synchronized (currentMap) {
                 if (!currentMap.containsKey(videoId)) {
-
                     List<Session> currentList = new LinkedList<>();
                     currentList.add(this.session);
                     currentMap.put(videoId, currentList);
@@ -99,7 +99,7 @@ public class ScrollingWebsocketController {
     }
 
     @OnClose
-    public void onClose()   {
+    public void onClose() {
 
         List<Session> currentList = null;
         synchronized (currentMap) {
@@ -110,7 +110,7 @@ public class ScrollingWebsocketController {
         if (currentList.isEmpty()) {
             currentMap.remove(videoId);
         }
-     }
+    }
 
     @OnMessage
     public void onMessage(String message) {
@@ -151,7 +151,7 @@ public class ScrollingWebsocketController {
 
         List<Session> currentList = currentMap.get(String.valueOf(scrolling.getVideoId()));
 
-         if (currentList != null) {
+        if (currentList != null) {
             for (int i = 0; i < currentList.size(); i++) {
                 try {
                     Session toSession = currentList.get(i);
@@ -163,7 +163,6 @@ public class ScrollingWebsocketController {
                 }
             }
         }
-
 
 
     }

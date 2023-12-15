@@ -128,6 +128,8 @@ implements UserService {
         // TODO 添加图形验证
         // 查看手机号是否存在
         User userByPhoneNum = userMapper.getUserByPhoneNum(phoneNum);
+        User userUsed =
+                userByPhoneNum==null?new User():userByPhoneNum;
 
         // 验证码是否正确
         String code = redisTemplate.opsForValue().get(phoneNum + ":code");
@@ -135,7 +137,7 @@ implements UserService {
                 ErrorCode.PARAMS_ERROR,"验证码错误");
         redisTemplate.delete(phoneNum + ":code");
 
-        UserInfo userInfo = new UserInfo();
+
         //   if 不存在
         if(userByPhoneNum==null){
             User user = new User();
@@ -147,10 +149,13 @@ implements UserService {
                 @Override
                 protected void doInTransactionWithoutResult(TransactionStatus status) {
                     try {
+
                         // 调用UserMapper的方法，执行数据库操作
                         userMapper.registerUser(user);
+                        UserInfo userInfo = new UserInfo();
                         Long userId = user.getId();
                         userInfo.setUserId(userId);
+                        userUsed.setId(userId);
                         String userName = "user".concat(String.valueOf(System.currentTimeMillis()));
                         userInfo.setNickname(userName);
                         userMapper.registerUserInfo(userInfo);
@@ -162,7 +167,7 @@ implements UserService {
             });
         }
 
-        return login(userByPhoneNum.getId());
+        return login(userUsed.getId());
     }
 
     @NotNull

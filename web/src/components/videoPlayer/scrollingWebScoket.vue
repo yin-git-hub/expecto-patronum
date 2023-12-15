@@ -1,60 +1,87 @@
 <template>
-  <input type="text" id="inputField" placeholder="context">
-  <button @click="sendMessage()">Send</button>
-  <div><p id="videoIdShow"></p>:<p id="currentCount"></p></div>
-  <p id="displayField"></p>
+  <vue-danmaku class="danmu-class"  ref="danmakuRef"
+  ></vue-danmaku>
 
+  <br />
+  <a-input-search
+      v-model:value="mandamus"
+      placeholder="input search text"
+      enter-button="Search"
+      size="large"
+      @search="sendMessage"
+  />
+  <br />
+
+  {{ data }}
 </template>
 
-<script setup >
+<script setup>
+import vueDanmaku from "vue3-danmaku";
 import store from "@/store";
+import {ref, watch} from "vue";
 
+const mandamus = ref([])
+const danmakuRef = ref(null)
 const _token = store.state.userInfo.token
-const ws = new WebSocket("ws://localhost:7330/water-sty/scrolling/"+_token+"/"+store.state.videoInfo.videoId);
+const ws = new WebSocket("ws://localhost:7330/water-sty/scrolling/" + _token + "/" + store.state.videoInfo.videoId);
+const data = ref('')
 
 
 
+// 使用 watch 监听 store某个值 的变化
+watch(() => store.state.videoInfo.isPlayer, (newValue, oldValue) => {
+  console.log('Value changed from', oldValue, 'to', newValue);
+  const isPlayer = store.state.videoInfo.isPlayer
+  console.log('isPlayer = store.state.videoInfo.isPlayer===>',isPlayer)
 
-ws.onopen = function() {
+    if(isPlayer==="pause"){
+      danmakuRef.value.pause()
+    }
+    if(isPlayer==="play"){
+      danmakuRef.value.play()
+    }
+
+});
+
+
+ws.onopen = function () {
   console.log('WebSocket connection established');
 };
 
-ws.onmessage = function(message) {
-  const data = JSON.parse(message.data);
-  if(data.scrollingContext!=null){
-    const displayField = document.getElementById("displayField");
-    const videoIdShow = document.getElementById("videoIdShow");
-    const timestamp = new Date(data.relativeTime).toLocaleString();
-    displayField.innerHTML += `<div>Received at ${timestamp}: ${data.scrollingContext}</div>`;
-    videoIdShow.innerHTML = `<div>${data.videoId}</div>`;
+ws.onmessage = function (message) {
+  data.value =  JSON.parse(message.data);
 
+  if (data.value.scrollingContext != null) {
+    console.log('data===>', data)
   }
-  if(!isNaN(message.data)){
-    const currentCount = document.getElementById("currentCount");
-    currentCount.innerHTML = `<div>${message.data}</div>`;
-
-  }
+  console.log(message.data)
 
 };
 
-const sendMessage=()=> {
+const sendMessage = () => {
 
-  const inputField = document.getElementById("inputField");
-  const relativeTime = Date.now();
-  const scrollingContext = inputField.value;
+  const scrollingContext = mandamus.value;
+
 
   const jsonData = {
-    currentCount:0,
-    videoId:"121",
-    relativeTime: relativeTime,
+    currentCount: 0,
+    videoId: store.state.videoInfo.videoId,
+    relativeTime: store.state.videoInfo.videoCurrentTime,
     scrollingContext: scrollingContext
   };
 
   const jsonStr = JSON.stringify(jsonData);
 
   ws.send(jsonStr);
-
-  inputField.value = ''; // 清空输入框
+  danmakuRef.value.add(scrollingContext)
+  mandamus.value = ''
 }
 </script>
+
+<style scoped>
+.danmu-class {
+  height: 100px;
+  width: 900px;
+}
+</style>
 

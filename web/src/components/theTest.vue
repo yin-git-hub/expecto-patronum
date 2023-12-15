@@ -1,57 +1,15 @@
 <template>
-  <input type="text" id="inputField" placeholder="context">
-  <button @click="sendMessage()">Send</button>
-  <div><p id="videoIdShow"></p>:<p id="currentCount"></p></div>
-  <p id="displayField"></p>
-
+  <vue-danmaku v-model:danmus="danmus" ref="danmakuRef" style="height:100px; width:300px;"></vue-danmaku>
+  <button @click="sendDanmu"> 发送弹幕</button>
 </template>
+<script setup>
+import vueDanmaku from 'vue3-danmaku'
+import {ref} from "vue";
 
-<script setup >
-import store from "@/store";
-
-const _token = store.state.userInfo.token
-const ws = new WebSocket("ws://localhost:7330/water-sty/scrolling/"+_token+"/122");
-
-ws.onopen = function() {
-  console.log('WebSocket connection established');
-};
-
-ws.onmessage = function(message) {
-  const data = JSON.parse(message.data);
-  if(data.scrollingContext!=null){
-    const displayField = document.getElementById("displayField");
-    const videoIdShow = document.getElementById("videoIdShow");
-    const timestamp = new Date(data.relativeTime).toLocaleString();
-    displayField.innerHTML += `<div>Received at ${timestamp}: ${data.scrollingContext}</div>`;
-    videoIdShow.innerHTML = `<div>${data.videoId}</div>`;
-
-  }
-  if(!isNaN(message.data)){
-    const currentCount = document.getElementById("currentCount");
-    currentCount.innerHTML = `<div>${message.data}</div>`;
-
-  }
-
-};
-
-const sendMessage=()=> {
-
-  const inputField = document.getElementById("inputField");
-  const relativeTime = Date.now();
-  const scrollingContext = inputField.value;
-
-  const jsonData = {
-    currentCount:0,
-    videoId:"121",
-    relativeTime: relativeTime,
-    scrollingContext: scrollingContext
-  };
-
-  const jsonStr = JSON.stringify(jsonData);
-
-  ws.send(jsonStr);
-
-  inputField.value = ''; // 清空输入框
-}
-</script>
-
+const danmus = ref(['danmu1', 'danmu2', 'danmu3', '…'])
+const danmakuRef = ref(null)
+const sendDanmu = () => {
+  const index = danmakuRef.value.push('new danmu')
+  console.log(index)
+// 打印出插入后的下标
+} </script>

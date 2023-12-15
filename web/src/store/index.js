@@ -7,7 +7,7 @@ export default createStore({
     userInfo: JSON.parse(window.localStorage.getItem(USER_KEY)) || {},
     videoInfo: JSON,
     filename:String,
-
+    videoCurrentTime:String,
   },
   getters: {
   },
@@ -22,6 +22,9 @@ export default createStore({
     },
     setFilename(state,_filename){
       state.filename = _filename;
+    },
+    setVideoCurrentTime(state,_videoCurrentTime){
+      state.videoCurrentTime = _videoCurrentTime;
     }
   },
   actions: {

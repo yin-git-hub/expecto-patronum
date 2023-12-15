@@ -3,23 +3,59 @@
     <vue3VideoPlay
         v-bind="options"
         :poster="coverUrl"
+        @timeupdate="onTimeupdate"
+        @play="onPlay"
+        @pause="onPause"
     />
-    <vue-danmaku v-model:danmus="danmus" style="height:100px; width:900px;"></vue-danmaku>
-    <template  >
-      <span>{{ danmu }}</span>
-    </template>
+
+    {{videoCurrentTime}}
+
+    <br>
+    {{store.state.videoInfo}}
   </div>
 </template>
 
 <script setup >
 import {reactive, ref} from "vue";
 
-import vueDanmaku from "vue3-danmaku";
+
 import store from "@/store";
 
-const danmus = ref(['danmu1', 'danmu2', 'danmu3'])
 const videoUrl  = ref(store.state.videoInfo.videoUrl||"")
 const coverUrl = ref(store.state.videoInfo.cover||"")
+const videoCurrentTime = ref('')
+
+const onTimeupdate = (ev) => {
+  videoCurrentTime.value = ev.target.currentTime
+  const videoInfo = store.state.videoInfo;
+  store.commit("setVideoInfo",{
+    ...videoInfo,
+    videoCurrentTime:videoCurrentTime.value
+  })
+  console.log('videoCurDuration.value===>',  ev.target.currentTime)
+}
+
+const onPlay = (ev) => {
+  const videoInfo = store.state.videoInfo;
+  console.log("播放===>",ev.type);
+  const _videoInfo = {
+    ...videoInfo,
+    isPlayer:ev.type
+  }
+  store.commit("setVideoInfo",_videoInfo)
+
+};
+const onPause = (ev) => {
+  console.log( "暂停===>",ev);
+  const videoInfo = store.state.videoInfo;
+  const _videoInfo = {
+    ...videoInfo,
+    isPlayer:ev.type
+  }
+  store.commit("setVideoInfo",_videoInfo)
+
+};
+
 const options = reactive({
   width: "800px", //播放器宽度
   height: "450px", //播放器高度
