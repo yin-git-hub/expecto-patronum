@@ -6,6 +6,7 @@ import com.example.dao.model.entity.Scrolling;
 import com.example.service.ScrollingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundHashOperations;
+import org.springframework.data.redis.core.BoundListOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 public class ScrollingServiceImpl implements ScrollingService {
 
     @Autowired
-     StringRedisTemplate redisTemplate;
+    StringRedisTemplate redisTemplate;
 
     private String SCROLLING_KEY = "ScrollingKey";
 
@@ -36,7 +37,7 @@ public class ScrollingServiceImpl implements ScrollingService {
     public void saveScroller(Scrolling scrolling) {
 
         String videoid = String.valueOf(scrolling.getVideoId());
-        redisTemplate.opsForList().rightPush(SCROLLING_KEY+":"+videoid, JSONUtil.toJsonStr(scrolling));
+        redisTemplate.opsForList().rightPush(SCROLLING_KEY + ":" + videoid, JSONUtil.toJsonStr(scrolling));
     }
 
     @Override
@@ -46,23 +47,24 @@ public class ScrollingServiceImpl implements ScrollingService {
 
 
     @PostConstruct
-    public void saveScrollingToDB(){
+    public void saveScrollingToDB() {
 
         ScheduledExecutorService pool = Executors.newScheduledThreadPool(1);
-        Integer i = 0 * 1000;
+        Integer i = 3 * 1000;
         pool.scheduleAtFixedRate(() -> {
-            BoundHashOperations<String, Object, Object> r = redisTemplate.boundHashOps(SCROLLING_KEY);
-            Set<Object> keys = r.keys();
-            if (keys!=null&&!keys.isEmpty()) {
-                for (Object key : keys) {
-                    Object o =  r.get(key);
-                    List<Scrolling> list = JSONUtil.toList((String) o, Scrolling.class);
-                    for (Scrolling scrolling : list) {
-                        scrollingMapper.saveScrolling(scrolling);
-                    }
-                    r.delete(key);
-                }
+            Set<String> keys1 = redisTemplate.keys(SCROLLING_KEY + ":*");
+            for (String redisKey : keys1) {
+                System.out.println(redisKey);
+
+                List<Scrolling> scrollingList = JSONUtil.toList(
+                        redisTemplate.opsForList().leftPop(redisKey, 100).toString(),
+                        Scrolling.class);
+                System.out.println(scrollingList);
+                scrollingList.stream().forEach(s->{
+                    scrollingMapper.saveScrolling(s);
+                });
             }
-        }, i, 1000*60*60*24 , TimeUnit.MILLISECONDS);
-     }
+            // todo 测试后改为一天
+        }, i, 1000 * 3, TimeUnit.MILLISECONDS);
+    }
 }

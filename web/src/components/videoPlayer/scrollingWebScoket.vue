@@ -1,16 +1,17 @@
 <template>
-  <vue-danmaku class="danmu-class"  ref="danmakuRef"
+  <vue-danmaku class="danmu-class" ref="danmakuRef"
   ></vue-danmaku>
 
-  <br />
+  <br/>
   <a-input-search
       v-model:value="mandamus"
       placeholder="input search text"
       enter-button="Search"
       size="large"
-      @search="sendMessage"
-  />
-  <br />
+
+      autoplay=false
+      @search="sendMessage"></a-input-search>
+  <br/>
 
   {{ data }}
 </template>
@@ -18,30 +19,75 @@
 <script setup>
 import vueDanmaku from "vue3-danmaku";
 import store from "@/store";
-import {ref, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
+import axios from "axios";
 
-const mandamus = ref([])
+const mandamus = ref()
 const danmakuRef = ref(null)
 const _token = store.state.userInfo.token
 const ws = new WebSocket("ws://localhost:7330/water-sty/scrolling/" + _token + "/" + store.state.videoInfo.videoId);
 const data = ref('')
-
+const mandamuList = ref([])
 
 
 // 使用 watch 监听 store某个值 的变化
-watch(() => store.state.videoInfo.isPlayer, (newValue, oldValue) => {
-  console.log('Value changed from', oldValue, 'to', newValue);
-  const isPlayer = store.state.videoInfo.isPlayer
-  console.log('isPlayer = store.state.videoInfo.isPlayer===>',isPlayer)
+watch(() => store.state.videoInfo.isPlayer, () => {
 
-    if(isPlayer==="pause"){
-      danmakuRef.value.pause()
-    }
-    if(isPlayer==="play"){
-      danmakuRef.value.play()
-    }
+  const isPlayer = store.state.videoInfo.isPlayer
+
+  if (isPlayer === "play") {
+    danmakuRef.value.play()
+  } else {
+    danmakuRef.value.pause()
+  }
 
 });
+let visited = [];
+watch(() => store.state.videoInfo.videoCurrentTime, () => {
+
+  let videoCurrentTime = store.state.videoInfo.videoCurrentTime
+  let list = mandamuList.value;
+  let videoCurrentTimeArea = Math.floor(videoCurrentTime)
+
+// 使用for循环遍历list
+  for (let item of list) {
+    let danmuTime = item.relativeTime
+    if (danmuTime >= videoCurrentTimeArea && danmuTime < videoCurrentTimeArea + 1) {
+      // 获取当前元素在列表中的索引
+      let index = item.id;
+      if (!visited.includes(index)) {
+        console.log("index===>", index)
+        console.log("visited===>", visited)
+        console.log("visited.includes(index)===>", visited.includes(index))
+        console.log('scrolling===>', item.scrollingContext)
+        console.log('videoCurrentTimeArea===>', videoCurrentTimeArea)
+        console.log('videoCurrentTime===>', videoCurrentTime)
+        visited.push(index);
+        danmakuRef.value.add(item.scrollingContext);
+
+      }
+    }
+
+  }
+  // danmakuRef.value.add()
+});
+
+onMounted(async () => {
+  try {
+    danmakuRef.value.pause()
+    await axios.post('/video/getScrolling', {
+      id: store.state.videoInfo.videoId
+    }).then(resp => {
+      if (resp.code === 200) {
+        mandamuList.value = resp.data
+      }
+      console.log(resp)
+    })
+  } catch (e) {
+    console.log(e)
+  }
+
+})
 
 
 ws.onopen = function () {
@@ -49,12 +95,8 @@ ws.onopen = function () {
 };
 
 ws.onmessage = function (message) {
-  data.value =  JSON.parse(message.data);
+  data.value = JSON.parse(message.data);
 
-  if (data.value.scrollingContext != null) {
-    console.log('data===>', data)
-  }
-  console.log(message.data)
 
 };
 

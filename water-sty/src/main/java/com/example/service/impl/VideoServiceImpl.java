@@ -1,11 +1,13 @@
 package com.example.service.impl;
 
 import com.example.dao.mapper.VideoMapper;
+import com.example.dao.model.entity.Scrolling;
 import com.example.dao.model.entity.Video;
 import com.example.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,5 +40,12 @@ public class VideoServiceImpl implements VideoService {
 
         String url = "http://localhost:7330/water-sty/video/play/"+bucketName+"/"+objectKey;
         return url;
+    }
+
+    @Override
+    public List<Scrolling> getScrolling(Integer id) {
+        List<Scrolling> scrolling = videoMapper.getScrolling(id);
+
+        return scrolling;
     }
 }

@@ -1,10 +1,12 @@
 package com.example.dao.mapper;
 
+import com.example.dao.model.entity.Scrolling;
 import com.example.dao.model.entity.Video;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,4 +20,6 @@ public interface VideoMapper {
 
     void saveVideo(Video video);
     Map<String, String> getVideoUrlFromVideo(@Param("id") Integer id);
+
+    List<Scrolling> getScrolling(@Param("id") Integer id);
 }

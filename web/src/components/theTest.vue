@@ -9,7 +9,10 @@ import {ref} from "vue";
 const danmus = ref(['danmu1', 'danmu2', 'danmu3', '…'])
 const danmakuRef = ref(null)
 const sendDanmu = () => {
-  const index = danmakuRef.value.push('new danmu')
-  console.log(index)
+  let s = []
+  s.push("qqq")
+  s.push("qqq1")
+  s.push("qqq2")
+  console.log(s.includes('qqq'))
 // 打印出插入后的下标
 } </script>

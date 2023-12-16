@@ -1,6 +1,9 @@
 package com.example.service;
 
+import com.example.dao.model.entity.Scrolling;
 import com.example.dao.model.entity.Video;
+
+import java.util.List;
 
 /**
  * Author: yin7331
@@ -12,4 +15,6 @@ public interface VideoService {
     void saveVideo(Video video);
 
     String getVideoUrl(Integer id);
+
+    List<Scrolling> getScrolling(Integer id);
 }
