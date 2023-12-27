@@ -56,12 +56,7 @@ watch(() => store.state.videoInfo.videoCurrentTime, () => {
       // 获取当前元素在列表中的索引
       let index = item.id;
       if (!visited.includes(index)) {
-        console.log("index===>", index)
-        console.log("visited===>", visited)
-        console.log("visited.includes(index)===>", visited.includes(index))
-        console.log('scrolling===>', item.scrollingContext)
-        console.log('videoCurrentTimeArea===>', videoCurrentTimeArea)
-        console.log('videoCurrentTime===>', videoCurrentTime)
+
         visited.push(index);
         danmakuRef.value.add(item.scrollingContext);
 

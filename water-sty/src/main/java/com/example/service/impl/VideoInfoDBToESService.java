@@ -67,5 +67,15 @@ public class VideoInfoDBToESService  implements DBToESService {
         videoInfoESService.save(videoInfoES);
     }
 
+    @Override
+    public void deleteColumn(List<CanalEntry.Column> columns) {
+        for (CanalEntry.Column column : columns) {
+            if (column.getName().equals("video_id")) {
+                String value = column.getValue();
+                videoInfoESService.deleteByVideoId(value);
+            }
+        }
+    }
+
 
 }

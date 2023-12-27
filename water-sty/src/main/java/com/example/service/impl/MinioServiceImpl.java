@@ -12,7 +12,6 @@ import com.example.service.VideoService;
 import com.example.service.common.ErrorCode;
 import com.example.service.common.ResultUtils;
 import com.example.service.exception.ThrowUtils;
-import com.example.service.utils.MD5Util;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yin.minio.springminiostart.MinioTemplate;
 import com.yin.minio.springminiostart.entity.OssFile;
@@ -212,14 +211,15 @@ public class MinioServiceImpl implements MinioService {
         Video video = new Video();
         video.setBucketName("minio-demo");
         video.setObjectKey(bucketName + ".mp4");
+        // 上传video
         videoService.saveVideo(video);
 
         VideoInfo videoInfo = new VideoInfo();
-        // todo 用户名登录
-        // videoInfo.setUserId(userSupport.getCurrentUserId());
+
         videoInfo.setVideoId(video.getId());
         videoInfo.setVideoMd5(md5);
         videoInfo.setVideoSize(fileSize);
+        // 上传videoInfo videoId md5 size
         minioMapper.saveVideoInfo(videoInfo);
 
         // todo 推送给粉丝 未进行测试
@@ -377,6 +377,8 @@ public class MinioServiceImpl implements MinioService {
 
     @Override
     public void updateVideoInfo(VideoInfo videoInfo) {
+        Long userId = userSupport.getCurrentUserId();
+        videoInfo.setUserId(userId);
         minioMapper.updateVideoInfo(videoInfo);
     }
 }

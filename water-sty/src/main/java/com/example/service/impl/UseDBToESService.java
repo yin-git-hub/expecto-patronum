@@ -79,7 +79,7 @@ public class UseDBToESService {
             if(dbToESService!=null){
                 for (CanalEntry.RowData rowData : rowChage.getRowDatasList()) {
                     if (eventType == CanalEntry.EventType.DELETE) {
-                        dbToESService.printColumn(rowData.getBeforeColumnsList());
+                        dbToESService.deleteColumn(rowData.getBeforeColumnsList());
                     } else if (eventType == CanalEntry.EventType.INSERT) {
                         dbToESService.printColumn(rowData.getAfterColumnsList());
                     } else {

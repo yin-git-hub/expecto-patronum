@@ -6,6 +6,7 @@ export default createStore({
   state: {
     userInfo: JSON.parse(window.localStorage.getItem(USER_KEY)) || {},
     videoInfo: JSON,
+    //视频标题名
     filename:String,
     videoCurrentTime:String,
   },

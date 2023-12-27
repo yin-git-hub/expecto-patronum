@@ -18,4 +18,6 @@ public interface VideoInfoESService extends ElasticsearchRepository<VideoInfoES,
 
     Page<VideoInfoES> findByVideoNameLike(String content, Pageable pageable);
 
+    void deleteByVideoId(String value);
+
 }

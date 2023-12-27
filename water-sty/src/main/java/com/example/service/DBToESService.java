@@ -14,4 +14,5 @@ import java.util.List;
 @Component
 public interface DBToESService {
     public void printColumn(List<CanalEntry.Column> columns);
+    void deleteColumn(List<CanalEntry.Column> columns);
 }

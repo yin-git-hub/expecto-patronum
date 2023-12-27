@@ -4,7 +4,7 @@
 
       <template #renderItem="{ item }">
         <a-list-item >
-          <a-card hoverable style="width: 240px;height: 300px" @click="() => onVideo(item.videoId,item.videoCover)">
+          <a-card hoverable style="width: 240px;height: 300px" @click="() => onVideo(item.videoId,item.videoCover,item.userId)">
             <template  #cover>
               <img  class="cover" alt="example" :src=item.videoCover />
             </template>
@@ -35,14 +35,14 @@ export default defineComponent({
     content: String
   },
   setup(){
-    const onVideo = (_id,_cover)=>{
+    const onVideo = (_id,_cover,_userId)=>{
       axios.post("/video/getVideoUrl",{id:_id}).then(resp=>{
-
         if (resp.code===200){
           store.commit("setVideoInfo", {
             videoUrl:resp.data,
             cover:_cover,
             videoId:_id,
+            userId:_userId,
           });
 
           router.push('/player')

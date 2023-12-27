@@ -25,4 +25,6 @@ public interface FollowingService {
     List<UserVO> getFollowingByGroupId(Long groupId);
 
     List<UserVO> getFans();
+
+    Boolean hasFollowing(Following following);
 }

@@ -55,7 +55,8 @@
     <update id="updateVideoInfo">
         update video_info
         set video_name= #{videoName},
-            video_summary=#{videoSummary}
+            video_summary=#{videoSummary},
+            user_id = #{userId}
         where video_md5=#{videoMd5}
     </update>
 

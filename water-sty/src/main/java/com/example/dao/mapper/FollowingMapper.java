@@ -37,4 +37,6 @@ public interface FollowingMapper {
     List<Long> selectUpIdByUserIdAndGroupId(@Param("userId") Long userId,@Param("groupId") Long groupId);
 
     List<Long> selectFansByUserId(Long userId);
+
+    Following hasFollowing(Following following);
 }

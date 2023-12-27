@@ -49,5 +49,10 @@ public class UserInfoDBToESService  implements DBToESService {
         userInfoESService.save(userInfoES);
     }
 
+    @Override
+    public void deleteColumn(List<CanalEntry.Column> columns) {
+
+    }
+
 
 }

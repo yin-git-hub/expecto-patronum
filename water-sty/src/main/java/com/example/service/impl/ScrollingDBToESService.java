@@ -76,5 +76,10 @@ public class ScrollingDBToESService implements DBToESService {
         scrollingESService.save(scrollingES);
     }
 
+    @Override
+    public void deleteColumn(List<Column> columns) {
+
+    }
+
 
 }

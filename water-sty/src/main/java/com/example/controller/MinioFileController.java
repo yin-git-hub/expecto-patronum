@@ -54,6 +54,11 @@ public class MinioFileController {
         return ResultUtils.success(upload,null);
     }
 
+    /**
+     * 上传标题和简介
+     * @param videoInfo
+     * @return
+     */
     @PostMapping("/updateVideoInfo")
     public BaseResponse updateVideoInfo(@RequestBody VideoInfo videoInfo){
         minioService.updateVideoInfo(videoInfo);

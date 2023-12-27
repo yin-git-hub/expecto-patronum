@@ -8,6 +8,8 @@ import com.example.dao.model.vo.UserVO;
 import com.example.service.FollowingService;
 import com.example.service.common.BaseResponse;
 import com.example.service.common.ResultUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +37,19 @@ public class FollowingController {
     public BaseResponse addFollowing(@RequestBody Following following){
         followingService.saveFollowing(following);
         return ResultUtils.success();
+    }
+
+    /**
+     * 是否存在该关注
+     * @param following
+     * @return
+     */
+
+    @ApiOperation("hasFollowing 是否存在该关注")
+    @PostMapping("/hasFollowing")
+    public BaseResponse hasFollowing(@RequestBody Following following){
+        Boolean hasFollowing = followingService.hasFollowing(following);
+        return ResultUtils.success(hasFollowing);
     }
 
     @PostMapping("/getFollowingGroup")

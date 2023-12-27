@@ -50,7 +50,8 @@ export default defineComponent({
       const map = {
         "videoSummary": formState.summaryValue,
         "videoName": store.state.videoInfo.filename,
-        "videoMd5": store.state.videoInfo.md5
+        "videoMd5": store.state.videoInfo.md5,
+
       }
       console.log(map)
 

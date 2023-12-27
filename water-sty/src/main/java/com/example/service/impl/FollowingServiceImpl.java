@@ -37,16 +37,8 @@ public class FollowingServiceImpl implements FollowingService {
     @Override
     public void saveFollowing(Following following) {
         ThrowUtils.throwIf(following==null, ErrorCode.PARAMS_ERROR);
-        Long userId = userSupport.getCurrentUserId();
-        following.setUserId(userId);
-        List<Following> list = followingMapper.selectByUserId(userId);
-
-        ThrowUtils.throwIf(list!=null&&!list.isEmpty()&&list.stream().anyMatch((s)->{
-            if (s.getUpId().equals(following.getUpId())) {
-                return true;
-            }
-            return false;
-        }),ErrorCode.OPERATION_ERROR,"已关注");
+        ThrowUtils.throwIf(hasFollowing(following)==true,
+                ErrorCode.PARAMS_ERROR,"已关注");
         followingMapper.insertSelective(following);
     }
 
@@ -87,5 +79,16 @@ public class FollowingServiceImpl implements FollowingService {
         List<Long> users = followingMapper.selectFansByUserId(userId);
         List<UserVO> fans = userMapper.getUsersByUserIds(users);
         return fans;
+    }
+
+    @Override
+    public Boolean hasFollowing(Following following) {
+        Long userId = userSupport.getCurrentUserId();
+        following.setUserId(userId);
+        Following hasFollowing = followingMapper.hasFollowing(following);
+        if (hasFollowing==null){
+            return false;
+        }
+        return true;
     }
 }

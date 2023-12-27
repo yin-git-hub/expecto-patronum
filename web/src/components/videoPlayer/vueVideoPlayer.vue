@@ -8,10 +8,6 @@
         @pause="onPause"
     />
 
-    {{videoCurrentTime}}
-
-    <br>
-    {{store.state.videoInfo}}
   </div>
 </template>
 
@@ -24,7 +20,6 @@ import store from "@/store";
 const videoUrl  = ref(store.state.videoInfo.videoUrl||"")
 const coverUrl = ref(store.state.videoInfo.cover||"")
 const videoCurrentTime = ref('')
-
 const onTimeupdate = (ev) => {
   videoCurrentTime.value = ev.target.currentTime
   const videoInfo = store.state.videoInfo;
@@ -32,7 +27,6 @@ const onTimeupdate = (ev) => {
     ...videoInfo,
     videoCurrentTime:videoCurrentTime.value
   })
-  console.log('videoCurDuration.value===>',  ev.target.currentTime)
 }
 
 const onPlay = (ev) => {
