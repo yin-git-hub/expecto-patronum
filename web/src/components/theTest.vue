@@ -1,18 +1,41 @@
 <template>
-  <vue-danmaku v-model:danmus="danmus" ref="danmakuRef" style="height:100px; width:300px;"></vue-danmaku>
-  <button @click="sendDanmu"> 发送弹幕</button>
+  <div>
+    <a-checkbox
+        v-model:checked="checkAll"
+        :indeterminate="indeterminate"
+        @change="onCheckAllChange"
+    >
+      Check all
+    </a-checkbox>
+  </div>
+  <a-divider />
+  <a-checkbox-group v-model:value="checkedList" :options="plainOptions" />
 </template>
-<script setup>
-import vueDanmaku from 'vue3-danmaku'
-import {ref} from "vue";
-
-const danmus = ref(['danmu1', 'danmu2', 'danmu3', '…'])
-const danmakuRef = ref(null)
-const sendDanmu = () => {
-  let s = []
-  s.push("qqq")
-  s.push("qqq1")
-  s.push("qqq2")
-  console.log(s.includes('qqq'))
-// 打印出插入后的下标
-} </script>
+<script>
+import { defineComponent, reactive, toRefs, watch } from 'vue';
+const plainOptions = ['Apple', 'Pear', 'Orange'];
+export default defineComponent({
+  setup() {
+    const state = reactive({
+      indeterminate: true,
+      checkAll: false,
+      checkedList: ['Apple', 'Orange'],
+    });
+    const onCheckAllChange = e => {
+      Object.assign(state, {
+        checkedList: e.target.checked ? plainOptions : [],
+        indeterminate: false,
+      });
+    };
+    watch(() => state.checkedList, val => {
+      state.indeterminate = !!val.length && val.length < plainOptions.length;
+      state.checkAll = val.length === plainOptions.length;
+    });
+    return {
+      ...toRefs(state),
+      plainOptions,
+      onCheckAllChange,
+    };
+  },
+});
+</script>

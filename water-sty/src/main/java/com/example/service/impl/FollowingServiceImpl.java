@@ -1,5 +1,6 @@
 package com.example.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.example.controller.Support.UserSupport;
 import com.example.dao.mapper.FollowingGroupMapper;
 import com.example.dao.mapper.FollowingMapper;
@@ -10,8 +11,10 @@ import com.example.dao.model.vo.UserVO;
 import com.example.service.FollowingService;
 import com.example.service.common.ErrorCode;
 import com.example.service.exception.ThrowUtils;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -85,10 +88,41 @@ public class FollowingServiceImpl implements FollowingService {
     public Boolean hasFollowing(Following following) {
         Long userId = userSupport.getCurrentUserId();
         following.setUserId(userId);
-        Following hasFollowing = followingMapper.hasFollowing(following);
-        if (hasFollowing==null){
+        List<Following> hasFollowing = followingMapper.hasFollowing(following);
+        if (hasFollowing==null||hasFollowing.isEmpty()){
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void deleteFollowing(String upId) {
+        Long userId = userSupport.getCurrentUserId();
+        followingMapper.deleteFollowing(userId,upId);
+    }
+
+    @Override
+    @Transactional
+    public void addFollowingToGroup(Following following) {
+        List<Long> groupIds = following.getGroupIds();
+        Long userId = userSupport.getCurrentUserId();
+        List<Long> groupsByUserIdAndUpId = followingMapper.getGroupsByUserIdAndUpId(userId, following.getUpId());
+        if (groupsByUserIdAndUpId!=null){
+            for (Long aLong : groupsByUserIdAndUpId) {
+                followingMapper.deleteGroupsByUserIdUpIdAndGroupId(userId, following.getUpId(),aLong);
+            }
+        }
+        following.setUserId(userId);
+        for (Long groupId : groupIds) {
+            following.setGroupId(groupId);
+            followingMapper.addFollowingToGroup(following);
+        }
+
+    }
+
+    @Override
+    public List getChoosedGroups(Following following) {
+        Long userId = userSupport.getCurrentUserId();
+        return followingMapper.getGroupsByUserIdAndUpId(userId, following.getUpId());
     }
 }

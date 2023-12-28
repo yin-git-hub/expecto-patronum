@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import {List} from "ant-design-vue";
 
 const USER_KEY = "USERINFO";
 
@@ -9,6 +10,7 @@ export default createStore({
     //视频标题名
     filename:String,
     videoCurrentTime:String,
+    followingGroupList:List,
   },
   getters: {
   },
@@ -26,6 +28,9 @@ export default createStore({
     },
     setVideoCurrentTime(state,_videoCurrentTime){
       state.videoCurrentTime = _videoCurrentTime;
+    },
+    setFollowingGroupList(state,_followingGroupList){
+      state.followingGroupList = _followingGroupList;
     }
   },
   actions: {

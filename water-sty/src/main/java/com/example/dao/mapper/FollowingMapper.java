@@ -38,5 +38,23 @@ public interface FollowingMapper {
 
     List<Long> selectFansByUserId(Long userId);
 
-    Following hasFollowing(Following following);
+    List<Following> hasFollowing(Following following);
+
+    void deleteFollowing(@Param("userId") Long userId,
+                         @Param("upId") String upId);
+
+    void addFollowingToGroup(Following following);
+
+    /**
+     * 根据Long userId, Long upId获取所有分组groups
+     * @param userId
+     * @param upId
+     * @return
+     */
+    List<Long> getGroupsByUserIdAndUpId(@Param("userId") Long userId,@Param("upId")  Long upId);
+
+    void deleteGroupsByUserIdUpIdAndGroupId(
+            @Param("userId") Long userId
+            ,@Param("upId")Long upId
+            ,@Param("groupId") Long groupId);
 }

@@ -28,14 +28,48 @@ public class FollowingController {
     FollowingService followingService;
 
 
+    /**
+     * 添加关注分组
+     * @param followingGroup
+     * @return
+     */
     @PostMapping("/addFollowingGroup")
     public BaseResponse addFollowingGroup(@RequestBody FollowingGroup followingGroup){
         followingService.addFollowingGroup(followingGroup);
         return ResultUtils.success();
     }
+
+    /**
+     * 将关注放到分组里
+     * @param following
+     * @return
+     */
+    @PostMapping("/addFollowingToGroup")
+    public BaseResponse addFollowingToGroup(@RequestBody Following following){
+        followingService.addFollowingToGroup(following);
+        return ResultUtils.success();
+
+    }
+
+    /**
+     * 添加关注
+     * @param following
+     * @return
+     */
     @PostMapping("/addFollowing")
     public BaseResponse addFollowing(@RequestBody Following following){
         followingService.saveFollowing(following);
+        return ResultUtils.success();
+    }
+
+    /**
+     * 取消关注
+     * @param upId
+     * @return
+     */
+    @PostMapping("/deleteFollowing/{upId}")
+    public BaseResponse deleteFollowing(@PathVariable("upId")String upId){
+        followingService.deleteFollowing(upId);
         return ResultUtils.success();
     }
 
@@ -52,17 +86,41 @@ public class FollowingController {
         return ResultUtils.success(hasFollowing);
     }
 
+    /**
+     * 获取关注分组
+     * @return
+     */
     @PostMapping("/getFollowingGroup")
     public BaseResponse getFollowingGroup(){
           return ResultUtils.success(followingService.getFollowingGroup());
     }
 
+    /**
+     * 根据关注分组获取关注
+     * @param groupId
+     * @return
+     */
     @GetMapping("/getFollowing/{groupId}")
     public BaseResponse getFollowing(@PathVariable("groupId") Long groupId){
         List<UserVO> followingByGroupId = followingService.getFollowingByGroupId(groupId);
         return ResultUtils.success(followingByGroupId);
     }
 
+    /**
+     * 获取添加过关注的分组
+     * @param following
+     * @return
+     */
+    @PostMapping("/getChoosedGroups")
+    public BaseResponse getChoosedGroups(@RequestBody Following following){
+        List choosedGroups = followingService.getChoosedGroups(following);
+        return ResultUtils.success(choosedGroups);
+    }
+
+    /**
+     * 获取获取粉丝
+     * @return
+     */
     @GetMapping("/getFans")
     public BaseResponse getFans(){
         return ResultUtils.success(followingService.getFans());

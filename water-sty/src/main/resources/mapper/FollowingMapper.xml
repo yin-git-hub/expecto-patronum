@@ -151,6 +151,21 @@
       </if>
     </trim>
   </insert>
+
+  <insert id="addFollowingToGroup" parameterType="com.example.dao.model.entity.Following">
+    insert into following(user_id,up_id,group_id) values (#{userId},#{upId},#{groupId})
+  </insert>
+
+  <select id="getGroupsByUserIdAndUpId" resultType="java.lang.Long">
+    select group_id from following where user_id=#{userId} and up_id=#{upId}
+  </select>
+  <delete id="deleteGroupsByUserIdUpIdAndGroupId" >
+    DELETE FROM following WHERE user_id=#{userId}
+                            and up_id=#{upId}
+                            and group_id=#{groupId}
+                            and group_id!=0;
+  </delete>
+
   <select id="countByExample" parameterType="com.example.dao.model.entity.FollowingExample" resultType="java.lang.Long">
     select count(*) from following
     <if test="_parameter != null">
@@ -176,6 +191,13 @@
       from following where
       up_id = #{upId} and user_id = #{userId}
   </select>
+
+  <delete id="deleteFollowing">
+      DELETE
+      FROM following
+      WHERE user_id = #{userId}
+        and up_id = #{upId};
+  </delete>
 
   <update id="updateByExampleSelective" parameterType="map">
     update following
