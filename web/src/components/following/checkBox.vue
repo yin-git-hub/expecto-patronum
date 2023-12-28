@@ -21,7 +21,7 @@ import axios from "axios";
 import store from "@/store";
 const plainOptions = ref([]);
 const optionValue=ref();
-const checkedList=ref(['123']);
+const checkedList=ref([]);
 const _resp = {}
 
 const change=(e)=>{
@@ -74,6 +74,8 @@ onMounted(async () => {
     console.error('请求失败:', error)
   }
 })
+
+// 添加分组
 const onSearch=()=>{
   axios.post('/following/addFollowingGroup',{
     groupName:optionValue.value
@@ -81,6 +83,16 @@ const onSearch=()=>{
     if (resp.code === 200) {
       plainOptions.value.push(optionValue.value)
       optionValue.value=''
+      // 刷新分组
+      axios.post('/following/getFollowingGroup').then(resp=>{
+        if(resp.code===200){
+          plainOptions.value = []
+          _resp.value = resp.data
+          resp.data.map(item => {
+            plainOptions.value.push( item.groupName )
+          });
+        }
+      })
     }
   })
 
