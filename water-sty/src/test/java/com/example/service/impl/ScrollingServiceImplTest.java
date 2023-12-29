@@ -19,21 +19,16 @@ import static org.junit.jupiter.api.Assertions.*;
 @Slf4j
 class ScrollingServiceImplTest {
     public static void main(String[] args) {
-        List<Long> groupIds = new ArrayList<>();
-        List<Long> groupsByUserIdAndUpId = new ArrayList<>();
 
-        // 添加一些元素到两个列表
-        groupIds.add(1L);
-        groupIds.add(2L);
-        groupIds.add(3L);
-
-        groupsByUserIdAndUpId.add(6L);
-        groupsByUserIdAndUpId.add(4L);
-        groupsByUserIdAndUpId.add(5L);
-
-        // 创建一个临时列表来保存交集
-
-        System.out.println(CollUtil.containsAny(groupIds,groupsByUserIdAndUpId));
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 5; j++) {
+                if(j==3){
+                    break;
+                }
+                System.out.println("j"+j);
+            }
+            System.out.println("i"+i);
+        }
 
 
     }
