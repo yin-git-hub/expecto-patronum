@@ -41,6 +41,6 @@
                              targetPackage="com.example.dao.mapper"
                              type="XMLMAPPER"/>
 
-         <table tableName="like" domainObjectName="Like"/>
+         <table tableName="collection_group" domainObjectName="CollectionGroup"/>
     </context>
 </generatorConfiguration>
