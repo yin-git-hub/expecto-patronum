@@ -5,6 +5,7 @@ import ScrollingWebScoket from "@/components/videoPlayer/scrollingWebScoket.vue"
 
 import TheFollowing from "@/components/userTendency/following.vue";
 import TheLike from "@/components/userTendency/like.vue";
+import TheCollection from "@/components/userTendency/collector.vue";
 
 
 defineComponent({
@@ -20,6 +21,8 @@ defineComponent({
   <the-following></the-following>
   <br>
   <the-like></the-like>
+  <br>
+  <the-collection></the-collection>
 </template>
 
 <style scoped>

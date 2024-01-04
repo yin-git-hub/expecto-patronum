@@ -7,7 +7,7 @@ public class CollectionGroup {
 
     private Long userId;
 
-    private Long groupName;
+    private String groupName;
 
     private Date createDate;
 
@@ -29,11 +29,11 @@ public class CollectionGroup {
         this.userId = userId;
     }
 
-    public Long getGroupName() {
+    public String getGroupName() {
         return groupName;
     }
 
-    public void setGroupName(Long groupName) {
+    public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
 

@@ -60,7 +60,7 @@ public class CollectionController {
 
     /**
      * 取消收藏
-     * @param upId
+     * @param videoId
      * @return
      */
     @PostMapping("/deleteCollection/{videoId}")

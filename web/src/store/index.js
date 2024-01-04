@@ -11,6 +11,7 @@ export default createStore({
     filename:String,
     videoCurrentTime:String,
     followingGroupList:List,
+    collectionGroupList:List,
   },
   getters: {
   },
@@ -31,6 +32,9 @@ export default createStore({
     },
     setFollowingGroupList(state,_followingGroupList){
       state.followingGroupList = _followingGroupList;
+    },
+    setCollectionGroupList(state,_collectionGroupList){
+      state.collectionGroupList = _collectionGroupList;
     }
   },
   actions: {

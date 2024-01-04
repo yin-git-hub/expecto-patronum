@@ -16,6 +16,7 @@
     "dplayer": "^1.27.1",
     "js-md5": "^0.8.3",
     "vue": "^3.2.13",
+    "vue-cropperjs": "^5.0.0",
     "vue-dplayer": "^0.0.10",
     "vue-router": "^4.0.3",
     "vue3-danmaku": "^1.4.0",
