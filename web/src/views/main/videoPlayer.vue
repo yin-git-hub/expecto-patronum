@@ -15,13 +15,9 @@ defineComponent({
   <div class="video-container">
     <vue-video-player></vue-video-player>
     <br>
-<!--    <scrolling-web-scoket  class="overlay"></scrolling-web-scoket>-->
-    <br>
-    <the-following></the-following>
-    <br>
-    <the-like></the-like>
-    <br>
-    <the-collection></the-collection>
+    <the-like></the-like>&nbsp;&nbsp;&nbsp;
+    <the-collection></the-collection>&nbsp;&nbsp;&nbsp;
+    <the-following></the-following>&nbsp;&nbsp;&nbsp;
   </div>
 
 </template>
