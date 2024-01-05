@@ -117,8 +117,9 @@ const sendMessage = () => {
 
 <style scoped>
 .danmu-class {
-  height: 100px;
-  width: 900px;
+  height: 450px;
+  width: 800px;
+  z-index: 99999;
 }
 </style>
 
