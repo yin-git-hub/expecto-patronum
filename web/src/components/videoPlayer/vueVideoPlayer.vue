@@ -14,8 +14,10 @@
 
   </div>
 
-  <div style="width: 800px" class="calss-inputDanmu">
-    <br/>
+  <div style="width: 800px;align-items: center; display: flex; margin-top: 10px" class="calss-inputDanmu">
+
+    <span style="white-space: nowrap;">{{ data }}&nbsp;人正在观看</span>&nbsp;&nbsp;
+
     <a-input-search
         v-model:value="mandamus"
         placeholder="input search text"
@@ -28,7 +30,6 @@
   </div>
 
 
-  {{ data }}
 </template>
 
 <script setup >
@@ -103,7 +104,6 @@ import vueDanmaku from "vue3-danmaku";
 import {onMounted,   watch} from "vue";
 import axios from "axios";
 
-
 const danmakuRef = ref(null)
 const _token = store.state.userInfo.token
 const ws = new WebSocket("ws://localhost:7330/water-sty/scrolling/" + _token + "/" + store.state.videoInfo.videoId);
@@ -137,7 +137,6 @@ watch(() => store.state.videoInfo.videoCurrentTime, () => {
       // 获取当前元素在列表中的索引
       let index = item.id;
       if (!visited.includes(index)) {
-
         visited.push(index);
         danmakuRef.value.add(item.scrollingContext);
 
@@ -145,7 +144,6 @@ watch(() => store.state.videoInfo.videoCurrentTime, () => {
     }
 
   }
-  // danmakuRef.value.add()
 });
 
 onMounted(async () => {

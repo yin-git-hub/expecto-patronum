@@ -15,9 +15,9 @@ defineComponent({
   <div class="video-container">
     <vue-video-player></vue-video-player>
     <br>
-    <the-like></the-like>&nbsp;&nbsp;&nbsp;
-    <the-collection></the-collection>&nbsp;&nbsp;&nbsp;
-    <the-following></the-following>&nbsp;&nbsp;&nbsp;
+    <the-like></the-like>&nbsp;
+    <the-collection></the-collection>&nbsp;
+    <the-following></the-following>&nbsp;
   </div>
 
 </template>
