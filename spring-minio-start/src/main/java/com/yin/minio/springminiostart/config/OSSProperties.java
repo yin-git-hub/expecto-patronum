@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * @author lyf
+ * @author 评论
  * @version 1.0
  * @classname OssConfig
  * @description
