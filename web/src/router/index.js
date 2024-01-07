@@ -42,7 +42,7 @@ const routes = [
 
     }, {
         path: "/test",
-        component:()=>import('../components/theTest.vue')
+        component:()=>import('../components/test/theTest.vue')
 
     }, {
         path: '/login',

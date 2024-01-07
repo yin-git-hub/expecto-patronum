@@ -80,7 +80,7 @@ export default defineComponent({
       }).then(response => {
         timerHandler();
         if (response.code===200) {
-          notification.success({ description: '发送验证码成功！' });
+          notification.success({ description: '发送验证码成功 '+response.data });
           loginForm.value.code = response;
         } else {
           notification.error({ description: response.data });

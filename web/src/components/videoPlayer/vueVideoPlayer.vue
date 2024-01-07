@@ -9,8 +9,12 @@
     />
   </div>
   <div  class="class-scrolling">
-    <vue-danmaku class="danmu-class" ref="danmakuRef"
-    ></vue-danmaku>
+    <vue-danmaku  class="danmu-class" ref="danmakuRef"
+
+    >
+
+
+    </vue-danmaku>
 
   </div>
 
@@ -20,10 +24,9 @@
 
     <a-input-search
         v-model:value="mandamus"
-        placeholder="input search text"
+        placeholder="发一条友好的弹幕"
         enter-button="发送弹幕"
         size="large"
-
         autoplay=false
         @search="sendMessage"></a-input-search>
 
@@ -42,13 +45,21 @@ const videoUrl  = ref(store.state.videoInfo.videoUrl||"")
 const coverUrl = ref(store.state.videoInfo.cover||"")
 const videoCurrentTime = ref('')
 const mandamus = ref()
+
+
 const onTimeupdate = (ev) => {
-  videoCurrentTime.value = ev.target.currentTime
-  const videoInfo = store.state.videoInfo;
-  store.commit("setVideoInfo",{
-    ...videoInfo,
-    videoCurrentTime:videoCurrentTime.value
-  })
+  try {
+    videoCurrentTime.value = ev.target.currentTime
+    const videoInfo = store.state.videoInfo;
+    store.commit("setVideoInfo",{
+      ...videoInfo,
+      videoCurrentTime:videoCurrentTime.value
+    })
+  }catch (e){
+    console.log()
+  }
+
+
 }
 
 const onPlay = (ev) => {
@@ -62,7 +73,6 @@ const onPlay = (ev) => {
 
 };
 const onPause = (ev) => {
-  console.log( "暂停===>",ev);
   const videoInfo = store.state.videoInfo;
   const _videoInfo = {
     ...videoInfo,
@@ -118,14 +128,17 @@ watch(() => store.state.videoInfo.isPlayer, () => {
 
   if (isPlayer === "play") {
     danmakuRef.value.play()
+
   } else {
     danmakuRef.value.pause()
   }
 
 });
 let visited = [];
-watch(() => store.state.videoInfo.videoCurrentTime, () => {
-
+watch(() => store.state.videoInfo.videoCurrentTime, (newVideoCurrentTime, oldVideoCurrentTime) => {
+   if(Math.abs(newVideoCurrentTime-oldVideoCurrentTime)>0.5){
+     visited=[]
+  }
   let videoCurrentTime = store.state.videoInfo.videoCurrentTime
   let list = mandamuList.value;
   let videoCurrentTimeArea = Math.floor(videoCurrentTime)
@@ -142,9 +155,9 @@ watch(() => store.state.videoInfo.videoCurrentTime, () => {
 
       }
     }
-
   }
 });
+
 
 onMounted(async () => {
   try {
@@ -200,7 +213,7 @@ const sendMessage = () => {
 }
 .danmu-class{
   height: 450px;
-  width: 800px;
+  width: 700px;
   z-index: 99999;
 }
 .class-scrolling {
@@ -210,5 +223,4 @@ const sendMessage = () => {
   pointer-events: none; /* 允许点击穿透，便于操作底下的视频播放器 */
 
 }
-
 </style>

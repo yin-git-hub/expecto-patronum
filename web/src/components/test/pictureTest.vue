@@ -1,5 +1,5 @@
 <template>
-<!--  npm install vue-cropperjs   -->
+  <!--  npm install vue-cropperjs   -->
   <div>
     <!-- 图片上传 -->
     <input type="file" @change="onFileChange" accept="image/*" />
