@@ -18,44 +18,28 @@
         </p>
       </template>
     </a-comment>
-<!--    comment  input  -->
-   <div v-if="showReply" class="comment-input-class">
-     <a-list
-         v-if="comments.length"
-         :data-source="comments"
-         :header="`${comments.length} ${comments.length > 1 ? 'replies' : 'reply'}`"
-         item-layout="horizontal"
-     >
-       <template #renderItem="{ item }">
-         <a-list-item>
-           <a-comment
-               :author="item.author"
-               :avatar="item.avatar"
-               :content="item.content"
-               :datetime="item.datetime"
-           />
-         </a-list-item>
-       </template>
-     </a-list>
-     <a-comment>
-       <template #avatar>
-         <a-avatar
-             src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-             alt="Han Solo"
-         />
-       </template>
-       <template #content>
-         <a-form-item>
-           <a-textarea :rows="4" v-model:value="value" />
-         </a-form-item>
-         <a-form-item>
-           <a-button html-type="submit" :loading="submitting" type="primary" @click="handleSubmit">
-             Add Comment
-           </a-button>
-         </a-form-item>
-       </template>
-     </a-comment>
-   </div>
+    <!--    comment  input  -->
+    <div v-if="showReply" class="comment-input-class" @focusout="handleFocusOut">
+
+      <a-comment>
+        <template #avatar>
+          <a-avatar
+              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+              alt="Han Solo"
+          />
+        </template>
+        <template #content>
+          <a-form-item>
+            <a-textarea :rows="4" v-model:value="value" />
+          </a-form-item>
+          <a-form-item>
+            <a-button html-type="submit" :loading="submitting" type="primary" @click="handleSubmit">
+              发送
+            </a-button>
+          </a-form-item>
+        </template>
+      </a-comment>
+    </div>
   </div>
 </template>
 
@@ -85,7 +69,9 @@ const comments = ref([]);
 const submitting = ref(false);
 const value = ref('');
 const handleSubmit = () => {
+
   if (!value.value) {
+    showReply.value = false;
     return;
   }
   submitting.value = true;
@@ -101,6 +87,15 @@ const handleSubmit = () => {
       ...comments.value,
     ];
     value.value = '';
+    showReply.value = false;
   }, 1000);
+
+};
+
+const handleFocusOut = (event) => {
+  // 检查焦点是否还在评论输入区域内
+  if (!event.currentTarget.contains(event.relatedTarget)) {
+    showReply.value = false;
+  }
 };
 </script>
