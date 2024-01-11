@@ -1,15 +1,16 @@
 package com.example.dao.model.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Comment {
+public class Comment  implements Serializable{
     private Long id;
 
     private Long videoId;
 
     private Long userId;
 
-    private Long replyToUserId;
+    private Long replyToUserId=-1L;
 
     private Date createDate;
 
@@ -17,6 +18,14 @@ public class Comment {
 
     private String content;
 
+    private UserInfo userInfo;
+
+    public UserInfo getUserInfo(){
+        return userInfo;
+    }
+    public void setUserInfo(UserInfo userInfo){
+        this.userInfo = userInfo;
+    }
     public Long getId() {
         return id;
     }

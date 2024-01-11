@@ -36,4 +36,6 @@ public interface CommentMapper {
     int updateByPrimaryKeyWithBLOBs(Comment record);
 
     int updateByPrimaryKey(Comment record);
+
+    List<Comment> getFirstLevelComments(Comment comment);
 }

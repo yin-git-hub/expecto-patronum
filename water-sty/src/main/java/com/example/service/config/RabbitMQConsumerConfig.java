@@ -31,7 +31,7 @@ public class RabbitMQConsumerConfig {
     public void process(Message message,Channel channel) throws IOException {
         try{
             String msg = new String(message.getBody(), "UTF-8");
-             Scrolling scrolling = JSONUtil.toBean(msg, Scrolling.class);
+            Scrolling scrolling = JSONUtil.toBean(msg, Scrolling.class);
             scrollingWebsocketService.sendMessageCurrentVideo(scrolling);
         }catch (Exception e){
             try {
@@ -41,7 +41,6 @@ public class RabbitMQConsumerConfig {
                         false);
             }catch (Exception ee){}
         }
-
     }
     @RabbitListener(queues = RabbitMQConfig.DEAD_LETTER_SCROLLING_QUEUE )
     public void receiveA(Message message, Channel channel) throws IOException {

@@ -1,20 +1,45 @@
 <template>
   <div>
-    <a-comment>
+    <!--    comment  input  -->
+    <a-divider></a-divider>
+    <div  class="comment-input-class-show" >
+      <div style="font-weight: bold; font-size: 16px;">
+        评论
+      </div>
+      <a-comment>
+        <template #avatar>
+          <a-avatar
+              :src=store.state.userInfo.image
+          />
+        </template>
+        <template #content>
+          <a-form-item>
+            <a-textarea :rows="1" v-model:value="value" />
+          </a-form-item>
+          <a-form-item>
+            <a-button html-type="submit" :loading="submitting" type="primary" @click="handleSubmit">
+              发送
+            </a-button>
+          </a-form-item>
+        </template>
+      </a-comment>
+    </div>
+  </div>
+  <div>
+    <a-comment  v-for="comment in commentList" :key="comment.id">
       <template #actions>
-        <span @click="toggleReply">Reply to</span>
-        <span @click="deleteComment">Delete</span>
+        <span @click="toggleReply">回复</span>
+        <span @click="deleteComment(comment.id)">删除</span>
       </template>
       <template #author>
-        <a>Han Solo</a>
+        <a>{{comment.userInfo.nickname}}</a>
       </template>
       <template #avatar>
-        <a-avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />
+        <a-avatar :src=comment.userInfo.image alt="Han Solo" />
       </template>
       <template #content>
         <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure).
+          {{comment.content}}
         </p>
       </template>
     </a-comment>
@@ -24,8 +49,7 @@
       <a-comment>
         <template #avatar>
           <a-avatar
-              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-              alt="Han Solo"
+              :src=store.state.userInfo.image
           />
         </template>
         <template #content>
@@ -45,19 +69,46 @@
 
 
 <script setup>
-import { ref } from 'vue';
+import {onMounted, ref} from 'vue';
 import moment from 'moment';
+import store from "@/store";
+import axios from "axios";
 const showReply = ref(false);
-
+const commentList = ref();
+const comments = ref([]);
+const submitting = ref(false);
+const value = ref('');
 const toggleReply = () => {
   showReply.value = !showReply.value;
   console.log(showReply.value)
 };
+onMounted(async () => {
+  try {
+    //查看是否收藏
+    await axios.post('/comment/getFirstLevelComments',{
+      videoId: store.state.videoInfo.videoId
+    }).then(resp=>{
+      if (resp.code === 200) {
+        commentList.value = resp.data
+      }
+    })
+
+  } catch (error) {
+    console.error('请求失败:', error)
+  }
+})
 
 // 删除评论
-const deleteComment = async () => {
+const deleteComment = (commentId) => {
   try {
-    console.log('Comment deleted');
+    axios.post('/comment/deleteComment/'+commentId).then(resp=>{
+      if (resp.code === 200) {
+        const index = commentList.value.findIndex(comment => comment.id === commentId);
+        if (index !== -1) {
+          commentList.value.splice(index, 1);
+        }
+      }
+    })
     // 处理响应...
   } catch (error) {
     console.error('Error deleting comment', error);
@@ -65,11 +116,24 @@ const deleteComment = async () => {
 };
 
 
-const comments = ref([]);
-const submitting = ref(false);
-const value = ref('');
 const handleSubmit = () => {
 
+  axios.post('/comment/addComment',{
+    videoId:store.state.videoInfo.videoId,
+    userId:store.state.userInfo.userId,
+    replyToUserId: '-1',
+    content: value.value,
+  }).then(resp=>{
+    if (resp.code === 200) {
+      axios.post('/comment/getFirstLevelComments',{
+        videoId: store.state.videoInfo.videoId
+      }).then(resp=>{
+        if (resp.code === 200) {
+          commentList.value = resp.data
+        }
+      })
+    }
+  })
   if (!value.value) {
     showReply.value = false;
     return;
@@ -88,7 +152,8 @@ const handleSubmit = () => {
     ];
     value.value = '';
     showReply.value = false;
-  }, 1000);
+  }, 0);
+
 
 };
 

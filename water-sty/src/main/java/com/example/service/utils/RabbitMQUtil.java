@@ -37,7 +37,6 @@ public class RabbitMQUtil {
         RabbitTemplate rabbitTemplate=rabbit;
             rabbitTemplate.convertAndSend(RabbitMQConfig.SCROLLING_EXCHANGE,
                     RabbitMQConfig.SCROLLING_EXCHANGE, message);
-
     }
 
     public static Connection getConnection()  {

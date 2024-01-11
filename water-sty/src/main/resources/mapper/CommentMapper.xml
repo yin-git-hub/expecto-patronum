@@ -71,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, video_id, user_id, reply_to_user_id, create_date, update_date
+    id,content, video_id, user_id, reply_to_user_id, create_date, update_date
   </sql>
   <sql id="Blob_Column_List">
     content
@@ -181,11 +181,19 @@
       </if>
     </trim>
   </insert>
+
   <select id="countByExample" parameterType="com.example.dao.model.entity.CommentExample" resultType="java.lang.Long">
     select count(*) from comment
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
+  </select>
+
+
+  <select id="getFirstLevelComments" resultType="com.example.dao.model.entity.Comment">
+    select <include refid="Base_Column_List"></include>
+           from `comment`
+    where video_id = #{videoId} and reply_to_user_id = #{replyToUserId}
   </select>
   <update id="updateByExampleSelective" parameterType="map">
     update comment
