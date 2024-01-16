@@ -16,19 +16,23 @@ const routes = [
             component: () => import('../views/main/welcome.vue'),
         }, {
             path: '/login',
-            name: 'login',
             component: () => import( '../views/login.vue')
         }, {
             path: 'create',
             component: () => import('../views/main/create.vue'),
         }, {
             path: '/search/:select',
-            name: 'search',
             component: () => import( '../views/main/search.vue')
         }, {
             path: "/player",
             component:()=>import('../views/main/videoPlayer.vue')
-
+        }, {
+            path: "/myPage",
+            component:()=>import('../views/main/MessagePage.vue'),
+            children: [{
+                path: '/wel',
+                component: () => import('../views/main/welcome1.vue'),
+            },]
         }
 
         ],

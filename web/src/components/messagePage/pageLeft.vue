@@ -8,19 +8,16 @@
               mode="inline"
               style="height: 100%"
           >
-              <a-menu-item key="1">
-                <router-link to="/welcome">
+            <a-menu-item key="1">
+              <router-link to="/wel">
                 欢迎
               </router-link>
-              </a-menu-item>
-              <a-menu-item key="2">option2</a-menu-item>
-              <a-menu-item key="3">option3</a-menu-item>
-              <a-menu-item key="4">option4</a-menu-item>
+            </a-menu-item>
 
           </a-menu>
         </a-layout-sider>
         <a-layout-content :style="{ padding: '0 24px', minHeight: '280px' }">
-          Content
+          <router-view></router-view>
         </a-layout-content>
       </a-layout>
     </a-layout-content>
@@ -30,19 +27,12 @@
   </a-layout>
 </template>
 <script setup>
-import { defineComponent, ref } from 'vue';
- defineComponent({
+import { defineComponent  } from 'vue';
+defineComponent({
 
-  setup() {
-    return {
-      selectedKeys1: ref(['2']),
-      selectedKeys2: ref(['1']),
-      openKeys: ref(['sub1']),
-    };
-  },
 });
 </script>
-<style>
+<style scoped>
 #components-layout-demo-top-side .logo {
   float: left;
   width: 120px;

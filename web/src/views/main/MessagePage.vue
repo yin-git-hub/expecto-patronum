@@ -1,13 +1,15 @@
 <script>
 import {defineComponent} from 'vue'
+import PageLeft from "@/components/messagePage/pageLeft.vue";
 
 export default defineComponent({
-  name: "MessagePage"
+  name: "MessagePage",
+  components: {PageLeft}
 })
 </script>
 
 <template>
-Message
+<page-left/>
 </template>
 
 <style scoped>

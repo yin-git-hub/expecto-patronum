@@ -32,6 +32,11 @@
           创作
         </router-link>
       </a-menu-item>
+      <a-menu-item key="/myPage">
+        <router-link to="/myPage">
+          我的空间
+        </router-link>
+      </a-menu-item>
     </a-menu>
   </a-layout-header>
 </template>
