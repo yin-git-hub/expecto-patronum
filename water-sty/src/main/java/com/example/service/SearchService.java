@@ -10,5 +10,6 @@ import com.example.dao.model.vo.PageResult;
  */
 public interface SearchService {
     PageResult search(SearchDto searchDto);
+    PageResult searchSelf(SearchDto searchDto);
 
 }

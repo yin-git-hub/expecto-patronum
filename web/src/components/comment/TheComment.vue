@@ -39,7 +39,7 @@
       </template>
       <template #content>
         <p>
-          {{comment.content}}
+          {{ comment.content }}
         </p>
       </template>
     </a-comment>

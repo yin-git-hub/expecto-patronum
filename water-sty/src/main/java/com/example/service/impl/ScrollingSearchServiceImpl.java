@@ -33,4 +33,9 @@ public class ScrollingSearchServiceImpl implements SearchService {
         return pageResult;
     }
 
+    @Override
+    public PageResult searchSelf(SearchDto searchDto) {
+        return null;
+    }
+
 }

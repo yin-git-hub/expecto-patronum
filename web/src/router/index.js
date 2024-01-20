@@ -32,7 +32,12 @@ const routes = [
             children: [{
                 path: '/wel',
                 component: () => import('../views/main/welcome1.vue'),
-            },]
+            },{
+                path: '/getSelfVideo',
+                component:()=>import('../components/list/VideoInfoListSelf.vue')
+            }
+
+            ]
         }
 
         ],

@@ -1,5 +1,6 @@
 package com.example.service.impl;
 
+import com.example.controller.Support.UserSupport;
 import com.example.dao.mapper.ScrollingMapper;
 import com.example.dao.model.dto.SearchDto;
 import com.example.dao.model.entity.Scrolling;
@@ -32,6 +33,11 @@ public class SearchAllServiceImpl implements SearchAllService {
     VideoInfoSearchServiceImpl videoInfoSearchService;
     @Autowired
     ScrollingSearchServiceImpl scrollingSearchService;
+    @Autowired
+    ScrollingMapper scrollingMapper;
+    @Autowired
+    UserSupport userSupport;
+
     @PostConstruct
     public void initMap(){
         searchServiceMap.put(SearchType.UserInfo.getType(),userInfoSearchService );
@@ -53,16 +59,30 @@ public class SearchAllServiceImpl implements SearchAllService {
         return search;
     }
 
+    @Override
+    public PageResult searchAllESSelf(SearchDto searchDto) {
+        ThrowUtils.throwIf(searchDto==null, ErrorCode.PARAMS_ERROR);
+        String type = searchDto.getType();
+        ThrowUtils.throwIf(StringUtils.isBlank(type), ErrorCode.PARAMS_ERROR);
+        ThrowUtils.throwIf(!SearchType.VerifyType(type), ErrorCode.PARAMS_ERROR);
+        Long userId = userSupport.getCurrentUserId();
+        searchDto.setUserId(userId);
+        SearchService o =   searchServiceMap.get(type);
 
+        PageResult search = o.searchSelf(searchDto);
 
-    @Autowired
-    ScrollingMapper scrollingMapper;
+        return search;
+    }
+
     @Override
     public PageResult searchAllMySQL(SearchDto searchDto) {
         List<Scrolling> search = scrollingMapper.selectAllSQL(searchDto);
         PageResult<Scrolling> objectPageResult = new PageResult<>();
         objectPageResult.setValList(search);
 
+
         return objectPageResult;
     }
+
+
 }

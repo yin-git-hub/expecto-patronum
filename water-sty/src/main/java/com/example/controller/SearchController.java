@@ -28,6 +28,11 @@ public class SearchController {
         PageResult pageResult = searchService.searchAllES(searchDto);
         return ResultUtils.success(pageResult);
     }
+    @PostMapping("/all/self")
+    public BaseResponse searchSelf(@RequestBody SearchDto searchDto){
+        PageResult pageResult = searchService.searchAllESSelf(searchDto);
+        return ResultUtils.success(pageResult);
+    }
 
     @PostMapping("/all-sql")
     public BaseResponse searchsql(@RequestBody SearchDto searchDto){

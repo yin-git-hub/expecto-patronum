@@ -17,7 +17,6 @@
 
     <a-tab-pane key="video" tab="视频">
       <video-info-list :user-list-data="videoInfoValue" :type="tagKey.value" :content="value.value"></video-info-list>
-
     </a-tab-pane>
     <a-tab-pane key="artical" tab="文章" force-render>
       <artical-list></artical-list>
@@ -26,7 +25,6 @@
       <user-info-list :user-list-data="userInfoValue"></user-info-list>
     </a-tab-pane>
   </a-tabs>
-
   <div>
     <a-pagination
         show-size-changer
@@ -43,12 +41,12 @@
 <script setup>
 import {defineComponent, ref, watch} from 'vue';
 import MyDivider from "@/components/MyDivider.vue";
-import ArticalList from "@/components/ArticalList.vue";
-import UserInfoList from "@/components/UserInfoList.vue";
+import ArticalList from "@/components/list/ArticalList.vue";
+import UserInfoList from "@/components/list/UserInfoList.vue";
 import axios from "axios";
 import router from "@/router";
-import VideoInfoList from "@/components/VideoInfoList.vue";
-import store from "@/store";
+import VideoInfoList from "@/components/list/VideoInfoList.vue";
+
 
 const urlValue = router.currentRoute._rawValue.query.text
 const urlTagKey = router.currentRoute._rawValue.query.tagKey
@@ -122,13 +120,8 @@ const onSearch = searchValue => {
     "pageSize": 10,
     "total": 0,
     "valList": []
-  })
-      .then(response => {
-
-        console.log('response===》', response)
-        console.log('refreshToken===》',store.state.userInfo.refreshToken )
+  }).then(response => {
         videoInfoValue.value = response.data
-
         totalElements.value = response.data.totalElements
       });
 

@@ -11,4 +11,6 @@ import com.example.dao.model.vo.PageResult;
 public interface SearchAllService {
     PageResult searchAllES(SearchDto searchDto);
     PageResult searchAllMySQL(SearchDto searchDto);
+
+    PageResult searchAllESSelf(SearchDto searchDto);
 }

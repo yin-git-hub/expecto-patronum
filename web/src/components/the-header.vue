@@ -1,5 +1,5 @@
 <template>
-  <a-layout-header class="header">
+  <a-layout-header style="color: white" class="header">
     <div class="logo">
       <router-link to="/welcome" style="color: white; font-size: 18px">
         expecto-patronum
@@ -74,4 +74,5 @@ export default defineComponent({
   color: white;
   font-size: 20px;
 }
+
 </style>

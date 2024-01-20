@@ -1,6 +1,6 @@
 <template>
   <a-layout>
-    <a-layout-content style="padding: 0 50px">
+    <a-layout-content >
 
       <a-layout style="padding: 24px 0; background: #fff">
         <a-layout-sider width="200" style="background: #fff">
@@ -10,7 +10,17 @@
           >
             <a-menu-item key="1">
               <router-link to="/wel">
-                欢迎
+                个人信息
+              </router-link>
+            </a-menu-item>
+            <a-menu-item key="2">
+              <router-link to="/getSelfVideo">
+                我的作品
+              </router-link>
+            </a-menu-item>
+            <a-menu-item key="3">
+              <router-link to="/wel">
+                个人信息
               </router-link>
             </a-menu-item>
 
@@ -21,7 +31,7 @@
         </a-layout-content>
       </a-layout>
     </a-layout-content>
-    <a-layout-footer style="text-align: center">
+    <a-layout-footer style="background: white;text-align: center">
       Ant Design ©2018 Created by Ant UED
     </a-layout-footer>
   </a-layout>
@@ -38,7 +48,7 @@ defineComponent({
   width: 120px;
   height: 31px;
   margin: 16px 24px 16px 0;
-  background: rgba(255, 255, 255, 0.3);
+  background: white;
 }
 
 .ant-row-rtl #components-layout-demo-top-side .logo {
@@ -47,6 +57,6 @@ defineComponent({
 }
 
 .site-layout-background {
-  background: #fff;
+  background: white;
 }
 </style>

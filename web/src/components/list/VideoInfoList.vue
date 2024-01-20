@@ -44,9 +44,7 @@ export default defineComponent({
             videoId:_id,
             userId:_userId,
           });
-
           router.push('/player')
-          console.log('resp.data,_cover===>',resp,_cover)
         }
 
       })

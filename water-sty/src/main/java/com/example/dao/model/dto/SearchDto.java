@@ -17,4 +17,6 @@ public class SearchDto extends PageResult implements Serializable{
 
     private String content;
 
+    private Long userId;
+
 }
