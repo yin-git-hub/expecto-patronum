@@ -3,6 +3,8 @@ package com.example.controller;
 import com.example.controller.Support.UserSupport;
 import com.example.dao.model.dto.UserDto;
 import com.example.dao.model.dto.UserVerifyDto;
+import com.example.dao.model.entity.UserInfo;
+import com.example.service.PictureService;
 import com.example.service.UserService;
 import com.example.service.common.BaseResponse;
 import com.example.service.common.ResultUtils;
@@ -34,6 +36,8 @@ public class UserController {
     UserSupport userSupport;
     @Autowired
     UserService userService;
+    @Autowired
+    PictureService pictureService;
 
     /**
      * 手机密码注册
@@ -101,5 +105,23 @@ public class UserController {
         String refreshToken = request.getHeader("refreshToken");
         String accessToken = userService.refreshAccessToken(refreshToken);
         return ResultUtils.success(accessToken);
+    }
+
+    @PostMapping("/userInfoPersonal")
+    public BaseResponse userInfoPersonal(@RequestBody UserInfo userInfo){
+        userService.saveUserInfoPersonal(userInfo);
+        return ResultUtils.success();
+    }
+
+    @PostMapping("/getUserInfo")
+    public BaseResponse getUserInfo(){
+        UserInfo userInfo = userService.getUserInfo();
+        return ResultUtils.success(userInfo);
+    }
+
+    @PostMapping("/picture/upload")
+    public BaseResponse pictureLoad(HttpServletRequest req){
+        userService.saveUserPicture(req);
+        return ResultUtils.success();
     }
 }

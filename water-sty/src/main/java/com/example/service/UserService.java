@@ -4,8 +4,10 @@ package com.example.service;
 
 import com.example.dao.model.dto.UserDto;
 import com.example.dao.model.dto.UserVerifyDto;
+import com.example.dao.model.entity.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -27,4 +29,11 @@ public interface UserService   {
     Map userRegisterByVerify(UserVerifyDto user) throws Exception;
 
     String getVerifyCode(String phoneNum);
+
+    void saveUserInfoPersonal(UserInfo userInfo);
+
+    UserInfo getUserInfo();
+
+
+    void saveUserPicture(HttpServletRequest req);
 }

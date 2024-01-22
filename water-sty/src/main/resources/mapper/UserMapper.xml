@@ -55,6 +55,15 @@
             user_info (user_id, image, nickname, signature)
         values (#{userId}, #{image}, #{nickname}, #{signature})
     </insert>
-
-
+    <update id="saveUserInfoPersonal">
+        UPDATE user_info
+        SET nickname  = #{nickname},
+            signature = #{signature}
+        WHERE user_id = #{userId};
+    </update>
+    <update id="savePicturePath">
+        update user_info
+        set `image`=#{picturePath}
+        where user_id = #{userId}
+    </update>
 </mapper>

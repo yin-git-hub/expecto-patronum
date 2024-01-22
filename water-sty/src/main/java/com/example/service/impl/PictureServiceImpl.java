@@ -31,7 +31,6 @@ public class PictureServiceImpl implements PictureService {
     private MinioTemplate minioTemplate;
     @Autowired
     VideoService videoService;
-
     String VIDEO_PICTURE_BUCKET = "video-picture-bucket";
 
     @Override
@@ -46,8 +45,8 @@ public class PictureServiceImpl implements PictureService {
         ThrowUtils.throwIf(file == null, ErrorCode.OPERATION_ERROR);
         String md5 = multipartRequest.getParameter("md5");
         String suffix = multipartRequest.getParameter("suffix");
-        ThrowUtils.throwIf(StringUtils.isBlank(md5), ErrorCode.OPERATION_ERROR,"请先上传视频");
-        String pictureName = "picture:"+md5+"."+suffix;
+        ThrowUtils.throwIf(StringUtils.isBlank(md5), ErrorCode.OPERATION_ERROR, "请先上传视频");
+        String pictureName = "picture:" + md5 + "." + suffix;
 
         // 创建文件桶
         if (!minioTemplate.bucketExists(VIDEO_PICTURE_BUCKET)) {
@@ -56,8 +55,8 @@ public class PictureServiceImpl implements PictureService {
         try {
             // 上传文件
             minioTemplate.putChunkObject(file.getInputStream(), VIDEO_PICTURE_BUCKET, pictureName);
-            String picturePath = "http://localhost:7330/water-sty/picture/"+VIDEO_PICTURE_BUCKET+"/"+pictureName;
-            videoService.savePicturePath(picturePath,md5);
+            String picturePath = "http://localhost:7330/water-sty/picture/" + VIDEO_PICTURE_BUCKET + "/" + pictureName;
+            videoService.savePicturePath(picturePath, md5);
 
         } catch (Exception e) {
             e.printStackTrace();

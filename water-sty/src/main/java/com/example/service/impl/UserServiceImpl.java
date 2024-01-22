@@ -5,6 +5,7 @@ import java.util.Date;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.json.JSONUtil;
+import com.example.controller.Support.UserSupport;
 import com.example.dao.mapper.RefreshTokenMapper;
 import com.example.dao.mapper.UserMapper;
 import com.example.dao.model.dto.UserDto;
@@ -19,6 +20,7 @@ import com.example.service.exception.ThrowUtils;
 import com.example.service.utils.MD5Util;
 import com.example.service.utils.TokenUtil;
 
+import com.yin.minio.springminiostart.MinioTemplate;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +31,10 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -51,7 +56,10 @@ implements UserService {
     // 注入TransactionTemplate对象
     @Autowired
     private TransactionTemplate transactionTemplate;
-
+    @Autowired
+    UserSupport userSupport;
+    @Autowired
+    private MinioTemplate minioTemplate;
 
     @Override
     public void userRegister(UserDto user) {
@@ -189,6 +197,49 @@ implements UserService {
                 30, TimeUnit.MINUTES
         );
         return code;
+    }
+
+    @Override
+    public void saveUserInfoPersonal(UserInfo userInfo) {
+        Long userId = userSupport.getCurrentUserId();
+        userInfo.setUserId(userId);
+        userMapper.saveUserInfoPersonal(userInfo);
+    }
+
+    @Override
+    public UserInfo getUserInfo() {
+        Long userId = userSupport.getCurrentUserId();
+        UserInfo userInfo = userMapper.getUserInfoByUserId(userId);
+        return userInfo;
+    }
+
+    @Override
+    public void saveUserPicture(HttpServletRequest req) {
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) req;
+
+        // 获得文件分片数据
+        // ((MultipartHttpServletRequest) req).getFile()
+        MultipartFile file = multipartRequest.getFile("picture");
+
+        // 上传过程中出现异常，状态码设置为50000
+        ThrowUtils.throwIf(file == null, ErrorCode.OPERATION_ERROR);
+
+        Long userId = userSupport.getCurrentUserId();
+        String USER_AVATAR_BUCKET = "user-avatar-bucket";
+        String userAvatarName = userId+""+ "image";
+        // 创建文件桶
+        if (!minioTemplate.bucketExists(USER_AVATAR_BUCKET)) {
+            minioTemplate.makeBucket(USER_AVATAR_BUCKET);
+        }
+        try {
+            // 上传文件
+            minioTemplate.putChunkObject(file.getInputStream(), USER_AVATAR_BUCKET, userAvatarName);
+            String picturePath = "http://localhost:7330/water-sty/picture/" + USER_AVATAR_BUCKET + "/" + userAvatarName;
+            userMapper.savePicturePath(picturePath,userId);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

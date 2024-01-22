@@ -1,13 +1,13 @@
 <template>
-  <a-layout-header style="color: white" class="header">
+  <a-layout-header style="background: white" class="header">
     <div class="logo">
-      <router-link to="/welcome" style="color: white; font-size: 18px">
+      <router-link to="/welcome" style="color: black; font-size: 18px">
         expecto-patronum
       </router-link>
     </div>
-    <div style="float: right; color: white;">
+    <div style="float: right; color: black;">
       您好：{{ userInfo.nickname }}
-      <router-link to="/login" style="color: white;">
+      <router-link to="/login" style="color: black;">
         退出登录
       </router-link>
     </div>
@@ -16,24 +16,25 @@
         theme="dark"
         mode="horizontal"
         :style="{ lineHeight: '64px' }"
+        style="background: white"
     >
       <a-menu-item key="/welcome">
-        <router-link to="/welcome">
+        <router-link  style="color: black" to="/welcome">
             欢迎
         </router-link>
       </a-menu-item>
       <a-menu-item key="/search">
-        <router-link to="/search/s">
+        <router-link  style="color: black"  to="/search/s">
           搜索
         </router-link>
       </a-menu-item>
       <a-menu-item key="/create">
-        <router-link to="/create">
+        <router-link  style="color: black"  to="/create">
           创作
         </router-link>
       </a-menu-item>
       <a-menu-item key="/myPage">
-        <router-link to="/myPage">
+        <router-link  style="color: black"  to="/myPage">
           我的空间
         </router-link>
       </a-menu-item>
@@ -71,7 +72,7 @@ export default defineComponent({
   float: left;
   height: 31px;
   width: 150px;
-  color: white;
+  color: black;
   font-size: 20px;
 }
 

@@ -30,12 +30,16 @@ const routes = [
             path: "/myPage",
             component:()=>import('../views/main/MessagePage.vue'),
             children: [{
-                path: '/wel',
-                component: () => import('../views/main/welcome1.vue'),
+                path: '/personal',
+                component: () => import('../components/messagePage/personPage.vue'),
+
             },{
                 path: '/getSelfVideo',
                 component:()=>import('../components/list/VideoInfoListSelf.vue')
-            }
+            },{
+                path:'/personal-edit',
+                component:()=>import('../components/messagePage/personPageEdit.vue')
+            },
 
             ]
         }

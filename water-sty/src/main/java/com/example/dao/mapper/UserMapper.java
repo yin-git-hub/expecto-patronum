@@ -4,6 +4,7 @@ import com.example.dao.model.entity.User;
 import com.example.dao.model.entity.UserInfo;
 import com.example.dao.model.vo.UserVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -29,6 +30,9 @@ public interface UserMapper   {
     Integer registerUserInfo(UserInfo userInfo);
 
 
+    void saveUserInfoPersonal(UserInfo userInfo);
+
+    void savePicturePath(@Param("picturePath") String picturePath, @Param("userId") Long userId);
 }
 
 

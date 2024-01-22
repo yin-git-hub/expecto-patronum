@@ -9,7 +9,7 @@
               style="height: 100%"
           >
             <a-menu-item key="1">
-              <router-link to="/wel">
+              <router-link to="/personal">
                 个人信息
               </router-link>
             </a-menu-item>
@@ -19,8 +19,13 @@
               </router-link>
             </a-menu-item>
             <a-menu-item key="3">
-              <router-link to="/wel">
-                个人信息
+              <router-link to="/getSelfVideo">
+                我的关注
+              </router-link>
+            </a-menu-item>
+            <a-menu-item key="4">
+              <router-link to="/getSelfVideo">
+                我的收藏
               </router-link>
             </a-menu-item>
 
