@@ -45,4 +45,6 @@ public interface CollectionMapper {
     List<Collection> hasCollection(Collection collection);
 
     List<Long> selectVideoIdByUserIdAndGroupId(@Param("userId")Long userId, @Param("groupId")Long groupId);
+
+    void updateGroupIdByGroupId(@Param("id") String id,@Param("userId")Long userId);
 }

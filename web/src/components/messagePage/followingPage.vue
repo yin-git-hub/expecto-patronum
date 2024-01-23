@@ -63,7 +63,6 @@ const showModal = (upId) => {
           checkedList.value.push(v.groupName)
         }
       })
-
     }
   })
   visible.value = true;

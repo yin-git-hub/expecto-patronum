@@ -91,6 +91,12 @@ public class CollectionController {
           return ResultUtils.success(collectionService.getCollectionGroup());
     }
 
+    @PostMapping("/deleteCollectionGroup/{id}")
+    public BaseResponse deleteCollectionGroup(@PathVariable("id")String id){
+        collectionService.deleteCollectionGroup(id);
+        return ResultUtils.success();
+    }
+
     /**
      * 根据收藏分组获取收藏
      * @param groupId

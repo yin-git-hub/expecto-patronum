@@ -31,4 +31,5 @@ public interface CollectionService {
 
     List getChoosedGroups(Collection collection);
 
+    void deleteCollectionGroup(String id);
 }

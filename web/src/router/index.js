@@ -48,6 +48,9 @@ const routes = [
             },{
                 path: '/personal-collection',
                 component:()=>import('../components/messagePage/collectionPage.vue')
+            },{
+                path: '/personal-collection-group',
+                component:()=>import('../components/messagePage/collectionPageByGroup.vue')
             }
 
             ]

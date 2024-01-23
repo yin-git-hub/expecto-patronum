@@ -120,4 +120,13 @@ public class CollectionServiceImpl implements CollectionService {
         Long userId = userSupport.getCurrentUserId();
         return collectionMapper.getGroupsByUserIdAndUpId(userId, collection.getVideoId());
     }
+
+    @Override
+    public void deleteCollectionGroup(String id) {
+        Long userId = userSupport.getCurrentUserId();
+        collectionGroupMapper.deleteByPrimaryKey(Long.valueOf(id));
+        collectionMapper.updateGroupIdByGroupId(id,userId);
+    }
+
+
 }
