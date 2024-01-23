@@ -39,7 +39,16 @@ const routes = [
             },{
                 path:'/personal-edit',
                 component:()=>import('../components/messagePage/personPageEdit.vue')
-            },
+            },{
+                path: '/personal-following',
+                component:()=>import('../components/messagePage/followingPage.vue')
+            },{
+                path: '/personal-following-group',
+                component:()=>import('../components/messagePage/followingPageByGroup.vue')
+            },{
+                path: '/personal-collection',
+                component:()=>import('../components/messagePage/collectionPage.vue')
+            }
 
             ]
         }

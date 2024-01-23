@@ -1,10 +1,7 @@
 package com.example.service;
 
-import com.example.dao.model.dto.UserDto;
 import com.example.dao.model.entity.Following;
 import com.example.dao.model.entity.FollowingGroup;
-import com.example.dao.model.entity.User;
-import com.example.dao.model.vo.FollowingVO;
 import com.example.dao.model.vo.UserVO;
 
 import java.util.List;
@@ -34,4 +31,11 @@ public interface FollowingService {
 
     List getChoosedGroups(Following following);
 
+    List<UserVO> getFollowings();
+
+    Integer getFollowingCount();
+
+    Integer getFollowingCountByGroup(Long userId);
+
+    void deleteFollowingGroup(String id);
 }

@@ -192,6 +192,10 @@
       up_id = #{upId} and user_id = #{userId}
   </select>
 
+  <select id="selectUpIds" resultType="java.lang.Long">
+    select up_id from following where user_id = #{userId}
+  </select>
+
   <delete id="deleteFollowing">
       DELETE
       FROM following
@@ -224,6 +228,9 @@
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateGroupIdByGroupId">
+    update `following` set group_id = 0 where group_id=#{id} and user_id=#{userId}
   </update>
   <update id="updateByExample" parameterType="map">
     update following

@@ -125,4 +125,41 @@ public class FollowingServiceImpl implements FollowingService {
         Long userId = userSupport.getCurrentUserId();
         return followingMapper.getGroupsByUserIdAndUpId(userId, following.getUpId());
     }
+
+    @Override
+    public List<UserVO> getFollowings() {
+        Long userId = userSupport.getCurrentUserId();
+        List<Long> ups = followingMapper.selectUpIds(userId);
+        List<UserVO> userVOS = userMapper.getUsersByUserIds(ups);
+
+        return userVOS;
+    }
+
+    @Override
+    public Integer getFollowingCount() {
+        Long userId = userSupport.getCurrentUserId();
+        List<Long> ups = followingMapper.selectUpIds(userId);
+        if (ups==null||ups.isEmpty()){
+            return 0;
+        }
+        return ups.size();
+    }
+
+    @Override
+    public Integer getFollowingCountByGroup(Long groupId) {
+        Long userId = userSupport.getCurrentUserId();
+        List<Long> ups = followingMapper.selectUpIdByUserIdAndGroupId(userId, groupId);
+        List<UserVO> userVOS = userMapper.getUsersByUserIds(ups);
+        if (userVOS==null||userVOS.isEmpty()){
+            return 0;
+        }
+        return userVOS.size();
+    }
+
+    @Override
+    public void deleteFollowingGroup(String id) {
+        Long userId = userSupport.getCurrentUserId();
+        followingGroupMapper.deleteByPrimaryKey(Long.valueOf(id));
+        followingMapper.updateGroupIdByGroupId(id,userId);
+    }
 }

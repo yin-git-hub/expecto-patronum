@@ -1,14 +1,11 @@
 package com.example.controller;
 
-import com.example.controller.Support.UserSupport;
 import com.example.dao.model.entity.Following;
 import com.example.dao.model.entity.FollowingGroup;
-import com.example.dao.model.vo.FollowingVO;
 import com.example.dao.model.vo.UserVO;
 import com.example.service.FollowingService;
 import com.example.service.common.BaseResponse;
 import com.example.service.common.ResultUtils;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -73,6 +70,12 @@ public class FollowingController {
         return ResultUtils.success();
     }
 
+    @PostMapping("/deleteFollowingGroup/{id}")
+    public BaseResponse deleteFollowingGroup(@PathVariable("id")String id){
+        followingService.deleteFollowingGroup(id);
+        return ResultUtils.success();
+    }
+
     /**
      * 是否存在该关注
      * @param following
@@ -104,6 +107,36 @@ public class FollowingController {
     public BaseResponse getFollowing(@PathVariable("groupId") Long groupId){
         List<UserVO> followingByGroupId = followingService.getFollowingByGroupId(groupId);
         return ResultUtils.success(followingByGroupId);
+    }
+
+    /**
+     * 获取所有关注
+     * @return
+     */
+    @GetMapping("/getFollowings")
+    public BaseResponse getFollowings(){
+        List<UserVO> followingByGroupId = followingService.getFollowings();
+        return ResultUtils.success(followingByGroupId);
+    }
+
+    /**
+     * 获取总关注数
+     * @return
+     */
+    @PostMapping("/getFollowingCount")
+    public BaseResponse getFollowingCount(){
+        Integer count = followingService.getFollowingCount();
+        return ResultUtils.success(count);
+    }
+
+    /**
+     * 获取总关注数
+     * @return
+     */
+    @PostMapping("/getFollowingCountByGroup/{groupId}")
+    public BaseResponse getFollowingCountByGroup(@PathVariable("groupId") Long groupId){
+        Integer count = followingService.getFollowingCountByGroup(groupId);
+        return ResultUtils.success(count);
     }
 
     /**

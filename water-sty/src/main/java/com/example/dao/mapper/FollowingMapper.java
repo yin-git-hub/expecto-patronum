@@ -57,4 +57,8 @@ public interface FollowingMapper {
             @Param("userId") Long userId
             ,@Param("upId")Long upId
             ,@Param("groupId") Long groupId);
+
+    List<Long> selectUpIds(Long userId);
+
+    void updateGroupIdByGroupId(@Param("id") String id,@Param("userId")Long userId);
 }
