@@ -182,6 +182,18 @@
         select video_id from `collection` where user_id = #{userId}
                                             and group_id = #{groupId}
     </select>
+
+    <select id="getVideoIdsByUserId" resultType="java.lang.Long">
+        select DISTINCT video_id
+        from `collection`
+        where user_id = #{userId}
+    </select>
+    <select id="getVideoIdByUserIdAndGroupId" resultType="java.lang.Long">
+        select DISTINCT video_id
+        from `collection`
+        where user_id = #{userId} and group_id=#{groupId}
+    </select>
+
     <update id="updateGroupIdByGroupId">
         update `collection` set group_id = 0 where group_id=#{id} and user_id=#{userId}
     </update>

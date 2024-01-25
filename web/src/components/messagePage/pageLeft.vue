@@ -148,7 +148,8 @@ const groupClickFollowing=(_id)=>{
 }
 
 const groupClickCollection=(_id)=>{
-  router.push({ path: '/personal-collection-group', query: { groupId: _id.slice(1, 5) } });
+  console.log(_id)
+  router.push({ path: '/personal-collection-group', query: { collectionGroupId: _id.slice(1, 5) } });
 }
 
 defineComponent({

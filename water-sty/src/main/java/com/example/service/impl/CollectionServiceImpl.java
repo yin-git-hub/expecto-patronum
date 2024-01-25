@@ -128,5 +128,16 @@ public class CollectionServiceImpl implements CollectionService {
         collectionMapper.updateGroupIdByGroupId(id,userId);
     }
 
+    @Override
+    public List<Long> getVideoIdByUserId(Long userId) {
+        List<Long> videoIds = collectionMapper.getVideoIdsByUserId(userId);
+        return videoIds;
+    }
+    @Override
+    public List<Long> getVideoIdByUserIdAndGroupId(Long userId,Long groupId) {
+        List<Long> videoIds = collectionMapper.getVideoIdByUserIdAndGroupId(userId,groupId);
+        return videoIds;
+    }
+
 
 }

@@ -58,4 +58,19 @@ public class VideoInfoSearchServiceImpl implements SearchService {
         pageResult.setTotalElements(videoInfoES.getTotalElements());
         return pageResult;
     }
+
+    @Override
+    public PageResult searchCollection(SearchDto searchDto) {
+        Long userId = searchDto.getUserId();
+        ThrowUtils.throwIf(userId==null, ErrorCode.OPERATION_ERROR);
+        Pageable pageable = PageRequest.of(searchDto.getPageIndex()-1, searchDto.getPageSize());
+        Page<VideoInfoES> byVideoIdIn = videoInfoESService.findByVideoIdIn(searchDto.getVideoIds(), pageable);
+        PageResult pageResult = new PageResult();
+        pageResult.setTotal(byVideoIdIn.getSize());
+        pageResult.setValList(byVideoIdIn.getContent());
+        pageResult.setTotalPages(byVideoIdIn.getTotalPages());
+        pageResult.setPageIndex(byVideoIdIn.getNumber()+1);
+        pageResult.setTotalElements(byVideoIdIn.getTotalElements());
+        return pageResult;
+    }
 }

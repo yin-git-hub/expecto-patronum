@@ -38,4 +38,9 @@ public class UserInfoSearchServiceImpl implements SearchService {
         return null;
     }
 
+    @Override
+    public PageResult searchCollection(SearchDto searchDto) {
+        return null;
+    }
+
 }

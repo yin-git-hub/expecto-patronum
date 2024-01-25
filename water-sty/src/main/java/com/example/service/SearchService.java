@@ -12,4 +12,5 @@ public interface SearchService {
     PageResult search(SearchDto searchDto);
     PageResult searchSelf(SearchDto searchDto);
 
+    PageResult searchCollection(SearchDto searchDto);
 }

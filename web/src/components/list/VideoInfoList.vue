@@ -31,8 +31,7 @@ import router from "@/router";
 export default defineComponent({
   props: {
     userListData: List,
-    type: String,
-    content: String
+
   },
   setup(){
     const onVideo = (_id,_cover,_userId)=>{

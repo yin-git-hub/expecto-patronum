@@ -4,6 +4,7 @@ import com.example.dao.model.vo.PageResult;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Author: yin7331
@@ -18,5 +19,10 @@ public class SearchDto extends PageResult implements Serializable{
     private String content;
 
     private Long userId;
+
+    private List<Long> videoIds;
+
+    // 收藏分组ID
+    private Long collectionGroupId;
 
 }

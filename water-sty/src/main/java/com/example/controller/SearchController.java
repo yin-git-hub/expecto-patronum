@@ -34,6 +34,17 @@ public class SearchController {
         return ResultUtils.success(pageResult);
     }
 
+    @PostMapping("/all/collection")
+    public BaseResponse searchCollection(@RequestBody SearchDto searchDto){
+        PageResult pageResult = searchService.searchCollection(searchDto);
+        return ResultUtils.success(pageResult);
+    }
+    @PostMapping("/all/collection/group")
+    public BaseResponse searchCollectionByGroup(@RequestBody SearchDto searchDto){
+        PageResult pageResult = searchService.searchCollectionByGroup(searchDto);
+        return ResultUtils.success(pageResult);
+    }
+
     @PostMapping("/all-sql")
     public BaseResponse searchsql(@RequestBody SearchDto searchDto){
         PageResult pageResult = searchService.searchAllMySQL(searchDto);

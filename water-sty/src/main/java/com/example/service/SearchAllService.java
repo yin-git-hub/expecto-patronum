@@ -13,4 +13,8 @@ public interface SearchAllService {
     PageResult searchAllMySQL(SearchDto searchDto);
 
     PageResult searchAllESSelf(SearchDto searchDto);
+
+    PageResult searchCollection(SearchDto searchDto);
+
+    PageResult searchCollectionByGroup(SearchDto searchDto);
 }

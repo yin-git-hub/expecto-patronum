@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Author: yin7331
  * Date: 2023/11/20 20:10
@@ -21,4 +23,6 @@ public interface VideoInfoESService extends ElasticsearchRepository<VideoInfoES,
     void deleteByVideoId(String value);
 
     Page<VideoInfoES> findByUserId(Long userId, Pageable pageable);
+
+    Page<VideoInfoES> findByVideoIdIn(List<Long> videoIds, Pageable pageable);
 }

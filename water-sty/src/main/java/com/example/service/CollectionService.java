@@ -32,4 +32,8 @@ public interface CollectionService {
     List getChoosedGroups(Collection collection);
 
     void deleteCollectionGroup(String id);
+
+    List<Long> getVideoIdByUserId(Long userId);
+
+    List<Long> getVideoIdByUserIdAndGroupId(Long userId, Long groupId);
 }
