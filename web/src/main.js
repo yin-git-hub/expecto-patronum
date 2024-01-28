@@ -10,9 +10,10 @@ import axios from "axios";
 
 import vue3videoPlay from "vue3-video-play"; // 引入组件
 import "vue3-video-play/dist/style.css"; // 引入css
+import VueRouter from 'vue-router';
 
 const app = createApp(App);
-app.use(vue3videoPlay).use(Antd).use(store).use(router).mount('#app');
+app.use(VueRouter).use(vue3videoPlay).use(Antd).use(store).use(router).mount('#app');
 
 // 全局使用图标
 const icons = Icons;
@@ -50,7 +51,7 @@ axios.interceptors.response.use(function (response) {
         // 判断状态码是401 跳转到登录页
         console.log("未登录或登录超时，跳到登录页");
         store.commit("setMember", {});
-        notification.error({ description: "未登录或登录超时" });
+        notification.error({ description: "未登录或登录超时main" });
         router.push('/login');
     }
     return Promise.reject(error);

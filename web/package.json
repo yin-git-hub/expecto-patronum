@@ -3,14 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "web-dev": "vue-cli-service serve --mode dev --port 8331",
+
+    "web-dev": "vue-cli-service serve --mode dev --port 8331 ",
     "web-prod": "vue-cli-service serve --mode prod --port 8331",
+    "build": "vue-cli-service build --mode dev",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.1.0",
     "ant-design-vue": "^3.2.15",
     "axios": "^1.3.2",
+    "chokidar": "^3.5.3",
     "core-js": "^3.8.3",
     "crypto-js": "^4.2.0",
     "dplayer": "^1.27.1",

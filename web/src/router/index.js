@@ -93,11 +93,16 @@ router.beforeEach((to, from, next) => {
         console.log("页面登录校验开始：", _userInfo);
         if (!_userInfo.token) {
             console.log("用户未登录或登录超时！");
-            next('/login');
-            notification.error({description: "未登录或登录超时"});
+            notification.error({description: "未登录或登录超时rout"});
+            if (to.path === '/login') { // 防止死循环
+                next()
+            } else {
+                next('/login')
+            }
         } else {
             next();
         }
+
     } else {
         next();
     }
