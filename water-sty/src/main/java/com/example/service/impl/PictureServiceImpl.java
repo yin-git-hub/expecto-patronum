@@ -1,14 +1,10 @@
 package com.example.service.impl;
 
-import com.example.service.MinioService;
 import com.example.service.PictureService;
-import com.example.service.VideoInfoESService;
 import com.example.service.VideoService;
 import com.example.service.common.ErrorCode;
-import com.example.service.common.ResultUtils;
 import com.example.service.exception.ThrowUtils;
 import com.yin.minio.springminiostart.MinioTemplate;
-import com.yin.minio.springminiostart.entity.OssFile;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +13,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.InputStream;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Author: yin7331

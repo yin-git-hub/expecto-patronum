@@ -30,7 +30,8 @@ public class WaterStyApplication {
         UserWebSocketController.setApplicationContext(run);
         Environment env = run.getEnvironment();
         LOG.info("启动成功！！");
-        LOG.info("测试地址: \thttp://127.0.0.1:{}{}/test1", env.getProperty("server.port"), env.getProperty("server.servlet.context-path"));
+        LOG.info("测试地址: \thttp://127.0.0.1:{}{}/test1", env.getProperty("server.port"),
+                env.getProperty("server.servlet.context-path"));
 
     }
 }

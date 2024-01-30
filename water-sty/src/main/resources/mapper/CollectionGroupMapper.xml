@@ -69,8 +69,17 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-        id
-        , user_id, group_name, create_date, update_date
+        id,
+user_id,
+video_id,
+video_name,
+video_summary,
+area,
+video_size,
+video_cover,
+video_md5,
+cerete_date,
+update_date
     </sql>
     <select id="selectByExample" parameterType="com.example.dao.model.entity.CollectionGroupExample"
             resultMap="BaseResultMap">
@@ -154,10 +163,16 @@
             <include refid="Example_Where_Clause"/>
         </if>
     </select>
-
+    <sql id="collection_group_Base_Column">
+        id,
+user_id,
+group_name,
+create_date,
+update_date
+    </sql>
     <select id="selectByUserId" resultType="com.example.dao.model.entity.CollectionGroup">
         select
-        <include refid="Base_Column_List"></include>
+        <include refid="collection_group_Base_Column"></include>
         from collection_group where user_id = #{userId}
     </select>
     <update id="updateByExampleSelective" parameterType="map">

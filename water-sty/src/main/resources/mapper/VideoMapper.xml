@@ -9,6 +9,28 @@
 <!-- 所以：我们就用Mapper接口的全类名来给namespace属性赋值 -->
 <mapper namespace="com.example.dao.mapper.VideoMapper">
 
+    <sql id="sqlBaseVideoInfo">
+        id
+        ,
+user_id,
+video_id,
+video_name,
+video_summary,
+area,
+video_size,
+video_cover,
+video_md5,
+cerete_date,
+update_date
+    </sql>
+    <sql id="sqlBaseVideo">
+        id
+        ,
+bucket_name,
+object_key,
+create_date,
+update_date
+    </sql>
 
     <update id="savePicturePath">
         update video_info
@@ -29,4 +51,48 @@
         from scrolling
         where video_id = #{id}
     </select>
+    <select id="getVideoInfoByVideoId" resultType="com.example.dao.model.entity.VideoInfo">
+        select
+        <include refid="sqlBaseVideoInfo"></include>
+        from video_info where video_id = #{videoId}
+    </select>
+    <select id="getVideoByVideoId" resultType="com.example.dao.model.entity.Video">
+        select
+        <include refid="sqlBaseVideo"></include>
+        from `video` where id = #{videoId}
+    </select>
+
+    <select id="selectAll" resultType="com.example.dao.model.entity.VideoInfo">
+        select <include refid="com.example.dao.mapper.CollectionGroupMapper.Base_Column_List">
+
+    </include>from video_info limit #{pageIndex}, #{pageSize}
+    </select>
+    <select id="selectAllByContent" resultType="com.example.dao.model.entity.VideoInfo">
+        select <include refid="com.example.dao.mapper.CollectionGroupMapper.Base_Column_List">
+    </include>from video_info where video_name LIKE CONCAT('%', #{con}, '%')  limit #{pageIndex}, #{pageSize}
+    </select>
+    <select id="selectAllSelf" resultType="com.example.dao.model.entity.VideoInfo">
+        select <include refid="com.example.dao.mapper.CollectionGroupMapper.Base_Column_List">
+    </include>from video_info where user_id=#{userId}
+    </select>
+    <select id="searchCollection" parameterType="java.util.List" resultType="com.example.dao.model.entity.VideoInfo">
+        select <include refid="com.example.dao.mapper.CollectionGroupMapper.Base_Column_List">
+
+    </include>  FROM video_info
+        WHERE video_id IN
+        <foreach item="videoId" collection="list" open="(" separator="," close=")">
+            #{videoId}
+        </foreach>
+    </select>
+
+    <delete id="deleteVideoInfoByVideoId">
+        DELETE
+        FROM video_info
+        WHERE video_id = #{videoId};
+    </delete>
+    <delete id="deleteVideoByVideoId">
+        DELETE
+        FROM `video`
+        WHERE id = #{videoId};
+    </delete>
 </mapper>

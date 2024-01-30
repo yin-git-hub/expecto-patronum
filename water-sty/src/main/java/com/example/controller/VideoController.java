@@ -28,7 +28,6 @@ public class VideoController {
     private MinioService minioService;
     @Autowired
     VideoService videoService;
-
     /**
      * 支持分段读取视频流
      *
@@ -62,6 +61,8 @@ public class VideoController {
     }
 
 
+
+
     @GetMapping("/getVideoList/{pageIndex}/{pageSize}/{area}")
     public BaseResponse getVideoList(
             @PathVariable("pageIndex") Integer pageIndex,
@@ -76,6 +77,17 @@ public class VideoController {
 
         String url = videoService.getVideoUrl(requestBody.get("id"));
         return ResultUtils.success(url);
+    }
+
+    /**
+     * 删除视频
+     * @param
+     * @return
+     */
+    @PostMapping("/deleteVideo/{videoId}")
+    public BaseResponse deleteVideo(@PathVariable("videoId") Long videoId){
+        videoService.deleteVideo(videoId);
+        return ResultUtils.success();
     }
 
     /**

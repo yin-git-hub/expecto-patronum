@@ -7,27 +7,20 @@ import com.example.service.ScrollingService;
 import com.example.service.common.ErrorCode;
 import com.example.service.exception.BusinessException;
 import com.example.service.exception.ThrowUtils;
-import com.example.service.utils.RabbitMQUtil;
 import com.example.service.utils.TokenUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.context.ApplicationContext;
-import org.springframework.data.redis.core.StringRedisTemplate;
+ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpSession;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 /**
@@ -118,25 +111,25 @@ public class ScrollingWebsocketController {
 
         // ThrowUtils.throwIf(this.userId==null, ErrorCode.NOT_LOGIN_ERROR);
         log.info("sessionId {} 发来消息{}", session.getId(), message);
-        Scrolling scrolling = JSONObject.parseObject(message, Scrolling.class);
-        ThrowUtils.throwIf(scrolling == null, ErrorCode.PARAMS_ERROR);
-        scrolling.setUserId(this.userId);
-        scrolling.setVideoId(Long.valueOf(this.videoId));
-        ScrollingService scrollingService = (ScrollingService) APPLICATION_CONTEXT.getBean("scrollingServiceImpl");
-        RabbitTemplate rabbitTemplate = (RabbitTemplate) APPLICATION_CONTEXT.getBean("rabbitTemplate");
-
-        RabbitMQUtil.asyncSendMessage(scrolling, rabbitTemplate);
-
-        scrollingService.saveScroller(scrolling);
-
-        // log.info("sessionId {} 发来消息{}", session.getId(), message);
         // Scrolling scrolling = JSONObject.parseObject(message, Scrolling.class);
         // ThrowUtils.throwIf(scrolling == null, ErrorCode.PARAMS_ERROR);
         // scrolling.setUserId(this.userId);
         // scrolling.setVideoId(Long.valueOf(this.videoId));
         // ScrollingService scrollingService = (ScrollingService) APPLICATION_CONTEXT.getBean("scrollingServiceImpl");
-        // scrollingService.testSaveScroller(scrolling);
-        // sendMessageCurrentVideo(scrolling);
+        // RabbitTemplate rabbitTemplate = (RabbitTemplate) APPLICATION_CONTEXT.getBean("rabbitTemplate");
+        //
+        // RabbitMQUtil.asyncSendMessage(scrolling, rabbitTemplate);
+        //
+        // scrollingService.saveScroller(scrolling);
+
+        // log.info("sessionId {} 发来消息{}", session.getId(), message);
+        Scrolling scrolling = JSONObject.parseObject(message, Scrolling.class);
+        ThrowUtils.throwIf(scrolling == null, ErrorCode.PARAMS_ERROR);
+        scrolling.setUserId(this.userId);
+        scrolling.setVideoId(Long.valueOf(this.videoId));
+        ScrollingService scrollingService = (ScrollingService) APPLICATION_CONTEXT.getBean("scrollingServiceImpl");
+        scrollingService.testSaveScroller(scrolling);
+        sendMessageCurrentVideo(scrolling);
     }
 
     @OnError

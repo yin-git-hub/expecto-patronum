@@ -17,4 +17,6 @@ public interface VideoService {
     String getVideoUrl(Integer id);
 
     List<Scrolling> getScrolling(Integer id);
+
+    void deleteVideo(Long videoId);
 }

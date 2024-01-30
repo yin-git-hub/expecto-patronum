@@ -138,6 +138,7 @@ const titleClickCollection = ()=>{
     if (resp.code === 200) {
       gList.value = resp.data
       gList.value = gList.value.map(item => ({ ...item, id: 'g'+item.id }));
+
     }
   })
   router.push('/personal-collection')

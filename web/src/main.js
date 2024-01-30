@@ -13,7 +13,10 @@ import "vue3-video-play/dist/style.css"; // 引入css
 import VueRouter from 'vue-router';
 
 const app = createApp(App);
-app.use(VueRouter).use(vue3videoPlay).use(Antd).use(store).use(router).mount('#app');
+app.use(VueRouter)
+    .use(vue3videoPlay)
+    .use(Antd)
+    .use(store).use(router).mount('#app');
 
 // 全局使用图标
 const icons = Icons;
@@ -25,6 +28,8 @@ for (const i in icons) {
 /**
  * axios拦截器
  */
+// Axios 配置
+
 axios.interceptors.request.use(function (config) {
     console.log('请求参数：', config);
     const _token = store.state.userInfo.token;
@@ -58,7 +63,7 @@ axios.interceptors.response.use(function (response) {
 });
 
 // 多环境配置
-axios.defaults.baseURL = process.env.VUE_APP_SERVER;
+axios.defaults.baseURL = "http://localhost:7330/water-sty";
 console.log('环境：', process.env.NODE_ENV);
 console.log('服务端：', process.env.VUE_APP_SERVER);
 

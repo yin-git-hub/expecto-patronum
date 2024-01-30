@@ -2,6 +2,7 @@ package com.example.service.impl;
 
 import com.example.controller.Support.UserSupport;
 import com.example.dao.mapper.ScrollingMapper;
+import com.example.dao.mapper.VideoMapper;
 import com.example.dao.model.dto.SearchDto;
 import com.example.dao.model.entity.Scrolling;
 import com.example.dao.model.entity.VideoInfo;
@@ -9,6 +10,7 @@ import com.example.dao.model.vo.PageResult;
 import com.example.service.CollectionService;
 import com.example.service.SearchAllService;
 import com.example.service.SearchService;
+import com.example.service.VideoService;
 import com.example.service.common.ErrorCode;
 import com.example.service.common.SearchType;
 import com.example.service.exception.ThrowUtils;
@@ -29,25 +31,17 @@ import java.util.List;
 public class SearchAllServiceImpl implements SearchAllService {
 
     HashMap<String, SearchService> searchServiceMap = new HashMap<String, SearchService>();
-    @Autowired
-    UserInfoSearchServiceImpl userInfoSearchService;
-    @Autowired
-    VideoInfoSearchServiceImpl videoInfoSearchService;
-    @Autowired
-    ScrollingSearchServiceImpl scrollingSearchService;
+
     @Autowired
     ScrollingMapper scrollingMapper;
     @Autowired
     UserSupport userSupport;
     @Autowired
     CollectionService collectionService;
+    @Autowired
+    VideoMapper videoMapper;
 
-    @PostConstruct
-    public void initMap(){
-        searchServiceMap.put(SearchType.UserInfo.getType(),userInfoSearchService );
-        searchServiceMap.put(SearchType.VideoInfo.getType(), videoInfoSearchService);
-        searchServiceMap.put(SearchType.Scrolling.getType(),scrollingSearchService);
-    }
+
 
     @Override
     public PageResult searchAllES(SearchDto searchDto) {
@@ -55,11 +49,19 @@ public class SearchAllServiceImpl implements SearchAllService {
         ThrowUtils.throwIf(searchDto==null, ErrorCode.PARAMS_ERROR);
         String type = searchDto.getType();
         ThrowUtils.throwIf(StringUtils.isBlank(type), ErrorCode.PARAMS_ERROR);
-        ThrowUtils.throwIf(!SearchType.VerifyType(type), ErrorCode.PARAMS_ERROR);
 
         SearchService o =   searchServiceMap.get(type);
-        PageResult search = o.search(searchDto);
+        PageResult search = new PageResult();
+        String content = searchDto.getContent();
+        searchDto.setPageIndex(searchDto.getPageIndex()-1);
+        if(StringUtils.isBlank(content)){
+            List<VideoInfo> videoInfos = videoMapper.selectAll(searchDto);
+            search.setValList(videoInfos);
 
+        }else {
+            List<VideoInfo> videoInfos = videoMapper.selectAllByContent(searchDto);
+            search.setValList(videoInfos);
+        }
         return search;
     }
 
@@ -68,13 +70,11 @@ public class SearchAllServiceImpl implements SearchAllService {
         ThrowUtils.throwIf(searchDto==null, ErrorCode.PARAMS_ERROR);
         String type = searchDto.getType();
         ThrowUtils.throwIf(StringUtils.isBlank(type), ErrorCode.PARAMS_ERROR);
-        ThrowUtils.throwIf(!SearchType.VerifyType(type), ErrorCode.PARAMS_ERROR);
         Long userId = userSupport.getCurrentUserId();
-        searchDto.setUserId(userId);
-        SearchService o =   searchServiceMap.get(type);
 
-        PageResult search = o.searchSelf(searchDto);
-
+        List<VideoInfo> videoInfos = videoMapper.selectAllSelf(userId);
+        PageResult search = new PageResult();
+        search.setValList(videoInfos);
         return search;
     }
 
@@ -89,9 +89,9 @@ public class SearchAllServiceImpl implements SearchAllService {
         List<Long> videoIdByUserId = collectionService.getVideoIdByUserId(userId);
         PageResult search=null;
         if (videoIdByUserId!=null&&videoIdByUserId.size()>0){
-            searchDto.setVideoIds(videoIdByUserId);
-            SearchService o =   searchServiceMap.get(type);
-            search = o.searchCollection(searchDto);
+            List<VideoInfo> videoInfos = videoMapper.searchCollection(videoIdByUserId);
+            search = new PageResult();
+            search.setValList(videoInfos);
         }
         return search;
     }
@@ -108,9 +108,9 @@ public class SearchAllServiceImpl implements SearchAllService {
         List<Long> videoIdByUserId = collectionService.getVideoIdByUserIdAndGroupId(userId,groupId);
         PageResult search=null;
         if (videoIdByUserId!=null&&videoIdByUserId.size()>0){
-            searchDto.setVideoIds(videoIdByUserId);
-            SearchService o =   searchServiceMap.get(type);
-            search = o.searchCollection(searchDto);
+            List<VideoInfo> videoInfos = videoMapper.searchCollection(videoIdByUserId);
+            search = new PageResult();
+            search.setValList(videoInfos);
         }
         return search;
     }
