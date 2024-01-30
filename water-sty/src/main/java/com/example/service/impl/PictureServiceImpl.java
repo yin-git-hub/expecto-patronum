@@ -7,6 +7,7 @@ import com.example.service.exception.ThrowUtils;
 import com.yin.minio.springminiostart.MinioTemplate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -28,6 +29,8 @@ public class PictureServiceImpl implements PictureService {
     VideoService videoService;
     String VIDEO_PICTURE_BUCKET = "video-picture-bucket";
 
+    @Value("env.host")
+    String envHost;
     @Override
     public void saveVideoPicture(HttpServletRequest req) {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) req;
@@ -50,7 +53,7 @@ public class PictureServiceImpl implements PictureService {
         try {
             // 上传文件
             minioTemplate.putChunkObject(file.getInputStream(), VIDEO_PICTURE_BUCKET, pictureName);
-            String picturePath = "http://localhost:7330/water-sty/picture/" + VIDEO_PICTURE_BUCKET + "/" + pictureName;
+            String picturePath = envHost+"/water-sty/picture/" + VIDEO_PICTURE_BUCKET + "/" + pictureName;
             videoService.savePicturePath(picturePath, md5);
 
         } catch (Exception e) {

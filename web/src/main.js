@@ -63,7 +63,7 @@ axios.interceptors.response.use(function (response) {
 });
 
 // 多环境配置
-axios.defaults.baseURL = "http://localhost:7330/water-sty";
+axios.defaults.baseURL = "http://117.50.76.3:7330/water-sty";
 console.log('环境：', process.env.NODE_ENV);
 console.log('服务端：', process.env.VUE_APP_SERVER);
 

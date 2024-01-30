@@ -11,6 +11,7 @@ import com.example.service.common.ErrorCode;
 import com.example.service.exception.ThrowUtils;
 import com.yin.minio.springminiostart.MinioTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,12 +43,14 @@ public class VideoServiceImpl implements VideoService {
         videoMapper.saveVideo(video);
     }
 
+    @Value("${env.host}")
+    String envHost;
     @Override
     public String getVideoUrl(Integer id) {
         Map<String,String> videoInfo = videoMapper.getVideoUrlFromVideo(id);
         String objectKey = videoInfo.get("object_key");
         String bucketName = videoInfo.get("bucket_name");
-        String url = "http://localhost:7330/water-sty/video/play/"+bucketName+"/"+objectKey;
+        String url = envHost+"/water-sty/video/play/"+bucketName+"/"+objectKey;
         return url;
     }
 
