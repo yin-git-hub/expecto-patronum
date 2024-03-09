@@ -29,7 +29,7 @@ public class PictureServiceImpl implements PictureService {
     VideoService videoService;
     String VIDEO_PICTURE_BUCKET = "video-picture-bucket";
 
-    @Value("env.host")
+    @Value("${env.host}")
     String envHost;
     @Override
     public void saveVideoPicture(HttpServletRequest req) {

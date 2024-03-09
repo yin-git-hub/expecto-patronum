@@ -25,6 +25,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionDefinition;
@@ -213,6 +214,8 @@ implements UserService {
         return userInfo;
     }
 
+    @Value("${env.host}")
+    String envHost;
     @Override
     public void saveUserPicture(HttpServletRequest req) {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) req;
@@ -234,7 +237,7 @@ implements UserService {
         try {
             // 上传文件
             minioTemplate.putChunkObject(file.getInputStream(), USER_AVATAR_BUCKET, userAvatarName);
-            String picturePath = "http://localhost:7330/water-sty/picture/" + USER_AVATAR_BUCKET + "/" + userAvatarName;
+            String picturePath = envHost+"/water-sty/picture/" + USER_AVATAR_BUCKET + "/" + userAvatarName;
             userMapper.savePicturePath(picturePath,userId);
 
         } catch (Exception e) {
