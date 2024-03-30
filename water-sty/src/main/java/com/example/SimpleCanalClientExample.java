@@ -21,7 +21,9 @@ public class SimpleCanalClientExample {
 
     public static void main(String args[]) {
         // 创建链接
-        CanalConnector connector = CanalConnectors.newSingleConnector(new InetSocketAddress(AddressUtils.getHostIp(),
+        CanalConnector connector = CanalConnectors.newSingleConnector(new InetSocketAddress(
+                AddressUtils.getHostIp(),
+                // "192.168.100.128",
                 11111), "example", "", "");
         int batchSize = 1000;
         int emptyCount = 0;

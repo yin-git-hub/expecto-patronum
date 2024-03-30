@@ -18,7 +18,9 @@ public class CanalUtil {
         // 创建链接
         connector
                 =CanalConnectors.newSingleConnector(
-                new InetSocketAddress(AddressUtils.getHostIp(),
+                new InetSocketAddress(
+                        AddressUtils.getHostIp(),
+                        // "192.168.100.128",
                         11111), "example", "", "");
         return connector;
     }

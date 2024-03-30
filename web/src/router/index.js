@@ -23,6 +23,9 @@ const routes = [
         }, {
             path: '/search/:select',
             component: () => import( '../views/main/search.vue')
+        },{
+            path: "/first",
+            component:()=>import('../views/main/first.vue')
         }, {
             path: "/player",
             component:()=>import('../views/main/videoPlayer.vue')

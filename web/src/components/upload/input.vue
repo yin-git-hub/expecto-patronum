@@ -3,6 +3,21 @@
     <a-form-item label="标题：">
       <a-input v-model:value="store.state.videoInfo.filename"/>
     </a-form-item>
+    <a-form-item label="标签：">
+      <a-dropdown @click="getLabels">
+        <a class="ant-dropdown-link" @click.prevent>
+          Hover me, Click menu item
+          <DownOutlined />
+        </a>
+        <template  #overlay>
+          <a-menu @click="onClick">
+            <a-menu-item key="1">1st menu item</a-menu-item>
+            <a-menu-item key="2">2nd menu item</a-menu-item>
+            <a-menu-item key="3">3rd menu item</a-menu-item>
+          </a-menu>
+        </template>
+      </a-dropdown>
+    </a-form-item>
     <a-form-item label="封面：">
       <the-picture-upload></the-picture-upload>
     </a-form-item>
@@ -18,12 +33,13 @@
 
 </template>
 <script>
-import {defineComponent, reactive } from 'vue';
+import {defineComponent, reactive, ref} from 'vue';
 import ThePictureUpload from "@/components/upload/picture.vue";
 import store from "@/store";
 import video from "./video.vue";
 import axios from "axios";
 import {notification} from "ant-design-vue";
+import { DownOutlined } from '@ant-design/icons-vue';
 
 
 export default defineComponent({
@@ -37,11 +53,25 @@ export default defineComponent({
     },
 
   },
-  components: {ThePictureUpload},
+  components: {ThePictureUpload,DownOutlined},
+
+
   setup() {
+    const labelsData=ref("");
+    const getLabels=()=>{
+      axios.post("/label/getVideoLabel").then(resp=>{
+        if (resp.code===200){
+          labelsData.value = resp.data;
+        }
+      })
+    }
+    const onClick = ({ key }) => {
+      formState.worksLabelId = key;
+    };
     const formState = reactive({
       title: '',
       summaryValue: '',
+      worksLabelId:'',
       size: store.state.videoInfo.totalSize,
       md5: store.state.videoInfo.md5,
     });
@@ -49,6 +79,7 @@ export default defineComponent({
     const uploadinfo = () => {
       const map = {
         "videoSummary": formState.summaryValue,
+        "worksLabelId": formState.worksLabelId,
         "videoName": store.state.videoInfo.filename,
         "videoMd5": store.state.videoInfo.md5,
 
@@ -65,6 +96,8 @@ export default defineComponent({
 
 
     return {
+      getLabels,
+      onClick,
       labelCol: {
         span: 4,
       },

@@ -21,6 +21,7 @@ public class VideoInfo implements Serializable {
     @NotNull(message="[]不能为空")
     @ApiModelProperty("")
     private Long id;
+    private Long worksLabelId;
     /**
     *
     */

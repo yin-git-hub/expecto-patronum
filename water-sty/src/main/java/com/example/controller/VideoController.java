@@ -89,4 +89,5 @@ public class VideoController {
         List<Scrolling> list = videoService.getScrolling(requestBody.get("id"));
         return ResultUtils.success(list);
     }
+
 }

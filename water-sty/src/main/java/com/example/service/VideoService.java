@@ -2,6 +2,7 @@ package com.example.service;
 
 import com.example.dao.model.entity.Scrolling;
 import com.example.dao.model.entity.Video;
+import com.example.dao.model.entity.WorksLabel;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface VideoService {
     String getVideoUrl(Integer id);
 
     List<Scrolling> getScrolling(Integer id);
+
+
 }

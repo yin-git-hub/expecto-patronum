@@ -1,6 +1,6 @@
 <template>
   <a-layout>
-    <a-layout-content >
+    <a-layout-content>
       <a-layout style="padding: 24px 0; background: #fff">
         <a-layout-sider width="200" style="background: #fff">
           <a-menu
@@ -17,15 +17,15 @@
                 我的作品
               </router-link>
             </a-menu-item>
-            <a-sub-menu key="sub1" @titleClick="titleClickFollowing">
-              <template #title> <router-link to="/personal-following">
-                我的关注
-                <span>
-              </span>
-              </router-link></template>
+            <a-sub-menu key="sub11" @titleClick="titleClickFollowing">
+              <template #title>
+                <router-link    to="/personal-following">
+                  我的关注
+                </router-link>
+              </template>
               <a-menu-item-group key="g1">
                 <template #icon>
-                  <QqOutlined />
+                  <QqOutlined/>
                 </template>
                 <a-menu-item
                     @click="groupClickFollowing(item.id)"
@@ -55,7 +55,7 @@
               </template>
               <a-menu-item-group key="g1">
                 <template #icon>
-                  <QqOutlined />
+                  <QqOutlined/>
                 </template>
                 <a-menu-item
                     @click="groupClickCollection(item.id)"
@@ -93,27 +93,28 @@ import {defineComponent, onMounted, ref} from 'vue';
 import router from "@/router";
 import axios from "axios";
 import {message} from "ant-design-vue";
+
 const fList = ref([])
 const gList = ref([])
 const followingCount = ref()
-onMounted(async ()=>{
-  axios.post('/following/getFollowingCount').then(resp=>{
-    if (resp.code===200){
+onMounted(async () => {
+  axios.post('/following/getFollowingCount').then(resp => {
+    if (resp.code === 200) {
       followingCount.value = resp.data
     }
   })
 })
 const confirmFollowing = id => {
-  axios.post('/following/deleteFollowingGroup/'+id.slice(1,5)).then(resp=>{
-    if(resp.code===200){
+  axios.post('/following/deleteFollowingGroup/' + id.slice(1, 5)).then(resp => {
+    if (resp.code === 200) {
       message.success('删除成功');
       window.location.reload()
     }
   })
 };
 const confirmCollection = id => {
-  axios.post('/collection/deleteCollectionGroup/'+id.slice(1,5)).then(resp=>{
-    if(resp.code===200){
+  axios.post('/collection/deleteCollectionGroup/' + id.slice(1, 5)).then(resp => {
+    if (resp.code === 200) {
       message.success('删除成功');
       window.location.reload()
     }
@@ -123,38 +124,36 @@ const confirmCollection = id => {
 const cancel = e => {
   console.log(e);
 };
-const titleClickFollowing = ()=>{
-  axios.post('/following/getFollowingGroup').then(resp=>{
+const titleClickFollowing = () => {
+  axios.post('/following/getFollowingGroup').then(resp => {
     if (resp.code === 200) {
       fList.value = resp.data
-      fList.value = fList.value.map(item => ({ ...item, id: 'f'+item.id }));
+      fList.value = fList.value.map(item => ({...item, id: 'f' + item.id}));
     }
   })
   router.push('/personal-following')
 }
 
-const titleClickCollection = ()=>{
-  axios.post('/collection/getCollectionGroup').then(resp=>{
+const titleClickCollection = () => {
+  axios.post('/collection/getCollectionGroup').then(resp => {
     if (resp.code === 200) {
       gList.value = resp.data
-      gList.value = gList.value.map(item => ({ ...item, id: 'g'+item.id }));
+      gList.value = gList.value.map(item => ({...item, id: 'g' + item.id}));
     }
   })
   router.push('/personal-collection')
 }
 
-const groupClickFollowing=(_id)=>{
-  router.push({ path: '/personal-following-group', query: { groupId: _id.slice(1, 5) } });
+const groupClickFollowing = (_id) => {
+  router.push({path: '/personal-following-group', query: {groupId: _id.slice(1, 5)}});
 }
 
-const groupClickCollection=(_id)=>{
+const groupClickCollection = (_id) => {
   console.log(_id)
-  router.push({ path: '/personal-collection-group', query: { collectionGroupId: _id.slice(1, 5) } });
+  router.push({path: '/personal-collection-group', query: {collectionGroupId: _id.slice(1, 5)}});
 }
 
-defineComponent({
-
-});
+defineComponent({});
 </script>
 <style scoped>
 #components-layout-demo-top-side .logo {
@@ -169,6 +168,7 @@ defineComponent({
   float: right;
   margin: 16px 0 16px 24px;
 }
+
 .group-item {
   display: flex;
   justify-content: space-between;
@@ -176,6 +176,6 @@ defineComponent({
 }
 
 .delete-button {
-  margin-left: auto;  /* 将按钮推到最右边 */
+  margin-left: auto; /* 将按钮推到最右边 */
 }
 </style>

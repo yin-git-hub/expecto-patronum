@@ -29,4 +29,8 @@
         from scrolling
         where video_id = #{id}
     </select>
+
+    <select id="getVideoLabel" resultType="com.example.dao.model.entity.WorksLabel">
+        select * from works_label;
+    </select>
 </mapper>

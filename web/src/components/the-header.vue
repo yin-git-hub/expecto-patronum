@@ -23,6 +23,11 @@
             欢迎
         </router-link>
       </a-menu-item>
+      <a-menu-item key="/first-page">
+        <router-link  style="color: black"  to="/first">
+          首页
+        </router-link>
+      </a-menu-item>
       <a-menu-item key="/search">
         <router-link  style="color: black"  to="/search/s">
           搜索
