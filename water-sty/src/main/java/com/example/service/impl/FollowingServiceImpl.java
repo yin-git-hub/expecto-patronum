@@ -130,6 +130,7 @@ public class FollowingServiceImpl implements FollowingService {
     public List<UserVO> getFollowings() {
         Long userId = userSupport.getCurrentUserId();
         List<Long> ups = followingMapper.selectUpIds(userId);
+        ThrowUtils.throwIf(ups==null||ups.isEmpty(),ErrorCode.PARAMS_ERROR,"数据为空");
         List<UserVO> userVOS = userMapper.getUsersByUserIds(ups);
 
         return userVOS;

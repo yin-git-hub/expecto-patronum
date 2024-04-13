@@ -10,11 +10,11 @@
     </parent>
 
     <groupId>com.example</groupId>
-    <artifactId>expecto_patronum</artifactId>
+    <artifactId>expecto-patronum</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>expecto_patronum</name>
-    <description>expecto_patronum</description>
+    <name>expecto-patronum</name>
+    <description>expecto-patronum</description>
     <modules>
         <module>water-sty</module>
         <module>generate</module>
