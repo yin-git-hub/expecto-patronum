@@ -17,4 +17,7 @@ public interface SearchAllService {
     PageResult searchCollection(SearchDto searchDto);
 
     PageResult searchCollectionByGroup(SearchDto searchDto);
+
+
+    PageResult getVideoInfo(SearchDto searchDto);
 }

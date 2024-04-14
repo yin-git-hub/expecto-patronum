@@ -25,4 +25,6 @@ public interface VideoInfoESService extends ElasticsearchRepository<VideoInfoES,
     Page<VideoInfoES> findByUserId(Long userId, Pageable pageable);
 
     Page<VideoInfoES> findByVideoIdIn(List<Long> videoIds, Pageable pageable);
+
+    Page<VideoInfoES> findByWorksLabelId(Long worksLabelId, Pageable pageable);
 }

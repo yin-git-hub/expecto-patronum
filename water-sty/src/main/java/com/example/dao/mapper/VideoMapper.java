@@ -2,6 +2,7 @@ package com.example.dao.mapper;
 
 import com.example.dao.model.entity.Scrolling;
 import com.example.dao.model.entity.Video;
+import com.example.dao.model.entity.VideoInfo;
 import com.example.dao.model.entity.WorksLabel;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
@@ -27,4 +28,8 @@ public interface VideoMapper {
     List<WorksLabel> getVideoLabel();
 
     void delVideo(Long videoId);
+
+    List<VideoInfo> getVideoInfo(@Param("worksLabelId") Integer worksLabelId,@Param("offset")Integer offset,@Param("pageSize")Integer pageSize);
+
+    List<VideoInfo> getVideoInfoCount(Long worksLabelId);
 }

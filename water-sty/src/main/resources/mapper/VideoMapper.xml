@@ -34,7 +34,15 @@
         select * from works_label;
     </select>
 
+    <select id="getVideoInfo" resultType="com.example.dao.model.entity.VideoInfo">
+        select * from video_info where works_label_id = #{worksLabelId} limit #{pageSize} offset #{offset}
+    </select>
+
     <delete id="delVideo">
         delete from video_info where video_id = #{videoId}
     </delete>
+
+    <select id="getVideoInfoCount" resultType="com.example.dao.model.entity.VideoInfo">
+        select * from video_info where works_label_id = #{worksLabelId}
+    </select>
 </mapper>

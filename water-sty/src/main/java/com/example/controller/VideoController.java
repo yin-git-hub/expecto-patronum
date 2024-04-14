@@ -1,6 +1,7 @@
 package com.example.controller;
 
  import com.example.dao.model.entity.Scrolling;
+ import com.example.dao.model.entity.VideoInfo;
  import com.example.dao.model.vo.PageResult;
  import com.example.service.MinioService;
  import com.example.service.VideoService;
@@ -95,5 +96,6 @@ public class VideoController {
         videoService.delVideo(videoId);
         return ResultUtils.success( );
     }
+
 
 }

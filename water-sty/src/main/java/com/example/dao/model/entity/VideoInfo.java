@@ -1,5 +1,6 @@
 package com.example.dao.model.entity;
 
+import com.example.dao.model.vo.PageResult;
 import com.example.service.constant.VideoConstant;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -14,7 +15,7 @@ import java.util.Date;
 * @TableName video_info
 */
 @Data
-public class VideoInfo implements Serializable {
+public class VideoInfo  extends PageResult implements Serializable {
 
     /**
     *

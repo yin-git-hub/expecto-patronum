@@ -2,6 +2,7 @@ package com.example.controller;
 
 
 import com.example.dao.model.dto.SearchDto;
+import com.example.dao.model.entity.VideoInfo;
 import com.example.dao.model.vo.PageResult;
 import com.example.service.SearchAllService;
 import com.example.service.common.BaseResponse;
@@ -48,6 +49,12 @@ public class SearchController {
     @PostMapping("/all-sql")
     public BaseResponse searchsql(@RequestBody SearchDto searchDto){
         PageResult pageResult = searchService.searchAllMySQL(searchDto);
+        return ResultUtils.success(pageResult);
+    }
+
+    @PostMapping("/getVideoInfo")
+    public BaseResponse getVideoInfo(@RequestBody SearchDto searchDto){
+        PageResult pageResult = searchService.getVideoInfo(searchDto);
         return ResultUtils.success(pageResult);
     }
 }

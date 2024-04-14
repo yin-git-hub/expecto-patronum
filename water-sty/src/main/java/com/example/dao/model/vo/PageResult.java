@@ -26,5 +26,6 @@ public class PageResult<T> {
     Long totalElements;
     //单页数据量
     Integer total;
+
     List<T> valList;
 }

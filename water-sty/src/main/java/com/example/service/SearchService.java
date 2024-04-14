@@ -13,4 +13,6 @@ public interface SearchService {
     PageResult searchSelf(SearchDto searchDto);
 
     PageResult searchCollection(SearchDto searchDto);
+
+    PageResult getVideoInfo(SearchDto searchDto);
 }

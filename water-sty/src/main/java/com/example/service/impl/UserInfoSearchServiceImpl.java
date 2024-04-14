@@ -43,4 +43,9 @@ public class UserInfoSearchServiceImpl implements SearchService {
         return null;
     }
 
+    @Override
+    public PageResult getVideoInfo(SearchDto searchDto) {
+        return null;
+    }
+
 }

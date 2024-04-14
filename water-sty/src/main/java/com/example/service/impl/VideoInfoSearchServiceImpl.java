@@ -28,18 +28,18 @@ public class VideoInfoSearchServiceImpl implements SearchService {
     @Override
     public PageResult search(SearchDto searchDto) {
         String content = searchDto.getContent();
-        Pageable pageable = PageRequest.of(searchDto.getPageIndex()-1, searchDto.getPageSize());
-        Page<VideoInfoES> videoInfoES ;
-        if(StringUtils.isBlank(content)){
+        Pageable pageable = PageRequest.of(searchDto.getPageIndex() - 1, searchDto.getPageSize());
+        Page<VideoInfoES> videoInfoES;
+        if (StringUtils.isBlank(content)) {
             videoInfoES = videoInfoESService.findAll(pageable);
-        }else {
-            videoInfoES =  videoInfoESService.findByVideoNameLike(content,pageable);
+        } else {
+            videoInfoES = videoInfoESService.findByVideoNameLike(content, pageable);
         }
         PageResult pageResult = new PageResult();
         pageResult.setTotal(videoInfoES.getSize());
         pageResult.setValList(videoInfoES.getContent());
         pageResult.setTotalPages(videoInfoES.getTotalPages());
-        pageResult.setPageIndex(videoInfoES.getNumber()+1);
+        pageResult.setPageIndex(videoInfoES.getNumber() + 1);
         pageResult.setTotalElements(videoInfoES.getTotalElements());
         return pageResult;
     }
@@ -47,14 +47,14 @@ public class VideoInfoSearchServiceImpl implements SearchService {
     @Override
     public PageResult searchSelf(SearchDto searchDto) {
         Long userId = searchDto.getUserId();
-        ThrowUtils.throwIf(userId==null, ErrorCode.OPERATION_ERROR);
-        Pageable pageable = PageRequest.of(searchDto.getPageIndex()-1, searchDto.getPageSize());
-        Page<VideoInfoES> videoInfoES = videoInfoESService.findByUserId(userId,pageable);
+        ThrowUtils.throwIf(userId == null, ErrorCode.OPERATION_ERROR);
+        Pageable pageable = PageRequest.of(searchDto.getPageIndex() - 1, searchDto.getPageSize());
+        Page<VideoInfoES> videoInfoES = videoInfoESService.findByUserId(userId, pageable);
         PageResult pageResult = new PageResult();
         pageResult.setTotal(videoInfoES.getSize());
         pageResult.setValList(videoInfoES.getContent());
         pageResult.setTotalPages(videoInfoES.getTotalPages());
-        pageResult.setPageIndex(videoInfoES.getNumber()+1);
+        pageResult.setPageIndex(videoInfoES.getNumber() + 1);
         pageResult.setTotalElements(videoInfoES.getTotalElements());
         return pageResult;
     }
@@ -62,14 +62,27 @@ public class VideoInfoSearchServiceImpl implements SearchService {
     @Override
     public PageResult searchCollection(SearchDto searchDto) {
         Long userId = searchDto.getUserId();
-        ThrowUtils.throwIf(userId==null, ErrorCode.OPERATION_ERROR);
-        Pageable pageable = PageRequest.of(searchDto.getPageIndex()-1, searchDto.getPageSize());
+        ThrowUtils.throwIf(userId == null, ErrorCode.OPERATION_ERROR);
+        Pageable pageable = PageRequest.of(searchDto.getPageIndex() - 1, searchDto.getPageSize());
         Page<VideoInfoES> byVideoIdIn = videoInfoESService.findByVideoIdIn(searchDto.getVideoIds(), pageable);
         PageResult pageResult = new PageResult();
         pageResult.setTotal(byVideoIdIn.getSize());
         pageResult.setValList(byVideoIdIn.getContent());
         pageResult.setTotalPages(byVideoIdIn.getTotalPages());
-        pageResult.setPageIndex(byVideoIdIn.getNumber()+1);
+        pageResult.setPageIndex(byVideoIdIn.getNumber() + 1);
+        pageResult.setTotalElements(byVideoIdIn.getTotalElements());
+        return pageResult;
+    }
+
+    @Override
+    public PageResult getVideoInfo(SearchDto searchDto) {
+        Pageable pageable = PageRequest.of(searchDto.getPageIndex() - 1, searchDto.getPageSize());
+        Page<VideoInfoES> byVideoIdIn = videoInfoESService.findByWorksLabelId(searchDto.getWorksLabelId(), pageable);
+        PageResult pageResult = new PageResult();
+        pageResult.setTotal(byVideoIdIn.getSize());
+        pageResult.setValList(byVideoIdIn.getContent());
+        pageResult.setTotalPages(byVideoIdIn.getTotalPages());
+        pageResult.setPageIndex(byVideoIdIn.getNumber() + 1);
         pageResult.setTotalElements(byVideoIdIn.getTotalElements());
         return pageResult;
     }

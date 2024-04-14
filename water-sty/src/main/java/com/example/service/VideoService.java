@@ -2,7 +2,9 @@ package com.example.service;
 
 import com.example.dao.model.entity.Scrolling;
 import com.example.dao.model.entity.Video;
+import com.example.dao.model.entity.VideoInfo;
 import com.example.dao.model.entity.WorksLabel;
+import com.example.dao.model.vo.PageResult;
 
 import java.util.List;
 
@@ -21,4 +23,5 @@ public interface VideoService {
 
 
     void delVideo(Long videoId);
+
 }

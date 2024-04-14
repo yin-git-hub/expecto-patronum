@@ -3,15 +3,11 @@
 
   <a-tabs v-model:activeKey="activeKey" @change="onTabChange">
 
-    <a-tab-pane key="video" tab="视频">
-      <video-info-list :user-list-data="videoInfoValue" :type="tagKey.value" :content="value.value"></video-info-list>
+    <a-tab-pane v-for="item in labels" :key="item.id" :tab="item.labelName">
+      <video-info-list :user-list-data="videoInfoValue" >
+      </video-info-list>
     </a-tab-pane>
-    <a-tab-pane key="artical" tab="文章" force-render>
-      <artical-list></artical-list>
-    </a-tab-pane>
-    <a-tab-pane key="user" tab="用户">
-      <user-info-list :user-list-data="userInfoValue"></user-info-list>
-    </a-tab-pane>
+
   </a-tabs>
   <div>
     <a-pagination
@@ -27,27 +23,37 @@
 
 </template>
 <script setup>
-import {defineComponent, ref, watch} from 'vue';
-import ArticalList from "@/components/list/ArticalList.vue";
-import UserInfoList from "@/components/list/UserInfoList.vue";
+import {defineComponent, onMounted, ref, watch} from 'vue';
 import axios from "axios";
 import router from "@/router";
 import VideoInfoList from "@/components/list/VideoInfoList.vue";
 
 
-const urlValue = router.currentRoute._rawValue.query.text
-const urlTagKey = router.currentRoute._rawValue.query.tagKey
-const value = ref(urlValue || '')
-const userInfoValue = ref('')
+const urlworksLabelId = router.currentRoute._rawValue.query.worksLabelId
+
 const videoInfoValue = ref('')
-const tagKey = ref(urlTagKey || 'video')
-const activeKey = tagKey
+const worksLabelId = ref(urlworksLabelId || '1')
+const activeKey = worksLabelId
 // 共查询出多少语句
 const totalElements = ref()
 //当前页总数据
 const pageSize = ref(10);
 //当前页
 const current  = ref(1);
+const labels  = ref();
+
+onMounted(async() =>{
+  try {
+    await axios.post("/label/getVideoLabel").then(resp=>{
+      if (resp.code===200){
+        labels.value = resp.data
+        console.log("labelsData.value===",resp.data)
+      }
+    })
+  }catch (e){
+    console.log(e)
+  }
+})
 const onShowSizeChange = (current, pageSize) => {
   console.log('current, pageSize===>',current, pageSize);
 };
@@ -59,15 +65,13 @@ watch(current , () => {
 });
 
 const onChange = (page, pageSize) => {
-  console.log('page, pageSize===>',page, pageSize)
+  // const worksLabelId = router.currentRoute._rawValue.query.worksLabelId
 
-  const urlValue = router.currentRoute._rawValue.query.text
-  const urlTagKey = router.currentRoute._rawValue.query.tagKey
-  console.log('urlValue', urlValue)
-  console.log('urlTagKey', urlTagKey)
-  axios.post(`/search/all`, {
-    "type": urlTagKey,
-    "content": urlValue,
+  console.log('worksLabelId,page, pageSize===>',worksLabelId,page, pageSize)
+
+  axios.post(`/video/getVideoInfo`, {
+    "worksLabelId": worksLabelId,
+    "content": "",
     "pageIndex": page,
     "pageSize": pageSize || 10,
     "total": 0,
@@ -81,12 +85,23 @@ const onChange = (page, pageSize) => {
 }
 
 const onTabChange = key => {
-  tagKey.value = key
+  worksLabelId.value = key
   router.push({
     query: {
-      tagKey: tagKey.value,
-      text: value.value,
+      worksLabelId: worksLabelId.value,
     },
+  })
+  axios.post(`/search/getVideoInfo`, {
+    "worksLabelId": worksLabelId.value,
+    "pageIndex": 1,
+    "pageSize":  10,
+    "total": 0,
+    "valList": []
+  }).then(resp => {
+    videoInfoValue.value = resp.data
+    totalElements.value = resp.data.totalElements
+    console.log('resp===>',resp.data)
+    console.log('totalElements.value===>',totalElements.value)
   })
 }
 

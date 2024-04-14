@@ -1,9 +1,12 @@
 package com.example.service.impl;
+import com.google.common.collect.Lists;
 
 import com.example.dao.mapper.VideoMapper;
 import com.example.dao.model.entity.Scrolling;
 import com.example.dao.model.entity.Video;
+import com.example.dao.model.entity.VideoInfo;
 import com.example.dao.model.entity.WorksLabel;
+import com.example.dao.model.vo.PageResult;
 import com.example.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,6 +55,7 @@ public class VideoServiceImpl implements VideoService {
     public void delVideo(Long videoId) {
         videoMapper.delVideo(videoId);
     }
+
 
 
 }

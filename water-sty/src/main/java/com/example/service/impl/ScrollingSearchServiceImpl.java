@@ -43,4 +43,9 @@ public class ScrollingSearchServiceImpl implements SearchService {
         return null;
     }
 
+    @Override
+    public PageResult getVideoInfo(SearchDto searchDto) {
+        return null;
+    }
+
 }

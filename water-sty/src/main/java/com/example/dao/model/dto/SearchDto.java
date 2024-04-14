@@ -20,6 +20,8 @@ public class SearchDto extends PageResult implements Serializable{
 
     private Long userId;
 
+    private Long worksLabelId;
+
     private List<Long> videoIds;
 
     // 收藏分组ID

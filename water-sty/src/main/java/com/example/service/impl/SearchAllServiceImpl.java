@@ -116,6 +116,16 @@ public class SearchAllServiceImpl implements SearchAllService {
     }
 
     @Override
+    public PageResult getVideoInfo(SearchDto searchDto) {
+        ThrowUtils.throwIf(searchDto==null, ErrorCode.PARAMS_ERROR);
+
+        SearchService o =   searchServiceMap.get("video");
+        PageResult search = o.getVideoInfo(searchDto);
+
+        return search;
+    }
+
+    @Override
     public PageResult searchAllMySQL(SearchDto searchDto) {
         List<Scrolling> search = scrollingMapper.selectAllSQL(searchDto);
         PageResult<Scrolling> objectPageResult = new PageResult<>();
