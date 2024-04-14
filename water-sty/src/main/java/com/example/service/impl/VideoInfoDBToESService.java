@@ -63,6 +63,37 @@ public class VideoInfoDBToESService  implements DBToESService {
                 }
                 videoInfoES.setVideoSummary(value);
             }
+            /**
+             * videoStatus
+             * videoReview
+             * isDelete
+             * worksLabelId
+             */
+            else if (column.getName().equals("video_status")) {
+                String value = column.getValue();
+                if (value == null || value == "") {
+                    value = "00000";
+                }
+                videoInfoES.setVideoStatus(value);
+            }else if (column.getName().equals("video_review")) {
+                String value = column.getValue();
+                if (value == null || value == "") {
+                    value = "00000";
+                }
+                videoInfoES.setVideoReview(value);
+            }else if (column.getName().equals("is_delete")) {
+                String value = column.getValue();
+                if (value == null || value == "") {
+                    value = "00000";
+                }
+                videoInfoES.setIsDelete(value);
+            }else if (column.getName().equals("works_label_id")) {
+                String value = column.getValue();
+                if (value == null || value == "") {
+                    value = "00000";
+                }
+                videoInfoES.setWorksLabelId(value);
+            }
         }
         videoInfoESService.save(videoInfoES);
     }

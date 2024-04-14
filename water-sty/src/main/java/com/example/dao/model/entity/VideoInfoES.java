@@ -29,11 +29,11 @@ public class VideoInfoES {
     @Field(type = FieldType.Keyword)
     private String videoCover;
     @Field(type = FieldType.Keyword)
-    private Integer videoStatus;
+    private String videoStatus;
     @Field(type = FieldType.Keyword)
-    private Integer videoReview;
+    private String videoReview;
     @Field(type = FieldType.Keyword)
-    private Integer isDelete;
+    private String isDelete;
     @Field(type = FieldType.Keyword)
-    private Long worksLabelId;
+    private String worksLabelId;
 }

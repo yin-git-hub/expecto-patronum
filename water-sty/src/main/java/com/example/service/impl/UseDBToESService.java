@@ -70,7 +70,7 @@ public class UseDBToESService {
             }
             EventType eventType = rowChage.getEventType();
 
-            if (!entry.getHeader().getSchemaName().equals("expecto_patronum")
+            if (!entry.getHeader().getSchemaName().equals("ruoyi")
             ) {
                 return;
             }
