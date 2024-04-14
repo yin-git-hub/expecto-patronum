@@ -1,6 +1,6 @@
 package com.example.dao.mapper;
 
-import com.example.dao.model.entity.Like;
+import com.example.dao.model.entity.UserLike;
 import com.example.dao.model.entity.LikeExample;
 import java.util.List;
 
@@ -15,23 +15,25 @@ public interface LikeMapper {
 
     int deleteByPrimaryKey(Long id);
 
-    int insert(Like record);
+    int insert(UserLike record);
 
-    int insertSelective(Like record);
+    int insertSelective(UserLike record);
 
-    List<Like> selectByExample(LikeExample example);
+    List<UserLike> selectByExample(LikeExample example);
 
-    Like selectByPrimaryKey(Long id);
+    UserLike selectByPrimaryKey(Long id);
 
-    int updateByExampleSelective(@Param("record") Like record, @Param("example") LikeExample example);
+    int updateByExampleSelective(@Param("record") UserLike record, @Param("example") LikeExample example);
 
-    int updateByExample(@Param("record") Like record, @Param("example") LikeExample example);
+    int updateByExample(@Param("record") UserLike record, @Param("example") LikeExample example);
 
-    int updateByPrimaryKeySelective(Like record);
+    int updateByPrimaryKeySelective(UserLike record);
 
-    int updateByPrimaryKey(Like record);
+    int updateByPrimaryKey(UserLike record);
 
-    void deleteByLike(Like like);
+    void deleteByLike(UserLike like);
 
-    Like selectByLike(Like like);
+    UserLike selectByLike(UserLike like);
+
+    List<UserLike> getUserLikeByUserId(Long currentUserId);
 }

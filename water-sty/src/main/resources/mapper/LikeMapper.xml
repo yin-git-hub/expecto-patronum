@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.dao.mapper.LikeMapper">
-  <resultMap id="BaseResultMap" type="com.example.dao.model.entity.Like">
+  <resultMap id="BaseResultMap" type="com.example.dao.model.entity.UserLike">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="video_id" jdbcType="BIGINT" property="videoId" />
@@ -89,11 +89,17 @@
     from `user_like`
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <select id="selectByLike" resultType="com.example.dao.model.entity.Like">
+  <select id="selectByLike" resultType="com.example.dao.model.entity.UserLike">
     select
     <include refid="Base_Column_List" />
     from `user_like`
     where  user_id=#{userId} and video_id=#{videoId}
+  </select>
+  <select id="getUserLikeByUserId" resultType="com.example.dao.model.entity.UserLike">
+    select
+    <include refid="Base_Column_List" />
+    from `user_like`
+    where  user_id=#{userId}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from `user_like`
@@ -106,11 +112,11 @@
     </if>
   </delete>
 
-  <delete id="deleteByLike" parameterType="com.example.dao.model.entity.Like">
+  <delete id="deleteByLike" parameterType="com.example.dao.model.entity.UserLike">
     delete from `user_like`
     where user_id=#{userId} and video_id=#{videoId}
   </delete>
-  <insert id="insert" parameterType="com.example.dao.model.entity.Like">
+  <insert id="insert" parameterType="com.example.dao.model.entity.UserLike">
     insert into `user_like` (id, user_id, video_id,
       create_date, update_date)
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{videoId,jdbcType=BIGINT},
@@ -161,7 +167,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.dao.model.entity.Like">
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.dao.model.entity.UserLike">
     update `user_like`
     <set>
       <if test="userId != null">
@@ -179,7 +185,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.dao.model.entity.Like">
+  <update id="updateByPrimaryKey" parameterType="com.example.dao.model.entity.UserLike">
     update `user_like`
     set user_id = #{userId,jdbcType=BIGINT},
       video_id = #{videoId,jdbcType=BIGINT},
@@ -187,4 +193,6 @@
       update_date = #{updateDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+
 </mapper>

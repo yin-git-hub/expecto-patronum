@@ -1,6 +1,6 @@
 package com.example.service;
 
-import com.example.dao.model.entity.Like;
+import com.example.dao.model.entity.UserLike;
 
 /**
  * Author: yin7331
@@ -8,9 +8,9 @@ import com.example.dao.model.entity.Like;
  * Describe:
  */
 public interface LikeService {
-    void addLike(Like like);
+    void addLike(UserLike like);
 
-    void cancelLike(Like like);
+    void cancelLike(UserLike like);
 
-    Like getLikeStatus(Like like);
+    UserLike getLikeStatus(UserLike like);
 }

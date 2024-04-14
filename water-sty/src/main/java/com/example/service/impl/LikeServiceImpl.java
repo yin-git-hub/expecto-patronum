@@ -2,7 +2,7 @@ package com.example.service.impl;
 
 import com.example.controller.Support.UserSupport;
 import com.example.dao.mapper.LikeMapper;
-import com.example.dao.model.entity.Like;
+import com.example.dao.model.entity.UserLike;
 import com.example.service.LikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,21 +20,21 @@ public class LikeServiceImpl implements LikeService {
     @Autowired
     UserSupport userSupport;
     @Override
-    public void addLike(Like like) {
+    public void addLike(UserLike like) {
         Long userId = userSupport.getCurrentUserId();
         like.setUserId(userId);
         likeMapper.insertSelective(like);
     }
 
     @Override
-    public void cancelLike(Like like) {
+    public void cancelLike(UserLike like) {
         Long userId = userSupport.getCurrentUserId();
         like.setUserId(userId);
         likeMapper.deleteByLike(like);
     }
 
     @Override
-    public Like getLikeStatus(Like like) {
+    public UserLike getLikeStatus(UserLike like) {
         Long userId = userSupport.getCurrentUserId();
         like.setUserId(userId);
         return likeMapper.selectByLike(like);

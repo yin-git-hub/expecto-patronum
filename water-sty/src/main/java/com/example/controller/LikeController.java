@@ -1,6 +1,6 @@
 package com.example.controller;
 
-import com.example.dao.model.entity.Like;
+import com.example.dao.model.entity.UserLike;
 import com.example.service.LikeService;
 import com.example.service.common.BaseResponse;
 import com.example.service.common.ResultUtils;
@@ -27,7 +27,7 @@ public class LikeController {
      * @return
      */
     @PostMapping("/addLike")
-    public BaseResponse addLike(@RequestBody Like like){
+    public BaseResponse addLike(@RequestBody UserLike like){
 
         likeService.addLike(like);
         return ResultUtils.success();
@@ -39,14 +39,14 @@ public class LikeController {
      * @return
      */
     @PostMapping("/cancelLike")
-    public BaseResponse cancelLike(@RequestBody Like like){
+    public BaseResponse cancelLike(@RequestBody UserLike like){
 
         likeService.cancelLike(like);
         return ResultUtils.success();
     }
     @PostMapping("/getLikeStatus")
-    public BaseResponse getLikeStatus(@RequestBody Like like){
-        Like likeStatus = likeService.getLikeStatus(like);
+    public BaseResponse getLikeStatus(@RequestBody UserLike like){
+        UserLike likeStatus = likeService.getLikeStatus(like);
         return ResultUtils.success(likeStatus);
     }
 }
