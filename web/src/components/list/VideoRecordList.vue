@@ -6,7 +6,7 @@
             :description= "item.videoSummary"
         >
           <template #title>
-            <a href="https://www.antdv.com/">{{ item.videoName }}</a>
+            <a @click="() => onVideo(item.videoId,item.videoCover,item.userId)">{{ item.videoName }}</a>
           </template>
           <template #avatar>
             <a-avatar :src="item.videoCover" />
@@ -20,9 +20,26 @@
 
 import {onMounted, ref} from "vue";
 import axios from "axios";
+import store from "@/store";
+import router from "@/router";
 
 
 const data = ref("")
+
+const onVideo = (_id,_cover,_userId)=>{
+  axios.post("/video/getVideoUrl",{id:_id}).then(resp=>{
+    if (resp.code===200){
+      store.commit("setVideoInfo", {
+        videoUrl:resp.data,
+        cover:_cover,
+        videoId:_id,
+        userId:_userId,
+      });
+      router.push('/player')
+    }
+
+  })
+}
 
 onMounted(async ()=>{
   await axios.post("/video/getVideoRecord").then(resp=>{
