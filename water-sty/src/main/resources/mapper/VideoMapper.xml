@@ -45,4 +45,31 @@
     <select id="getVideoInfoCount" resultType="com.example.dao.model.entity.VideoInfo">
         select * from video_info where works_label_id = #{worksLabelId}
     </select>
+
+    <insert id="addVideoRecordToDB">
+        insert into video_record (user_id,
+                                  video_id,
+                                  duration)
+        values (#{userId},
+                #{videoId},
+                #{duration})
+    </insert>
+
+    <select id="getVideoRecord" resultType="com.example.dao.model.entity.VideoRecord">
+        select * from video_record where user_id=#{userId} and
+                                  video_id=#{videoId}
+    </select>
+
+    <update id="updateVideoRecordToDB">
+        update video_record set duration = #{duration} where user_id=#{userId} and
+            video_id=#{videoId}
+    </update>
+
+    <select id="getVideoRecordByUserId" resultType="com.example.dao.model.entity.VideoRecord">
+        select * from video_record where user_id=#{userId}
+    </select>
+
+    <select id="getVideoInfoByVideoId" resultType="com.example.dao.model.entity.VideoInfo">
+        select * from video_info where video_id = #{videoId}
+    </select>
 </mapper>

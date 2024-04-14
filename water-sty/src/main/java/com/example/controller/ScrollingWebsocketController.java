@@ -45,7 +45,7 @@ public class ScrollingWebsocketController {
     // 视频在线人数
     private static HashMap<String, List<Session>> currentMap
             = new HashMap();
-    static ScheduledExecutorService pool = Executors.newScheduledThreadPool(1);
+    public static ScheduledExecutorService pool = Executors.newScheduledThreadPool(1);
 
     private static ApplicationContext APPLICATION_CONTEXT;
 

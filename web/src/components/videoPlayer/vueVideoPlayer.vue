@@ -204,6 +204,30 @@ const sendMessage = () => {
   danmakuRef.value.add(scrollingContext)
   mandamus.value = ''
 }
+
+// 创建响应式变量来存储接口响应
+const response = ref('');
+
+// 发送请求函数
+const videoRecord = async () => {
+  try {
+    // 这里假设使用fetch发送请求，你也可以使用其他库
+    await axios.post("/video/addVideoRecord",{
+      videoId: store.state.videoInfo.videoId,
+      duration: store.state.videoInfo.videoCurrentTime,
+    }).then(resp=>{
+      response.value = resp.data;
+    })
+  } catch (error) {
+    console.error('请求失败：', error);
+  }
+};
+
+// 监听响应变量的变化，当变化时重新发送请求
+onMounted(() => {
+  setInterval(videoRecord, 5000); // 每5秒发送一次请求
+});
+
 </script>
 
 <style scoped>

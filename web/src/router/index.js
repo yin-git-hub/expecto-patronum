@@ -54,6 +54,9 @@ const routes = [
             },{
                 path: '/personal-collection-group',
                 component:()=>import('../components/messagePage/collectionPageByGroup.vue')
+            },{
+                path: '/getVideoRecord',
+                component:()=>import('../components/list/VideoRecordList.vue')
             }
 
             ]

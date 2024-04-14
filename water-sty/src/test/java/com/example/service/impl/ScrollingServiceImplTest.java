@@ -6,7 +6,9 @@ import com.example.dao.model.entity.Scrolling;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,9 +21,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @Slf4j
 class ScrollingServiceImplTest {
     public static void main(String[] args) {
-
-        int i = 10 / 3;
-        System.out.println(i);
+        LocalDateTime updateDate = LocalDateTime.now();
+        System.out.println(updateDate);
 
 
     }

@@ -2,6 +2,7 @@ package com.example.controller;
 
  import com.example.dao.model.entity.Scrolling;
  import com.example.dao.model.entity.VideoInfo;
+ import com.example.dao.model.entity.VideoRecord;
  import com.example.dao.model.vo.PageResult;
  import com.example.service.MinioService;
  import com.example.service.VideoService;
@@ -97,5 +98,16 @@ public class VideoController {
         return ResultUtils.success( );
     }
 
+    @PostMapping("/addVideoRecord")
+    public BaseResponse addVideoRecord(@RequestBody VideoRecord videoRecord){
+        videoService.addVideoRecord(videoRecord);
+        return ResultUtils.success();
+    }
+
+    @PostMapping("/getVideoRecord")
+    public BaseResponse getVideoRecord(){
+        List<VideoInfo> videoRecord = videoService.getVideoRecord();
+        return ResultUtils.success(videoRecord);
+    }
 
 }

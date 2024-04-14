@@ -75,7 +75,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from like
+    from `user_like`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -86,32 +86,32 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from like
+    from `user_like`
     where id = #{id,jdbcType=BIGINT}
   </select>
   <select id="selectByLike" resultType="com.example.dao.model.entity.Like">
     select
     <include refid="Base_Column_List" />
-    from `like`
+    from `user_like`
     where  user_id=#{userId} and video_id=#{videoId}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from like
+    delete from `user_like`
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.example.dao.model.entity.LikeExample">
-    delete from like
+    delete from `user_like`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
 
   <delete id="deleteByLike" parameterType="com.example.dao.model.entity.Like">
-    delete from `like`
+    delete from `user_like`
     where user_id=#{userId} and video_id=#{videoId}
   </delete>
   <insert id="insert" parameterType="com.example.dao.model.entity.Like">
-    insert into like (id, user_id, video_id,
+    insert into `user_like` (id, user_id, video_id,
       create_date, update_date)
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{videoId,jdbcType=BIGINT},
       #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP})
@@ -122,13 +122,13 @@
     values (#{userId},#{videoId});
   </insert>
   <select id="countByExample" parameterType="com.example.dao.model.entity.LikeExample" resultType="java.lang.Long">
-    select count(*) from like
+    select count(*) from `user_like`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update like
+    update `user_like`
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
@@ -151,7 +151,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update like
+    update `user_like`
     set id = #{record.id,jdbcType=BIGINT},
       user_id = #{record.userId,jdbcType=BIGINT},
       video_id = #{record.videoId,jdbcType=BIGINT},
@@ -162,7 +162,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.example.dao.model.entity.Like">
-    update like
+    update `user_like`
     <set>
       <if test="userId != null">
         user_id = #{userId,jdbcType=BIGINT},
@@ -180,7 +180,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.example.dao.model.entity.Like">
-    update like
+    update `user_like`
     set user_id = #{userId,jdbcType=BIGINT},
       video_id = #{videoId,jdbcType=BIGINT},
       create_date = #{createDate,jdbcType=TIMESTAMP},

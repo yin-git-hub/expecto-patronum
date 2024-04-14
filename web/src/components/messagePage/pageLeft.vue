@@ -22,6 +22,11 @@
                 我的喜欢
               </router-link>
             </a-menu-item>
+            <a-menu-item key="4">
+              <router-link to="/getVideoRecord">
+                观看记录
+              </router-link>
+            </a-menu-item>
             <a-sub-menu key="sub1" @titleClick="titleClickFollowing">
               <template #title>
                 <router-link    to="/personal-following">
