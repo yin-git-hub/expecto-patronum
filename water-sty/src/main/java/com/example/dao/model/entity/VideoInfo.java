@@ -1,5 +1,6 @@
 package com.example.dao.model.entity;
 
+import com.example.service.constant.VideoConstant;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -21,7 +22,7 @@ public class VideoInfo implements Serializable {
     @NotNull(message="[]不能为空")
     @ApiModelProperty("")
     private Long id;
-    private Long worksLabelId;
+
     /**
     *
     */
@@ -47,11 +48,7 @@ public class VideoInfo implements Serializable {
     @Size(max= 4069,message="编码长度不能超过4069")
     @ApiModelProperty("")
      private String videoSummary;
-    /**
-    * 0-知识区；1-娱乐：2-音乐 ...
-    */
-    @ApiModelProperty("0-知识区；1-娱乐：2-音乐 ...")
-    private Integer area;
+
     /**
     *
     */
@@ -73,5 +70,22 @@ public class VideoInfo implements Serializable {
     */
     @ApiModelProperty("")
     private Date updateDate;
+
+    /**
+     * 0-正常 1-异常
+     */
+    private Integer videoStatus= VideoConstant.STATUS_NORMAL;
+
+    /**
+     * 0-未审核 1-已审核 2-未通过
+     */
+    private Integer videoReview=VideoConstant.REVIEW_NO;
+
+    /**
+     *  0-正常 1-已删
+     * */
+    private Integer isDelete = VideoConstant.DELETE_NO;
+
+    private Long worksLabelId;
 
 }

@@ -33,4 +33,8 @@
     <select id="getVideoLabel" resultType="com.example.dao.model.entity.WorksLabel">
         select * from works_label;
     </select>
+
+    <delete id="delVideo">
+        delete from video_info where video_id = #{videoId}
+    </delete>
 </mapper>

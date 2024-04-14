@@ -25,9 +25,15 @@ public class VideoInfoES {
     @Field(type = FieldType.Keyword)
     String videoSummary;
     @Field(type = FieldType.Keyword)
-    private Integer area;
-    @Field(type = FieldType.Keyword)
      private Long videoSize;
     @Field(type = FieldType.Keyword)
     private String videoCover;
+    @Field(type = FieldType.Keyword)
+    private Integer videoStatus;
+    @Field(type = FieldType.Keyword)
+    private Integer videoReview;
+    @Field(type = FieldType.Keyword)
+    private Integer isDelete;
+    @Field(type = FieldType.Keyword)
+    private Long worksLabelId;
 }

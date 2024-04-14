@@ -48,5 +48,10 @@ public class VideoServiceImpl implements VideoService {
         return scrolling;
     }
 
+    @Override
+    public void delVideo(Long videoId) {
+        videoMapper.delVideo(videoId);
+    }
+
 
 }

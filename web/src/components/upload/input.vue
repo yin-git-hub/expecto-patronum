@@ -4,18 +4,16 @@
       <a-input v-model:value="store.state.videoInfo.filename"/>
     </a-form-item>
     <a-form-item label="标签：">
-      <a-dropdown @click="getLabels">
-        <a class="ant-dropdown-link" @click.prevent>
-          Hover me, Click menu item
-          <DownOutlined />
-        </a>
-        <template  #overlay>
-          <a-menu @click="onClick">
-            <a-menu-item key="1">1st menu item</a-menu-item>
-            <a-menu-item key="2">2nd menu item</a-menu-item>
-            <a-menu-item key="3">3rd menu item</a-menu-item>
-          </a-menu>
-        </template>
+      <a-dropdown>
+        <a-select
+            ref="select"
+            v-model:value="value1"
+            style="width: 120px"
+            @focus="focus"
+            @change="handleChange"
+        >
+          <a-select-option v-for="item in labelsData" :key="item.id">{{item.labelName}}</a-select-option>
+        </a-select>
       </a-dropdown>
     </a-form-item>
     <a-form-item label="封面：">
@@ -39,7 +37,6 @@ import store from "@/store";
 import video from "./video.vue";
 import axios from "axios";
 import {notification} from "ant-design-vue";
-import { DownOutlined } from '@ant-design/icons-vue';
 
 
 export default defineComponent({
@@ -53,21 +50,27 @@ export default defineComponent({
     },
 
   },
-  components: {ThePictureUpload,DownOutlined},
+  components: {ThePictureUpload },
 
 
   setup() {
     const labelsData=ref("");
-    const getLabels=()=>{
+
+
+
+    const focus = () => {
       axios.post("/label/getVideoLabel").then(resp=>{
         if (resp.code===200){
           labelsData.value = resp.data;
+          console.log("labelsData.value===",labelsData.value)
         }
       })
-    }
-    const onClick = ({ key }) => {
-      formState.worksLabelId = key;
     };
+    const handleChange = value => {
+      formState.worksLabelId = value
+      console.log(`selected ${value}`);
+    };
+
     const formState = reactive({
       title: '',
       summaryValue: '',
@@ -89,15 +92,19 @@ export default defineComponent({
       axios.post("/video/updateVideoInfo", map)
           .then(resp => {
             console.log(resp)
-            notification.success({description: '上传成功'});
+            if (resp.code === 200) {
+              notification.success({description: '上传成功'});
+            }else {
+              notification.warn({description: resp.message})
+            }
           })
 
     }
 
 
     return {
-      getLabels,
-      onClick,
+      labelsData,
+      handleChange,focus,
       labelCol: {
         span: 4,
       },

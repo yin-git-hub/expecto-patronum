@@ -17,7 +17,12 @@
                 我的作品
               </router-link>
             </a-menu-item>
-            <a-sub-menu key="sub11" @titleClick="titleClickFollowing">
+            <a-menu-item key="3">
+              <router-link to="/getSelfVideo">
+                我的喜欢
+              </router-link>
+            </a-menu-item>
+            <a-sub-menu key="sub1" @titleClick="titleClickFollowing">
               <template #title>
                 <router-link    to="/personal-following">
                   我的关注

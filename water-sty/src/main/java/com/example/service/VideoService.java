@@ -20,4 +20,5 @@ public interface VideoService {
     List<Scrolling> getScrolling(Integer id);
 
 
+    void delVideo(Long videoId);
 }

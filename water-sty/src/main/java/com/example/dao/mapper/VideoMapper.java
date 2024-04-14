@@ -25,4 +25,6 @@ public interface VideoMapper {
     List<Scrolling> getScrolling(@Param("id") Integer id);
 
     List<WorksLabel> getVideoLabel();
+
+    void delVideo(Long videoId);
 }

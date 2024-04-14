@@ -5,15 +5,17 @@
       <template #renderItem="{ item }">
         <a-list-item>
           <a-card hoverable style="width: 240px;height: 300px"
-                  @click="() => onVideo(item.videoId,item.videoCover,item.userId)">
+                 >
             <template #cover>
-              <img class="cover" alt="example" :src=item.videoCover>
+              <img  @click="() => onVideo(item.videoId,item.videoCover,item.userId)" class="cover" alt="example" :src=item.videoCover>
             </template>
             <a-card-meta :title="item.videoName">
               <template #description>
                 <p class="p-summary">简介: {{ item.videoSummary }}</p>
               </template>
+
             </a-card-meta>
+            <a-button @click="delVideo(item.videoId)">删除</a-button>
           </a-card>
         </a-list-item>
       </template>
@@ -22,7 +24,7 @@
 </template>
 <script setup>
 
-import {List} from "ant-design-vue";
+import {List, message} from "ant-design-vue";
 import {defineComponent, onMounted, ref} from 'vue';
 import axios from "axios";
 import store from "@/store";
@@ -46,13 +48,22 @@ onMounted(async () => {
     console.error('请求失败:', error)
   }
 })
-const onVideo = (_id, _cover, _userId) => {
-  axios.post("/video/getVideoUrl", {id: _id}).then(resp => {
+
+const delVideo=(_videoId)=>{
+  axios.post("/video/delVideo/"+_videoId).then(resp=>{
+    if (resp.code === 200) {
+      message.success('删除成功');
+      window.location.reload()
+    }
+  })
+}
+const onVideo = (_videoId, _cover, _userId) => {
+  axios.post("/video/getVideoUrl", {id: _videoId}).then(resp => {
     if (resp.code === 200) {
       store.commit("setVideoInfo", {
         videoUrl: resp.data,
         cover: _cover,
-        videoId: _id,
+        videoId: _videoId,
         userId: _userId,
       });
       router.push('/player')

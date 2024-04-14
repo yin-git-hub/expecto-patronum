@@ -118,7 +118,7 @@
   </insert>
 
   <insert id="insertSelective">
-    insert into `like` (user_id,video_id)
+    insert into `user_like` (user_id,video_id)
     values (#{userId},#{videoId});
   </insert>
   <select id="countByExample" parameterType="com.example.dao.model.entity.LikeExample" resultType="java.lang.Long">

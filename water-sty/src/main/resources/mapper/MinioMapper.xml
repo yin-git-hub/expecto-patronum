@@ -41,14 +41,13 @@
                                 video_id,
                                 video_name,
                                 video_summary,
-                                area,
+
                                 video_size,
                                 video_md5)
         values (#{userId},
                 #{videoId},
                 #{videoName},
                 #{videoSummary},
-                #{area},
                 #{videoSize},
                 #{videoMd5});
     </insert>
@@ -56,7 +55,14 @@
         update video_info
         set video_name= #{videoName},
             video_summary=#{videoSummary},
-            user_id = #{userId}
+            user_id = #{userId},
+            video_status=#{videoStatus},
+
+            video_review=#{videoReview},
+
+            is_delete=#{isDelete},
+
+            works_label_id=#{worksLabelId}
         where video_md5=#{videoMd5}
     </update>
 

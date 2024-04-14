@@ -90,4 +90,10 @@ public class VideoController {
         return ResultUtils.success(list);
     }
 
+    @PostMapping("/delVideo/{videoId}")
+    public BaseResponse delVideo(@PathVariable("videoId") Long videoId){
+        videoService.delVideo(videoId);
+        return ResultUtils.success( );
+    }
+
 }
