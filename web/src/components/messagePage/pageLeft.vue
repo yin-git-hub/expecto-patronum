@@ -18,7 +18,7 @@
               </router-link>
             </a-menu-item>
             <a-menu-item key="3">
-              <router-link to="/getSelfVideo">
+              <router-link to="/getSelfVideoLike">
                 我的喜欢
               </router-link>
             </a-menu-item>

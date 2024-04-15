@@ -57,6 +57,9 @@ const routes = [
             },{
                 path: '/getVideoRecord',
                 component:()=>import('../components/list/VideoRecordList.vue')
+            },{
+                path: '/getSelfVideoLike',
+                component:()=>import('../components/messagePage/VideoLike.vue')
             }
 
             ]
