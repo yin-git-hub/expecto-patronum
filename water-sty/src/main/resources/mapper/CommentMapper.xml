@@ -195,6 +195,10 @@
            from `comment`
     where video_id = #{videoId} and reply_to_user_id = #{replyToUserId}
   </select>
+
+  <update id="reportComment">
+    update `comment` set report_status = 1 where id = #{id}
+  </update>
   <update id="updateByExampleSelective" parameterType="map">
     update comment
     <set>

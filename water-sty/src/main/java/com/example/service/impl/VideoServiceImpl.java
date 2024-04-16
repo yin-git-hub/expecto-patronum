@@ -78,10 +78,12 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public void addVideoRecord(VideoRecord videoRecord) {
+        System.out.println("start");
         Long currentUserId = userSupport.getCurrentUserId();
         videoRecord.setUserId(currentUserId);
         String videoRecordKey = videoRecordPrefix + currentUserId + "-" + videoRecord.getVideoId();
         redisTemplate.opsForValue().set(videoRecordKey, JSONUtil.toJsonStr(videoRecord));
+        System.out.println("end");
     }
 
     @Override
@@ -91,13 +93,16 @@ public class VideoServiceImpl implements VideoService {
         //重复
         HashSet<String> repeatKey = new HashSet<>();
         Set<String> keys = redisTemplate.keys(videoRecordPrefix+ currentUserId + "*");
-        for (String key : keys) {
-            String s = redisTemplate.opsForValue().get(key);
-            VideoRecord videoRecord =  JSONUtil.toBean(s,VideoRecord.class);
-            VideoInfo videoInfoByVideoId = videoMapper.getVideoInfoByVideoId(videoRecord.getVideoId());
-            videoInfos.add(videoInfoByVideoId);
-            repeatKey.add(videoRecord.getUserId()+videoRecord.getVideoId()+"");
+        if (keys!=null&&!keys.isEmpty()){
+            for (String key : keys) {
+                String s = redisTemplate.opsForValue().get(key);
+                VideoRecord videoRecord =  JSONUtil.toBean(s,VideoRecord.class);
+                VideoInfo videoInfoByVideoId = videoMapper.getVideoInfoByVideoId(videoRecord.getVideoId());
+                videoInfos.add(videoInfoByVideoId);
+                repeatKey.add(videoRecord.getUserId()+videoRecord.getVideoId()+"");
+            }
         }
+
         List<VideoRecord> videoRecord = videoMapper.getVideoRecordByUserId(currentUserId);
         for (VideoRecord record : videoRecord) {
              VideoInfo videoInfoByVideoId = videoMapper.getVideoInfoByVideoId(record.getVideoId());
@@ -119,8 +124,10 @@ public class VideoServiceImpl implements VideoService {
             VideoRecord videoRecord =  JSONUtil.toBean(s,VideoRecord.class);
             List<VideoRecord> videoRecords = videoMapper.getVideoRecord(videoRecord);
             if (videoRecords==null||videoRecords.isEmpty()) {
+                System.out.println("add-r");
                 videoMapper.addVideoRecordToDB(videoRecord);
             }else {
+                System.out.println("update-r");
                 videoMapper.updateVideoRecordToDB(videoRecord);
             }
             redisTemplate.delete(key);

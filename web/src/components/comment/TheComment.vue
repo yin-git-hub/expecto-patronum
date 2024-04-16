@@ -30,6 +30,7 @@
       <template #actions>
         <span @click="toggleReply">回复</span>
         <span @click="deleteComment(comment.id)">删除</span>
+        <span @click="reportComment(comment.id)">举报</span>
       </template>
       <template #author>
         <a>{{comment.userInfo.nickname}}</a>
@@ -73,6 +74,7 @@ import {onMounted, ref} from 'vue';
 import moment from 'moment';
 import store from "@/store";
 import axios from "axios";
+import {message} from "ant-design-vue";
 const showReply = ref(false);
 const commentList = ref();
 const comments = ref([]);
@@ -97,7 +99,15 @@ onMounted(async () => {
     console.error('请求失败:', error)
   }
 })
-
+const reportComment=(commentId)=>{
+  axios.post('/comment/reportComment/'+commentId).then(resp=>{
+    if (resp.code === 200) {
+      message.success("举报成功")
+    }else {
+      message.error("操作失败")
+    }
+  })
+}
 // 删除评论
 const deleteComment = (commentId) => {
   try {

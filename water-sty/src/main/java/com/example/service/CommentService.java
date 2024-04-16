@@ -15,4 +15,6 @@ public interface CommentService {
     void deleteComment(Long commentId);
 
     List getFirstLevelComments(Comment comment);
+
+    void reportComment(Long commentId);
 }

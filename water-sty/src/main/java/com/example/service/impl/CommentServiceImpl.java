@@ -52,4 +52,9 @@ public class CommentServiceImpl implements CommentService {
         }
         return null;
     }
+
+    @Override
+    public void reportComment(Long commentId) {
+        commentMapper.reportComment(commentId);
+    }
 }

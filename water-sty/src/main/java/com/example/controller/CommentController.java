@@ -34,6 +34,13 @@ public class CommentController {
         commentService.deleteComment(commentId);
         return ResultUtils.success();
     }
+    @PostMapping("/reportComment/{commentId}")
+    public BaseResponse reportComment(@PathVariable("commentId") Long commentId){
+        commentService.reportComment(commentId);
+        return ResultUtils.success();
+    }
+
+
 
 
     /**

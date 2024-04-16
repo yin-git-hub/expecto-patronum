@@ -38,4 +38,6 @@ public interface CommentMapper {
     int updateByPrimaryKey(Comment record);
 
     List<Comment> getFirstLevelComments(Comment comment);
+
+    void reportComment(Long commentId);
 }
