@@ -39,4 +39,5 @@ public interface VideoMapper {
     List<VideoRecord> getVideoRecordByUserId(Long currentUserId);
 
      VideoInfo getVideoInfoByVideoId(Long videoId);
+
 }

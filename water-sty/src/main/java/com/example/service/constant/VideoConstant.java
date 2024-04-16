@@ -24,5 +24,9 @@ public interface VideoConstant {
     Integer STATUS_NORMAL=0;
     Integer STATUS_UNNORMAL=1;
 
+//    '0-正常 1-被举报 2-犯规',
+    Integer REPORT_NORMAL=0;
+    Integer REPORT_REPORTED=1;
+    Integer REPORT_UNNORMAL=2;
 
 }

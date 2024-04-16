@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper是根标签。namespace属性是找到当前配置的依据 -->
+<!-- 由于最理想的Mybatis使用方式是：通过Mapper接口调用接口方法，访问数据库 -->
+<!-- 这样的理想方式要求：能够通过接口全类名找到Mapper配置 -->
+<!-- 所以：我们就用Mapper接口的全类名来给namespace属性赋值 -->
+<mapper namespace="com.example.dao.mapper.ReportMapper">
+
+
+    <select id="getVideoLabel" resultType="com.example.dao.model.entity.WorksLabel">
+        select * from works_label;
+    </select>
+
+    <sql id="inserParam">
+        reported_user_id
+        ,
+reporting_user_id,
+video_id,
+video_name,
+video_summary,
+video_size,
+video_cover,
+works_label_id,
+report_status,
+report_message
+    </sql>
+    <sql id="selectParam">
+        id
+        ,
+        reported_user_id
+        ,
+reporting_user_id,
+video_id,
+video_name,
+video_summary,
+video_size,
+video_cover,
+works_label_id,
+report_status,
+report_message,
+          cerete_date,update_date
+    </sql>
+
+    <insert id="addVideoReport">
+        insert into video_report(<include refid="inserParam"></include>)
+        values (#{reportedUserId},
+        #{reportingUserId},
+        #{videoId},
+        #{videoName},
+        #{videoSummary},
+        #{videoSize},
+        #{videoCover},
+        #{worksLabelId},
+        #{reportStatus},
+        #{reportMessage})
+    </insert>
+
+    <select id="getVideoReportByUserIdAndVideo" resultType="com.example.dao.model.entity.VideoReport">
+        select
+        <include refid="selectParam"></include>
+        from video_report
+        where reporting_user_id=#{currentUserId} and video_id=#{videoId}
+    </select>
+</mapper>

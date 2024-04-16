@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-
     "web-dev": "vue-cli-service serve --mode dev --port 8331 ",
     "web-prod": "vue-cli-service serve --mode prod --port 8331",
     "build": "vue-cli-service build --mode dev",
