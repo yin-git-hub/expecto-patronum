@@ -35,7 +35,6 @@ const routes = [
             children: [{
                 path: '/personal',
                 component: () => import('../components/messagePage/personPage.vue'),
-
             },{
                 path: '/getSelfVideo',
                 component:()=>import('../components/list/VideoInfoListSelf.vue')
@@ -60,6 +59,9 @@ const routes = [
             },{
                 path: '/getSelfVideoLike',
                 component:()=>import('../components/messagePage/VideoLike.vue')
+            },{
+                path: '/getVideoInfoListSort',
+                component:()=>import('../components/list/VideoInfoListSort.vue'),
             }
 
             ]

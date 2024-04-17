@@ -6,6 +6,7 @@ import com.example.dao.model.vo.PageResult;
 import com.example.service.SearchService;
 import com.example.service.VideoInfoESService;
 import com.example.service.common.ErrorCode;
+import com.example.service.constant.VideoConstant;
 import com.example.service.exception.ThrowUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Author: yin7331
@@ -37,7 +41,15 @@ public class VideoInfoSearchServiceImpl implements SearchService {
         }
         PageResult pageResult = new PageResult();
         pageResult.setTotal(videoInfoES.getSize());
-        pageResult.setValList(videoInfoES.getContent());
+        LinkedList<VideoInfoES> videoInfoES1 = new LinkedList<>();
+        List<VideoInfoES> content1 = videoInfoES.getContent();
+        for (VideoInfoES infoES : content1) {
+//            已审核 并且 状态正常
+            if (infoES.getVideoReview().equals(VideoConstant.REVIEW_YES)&&infoES.getVideoStatus().equals(VideoConstant.STATUS_NORMAL)) {
+                videoInfoES1.add(infoES);
+            }
+        }
+        pageResult.setValList(videoInfoES1);
         pageResult.setTotalPages(videoInfoES.getTotalPages());
         pageResult.setPageIndex(videoInfoES.getNumber() + 1);
         pageResult.setTotalElements(videoInfoES.getTotalElements());
@@ -80,7 +92,15 @@ public class VideoInfoSearchServiceImpl implements SearchService {
         Page<VideoInfoES> byVideoIdIn = videoInfoESService.findByWorksLabelId(searchDto.getWorksLabelId(), pageable);
         PageResult pageResult = new PageResult();
         pageResult.setTotal(byVideoIdIn.getSize());
-        pageResult.setValList(byVideoIdIn.getContent());
+        LinkedList<VideoInfoES> videoInfoES1 = new LinkedList<>();
+        List<VideoInfoES> content1 = byVideoIdIn.getContent();
+        for (VideoInfoES infoES : content1) {
+//            已审核 并且 状态正常
+            if (infoES.getVideoReview().equals(VideoConstant.REVIEW_YES)&&infoES.getVideoStatus().equals(VideoConstant.STATUS_NORMAL)) {
+                videoInfoES1.add(infoES);
+            }
+        }
+        pageResult.setValList(videoInfoES1);
         pageResult.setTotalPages(byVideoIdIn.getTotalPages());
         pageResult.setPageIndex(byVideoIdIn.getNumber() + 1);
         pageResult.setTotalElements(byVideoIdIn.getTotalElements());

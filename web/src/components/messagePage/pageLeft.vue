@@ -12,11 +12,42 @@
                 个人信息
               </router-link>
             </a-menu-item>
-            <a-menu-item key="2">
-              <router-link to="/getSelfVideo">
-                我的作品
-              </router-link>
-            </a-menu-item>
+            <a-sub-menu key="videoList1" >
+              <template #title>
+                <router-link to="/getSelfVideo">
+                  我的视频
+                </router-link>
+              </template>
+              <a-menu-item-group key="v1">
+                <template #icon>
+                </template>
+                <a-menu-item
+                    key="vv1">
+                  <div class="group-item" @click="getVideoInfoListSort('review',0)">
+                      <span>未审核</span>
+                  </div>
+                </a-menu-item>
+              </a-menu-item-group>
+              <a-menu-item-group key="v2">
+                <template #icon>
+                </template>
+                <a-menu-item
+                    key="vv2">
+                  <div class="group-item"  @click="getVideoInfoListSort('review',1)">
+                    <span>已审核</span>
+                  </div>
+                </a-menu-item>
+              </a-menu-item-group>
+              <a-menu-item-group key="v3">
+                <template #icon>
+                </template>
+                <a-menu-item key="vv3">
+                  <div class="group-item" @click="getVideoInfoListSort('status',0)">
+                    <span>异常</span>
+                  </div>
+                </a-menu-item>
+              </a-menu-item-group>
+            </a-sub-menu>
             <a-menu-item key="3">
               <router-link to="/getSelfVideoLike">
                 我的喜欢
@@ -103,6 +134,7 @@ import {defineComponent, onMounted, ref} from 'vue';
 import router from "@/router";
 import axios from "axios";
 import {message} from "ant-design-vue";
+import store from "@/store";
 
 const fList = ref([])
 const gList = ref([])
@@ -122,6 +154,22 @@ const confirmFollowing = id => {
     }
   })
 };
+
+const getVideoInfoListSort=(_sort,_id)=>{
+  store.commit("setVideoInfoOtherSort",{
+    sort:_sort,
+    id:_id
+  })
+  console.log(store.state.videoInfoOtherSort)
+  router.push(
+      {path:'/getVideoInfoListSort',
+    query:{
+      sort:_sort,
+      id:_id
+    }
+  })
+
+}
 const confirmCollection = id => {
   axios.post('/collection/deleteCollectionGroup/' + id.slice(1, 5)).then(resp => {
     if (resp.code === 200) {

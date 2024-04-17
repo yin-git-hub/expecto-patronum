@@ -72,4 +72,12 @@
     <select id="getVideoInfoByVideoId" resultType="com.example.dao.model.entity.VideoInfo">
         select * from video_info where video_id = #{videoId}
     </select>
+
+    <select id="getVideoInfoByUserIdAndVideoStatus" resultType="com.example.dao.model.entity.VideoInfo">
+        select * from video_info where user_id=#{currentUserId} and video_status=#{id}
+    </select>
+
+    <select id="getVideoInfoByUserIdAndVideoReview" resultType="com.example.dao.model.entity.VideoInfo">
+        select * from video_info where user_id=#{currentUserId} and video_review=#{id}
+    </select>
 </mapper>

@@ -110,4 +110,17 @@ public class VideoController {
         return ResultUtils.success(videoRecord);
     }
 
+    /**
+     * 根据审核状态和视频状态查询
+     * @return
+     */
+    @PostMapping("/getVideoInfo/{ortherSort}/{id}")
+    public BaseResponse getVideoInfo(
+            @PathVariable("ortherSort") String ortherSort
+            ,@PathVariable("id") Long id
+    ){
+        List<VideoInfo> videoInfos = videoService.getVideoInfo(ortherSort,id);
+        return ResultUtils.success(videoInfos);
+    }
+
 }

@@ -25,4 +25,6 @@ public interface VideoService {
     void addVideoRecord(VideoRecord videoRecord);
 
     List<VideoInfo> getVideoRecord();
+
+    List<VideoInfo> getVideoInfo(String ortherSort, Long id);
 }

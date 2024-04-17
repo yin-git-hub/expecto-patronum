@@ -40,4 +40,7 @@ public interface VideoMapper {
 
      VideoInfo getVideoInfoByVideoId(Long videoId);
 
+    List<VideoInfo> getVideoInfoByUserIdAndVideoStatus(@Param("currentUserId") Long currentUserId, @Param("id")Long id);
+
+    List<VideoInfo> getVideoInfoByUserIdAndVideoReview(@Param("currentUserId") Long currentUserId, @Param("id")Long id);
 }

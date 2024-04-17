@@ -103,6 +103,8 @@ const reportComment=(commentId)=>{
   axios.post('/comment/reportComment/'+commentId).then(resp=>{
     if (resp.code === 200) {
       message.success("举报成功")
+    }else if(resp.code===50001) {
+      message.warn(resp.message)
     }else {
       message.error("操作失败")
     }

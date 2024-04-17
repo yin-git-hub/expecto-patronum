@@ -1,5 +1,6 @@
 package com.example.service.impl;
 
+import com.example.controller.Support.UserSupport;
 import com.example.dao.mapper.CommentMapper;
 import com.example.dao.mapper.UserMapper;
 import com.example.dao.model.entity.Comment;
@@ -7,10 +8,14 @@ import com.example.dao.model.entity.UserInfo;
 import com.example.service.CommentService;
 import com.example.service.UserInfoService;
 import com.example.service.UserService;
+import com.example.service.common.ErrorCode;
+import com.example.service.exception.ThrowUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -24,6 +29,10 @@ public class CommentServiceImpl implements CommentService {
     CommentMapper commentMapper;
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    RedisTemplate redisTemplate;
+    @Autowired
+    UserSupport userSupport;
 
 
     @Override
@@ -55,6 +64,15 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void reportComment(Long commentId) {
+        Long currentUserId = userSupport.getCurrentUserId();
+        String commentReportKey = "comment-report-"+currentUserId+"-"+commentId;
+        String o = (String)redisTemplate.opsForValue().get(commentReportKey);
+        ThrowUtils.throwIf(o!=null, ErrorCode.OPERATION_ERROR,"请不要重复操作！");
+        redisTemplate.opsForValue()
+                .set(commentReportKey
+                        ,"1"
+                        ,60
+                        , TimeUnit.SECONDS);
         commentMapper.reportComment(commentId);
     }
 }

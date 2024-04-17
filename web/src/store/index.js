@@ -7,6 +7,12 @@ export default createStore({
   state: {
     userInfo: JSON.parse(window.localStorage.getItem(USER_KEY)) || {},
     videoInfo: JSON,
+    // review 0-未审核 1-已审核  status 1-异常
+    // {
+    //     sort:_sort, review status
+    //     id:_id 0 1 1
+    // }
+    videoInfoOtherSort: JSON,
     //视频标题名
     filename:String,
     videoCurrentTime:String,
@@ -16,6 +22,9 @@ export default createStore({
   getters: {
   },
   mutations: {
+    setVideoInfoOtherSort(state,_videoInfoOtherSort){
+      state.videoInfoOtherSort=_videoInfoOtherSort;
+    },
     setUserInfo (state, _userInfo) {
       state.userInfo = _userInfo;
 

@@ -115,6 +115,18 @@ public class VideoServiceImpl implements VideoService {
         return videoInfos;
     }
 
+    @Override
+    public List<VideoInfo> getVideoInfo(String ortherSort, Long id) {
+        List<VideoInfo> videoInfos = null;
+        Long currentUserId = userSupport.getCurrentUserId();
+        if (ortherSort.equals("status")) {
+            videoInfos =  videoMapper.getVideoInfoByUserIdAndVideoStatus(currentUserId,id);
+        }else if(ortherSort.equals("review")){
+            videoInfos =  videoMapper.getVideoInfoByUserIdAndVideoReview(currentUserId,id);
+        }
+        return videoInfos;
+    }
+
     @Scheduled(fixedRate = 1000)
     public void addVideoRecordToDB() {
 

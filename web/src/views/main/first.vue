@@ -12,7 +12,6 @@
   <div>
     <a-pagination
         show-size-changer
-        v-model:current="current1"
         v-model:pageSize="pageSize"
         :total="totalElements"
         @showSizeChange="onShowSizeChange"
