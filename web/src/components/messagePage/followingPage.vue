@@ -6,7 +6,7 @@
             :description="item.signature"
         >
           <template #title>
-            <a href="https://www.antdv.com/">{{ item.nickname }}</a>
+            <a @click="toAuthorWorks(item.userId)">{{ item.nickname }}</a>
           </template>
           <template #avatar>
             <a-avatar :src="item.image" />
@@ -48,6 +48,7 @@ const visible = ref(false)
 
 const data = ref([])
 import store from "@/store";
+import router from "@/router";
 const plainOptions = ref([]);
 const optionValue=ref();
 const checkedList=ref([]);
@@ -68,11 +69,17 @@ const showModal = (upId) => {
   visible.value = true;
 };
 
+const toAuthorWorks=(_userId)=>{
+  console.log(_userId)
+  router.push({path:"/toAuthorWorks",query:{userId:_userId}})
+}
+
 onMounted(async ()=>{
   try {
     axios.get('/following/getFollowings').then(resp=>{
       if(resp.code===200){
         data.value = resp.data
+        console.log("authorWorks===",data.value)
       }
     })
   }catch (e){

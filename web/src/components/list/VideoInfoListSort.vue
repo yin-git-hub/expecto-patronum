@@ -1,6 +1,6 @@
 <template>
   <a-card>
-    <a-list :data-source="videoInfoValue.valList" :grid="{ gutter: 16, column: 5 }">
+    <a-list :data-source="videoInfoValue" :grid="{ gutter: 16, column: 5 }">
 
       <template #renderItem="{ item }">
         <a-list-item>
@@ -60,7 +60,6 @@ onUpdated(()=>{
       videoInfoValue.value = response.data
       console.log('videoInfoValue.value===> ',videoInfoValue.value)
     });
-
   } catch (error) {
     console.error('请求失败:', error)
   }

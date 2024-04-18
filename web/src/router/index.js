@@ -43,7 +43,7 @@ const routes = [
                 component:()=>import('../components/messagePage/personPageEdit.vue')
             },{
                 path: '/personal-following',
-                component:()=>import('../components/messagePage/followingPage.vue')
+                component:()=>import('../components/messagePage/followingPage.vue'),
             },{
                 path: '/personal-following-group',
                 component:()=>import('../components/messagePage/followingPageByGroup.vue')
@@ -62,7 +62,10 @@ const routes = [
             },{
                 path: '/getVideoInfoListSort',
                 component:()=>import('../components/list/VideoInfoListSort.vue'),
-            }
+            },{
+                path :'/toAuthorWorks',
+                component:()=>import('../components/list/AuthorWorks.vue'),
+            },
 
             ]
         }
