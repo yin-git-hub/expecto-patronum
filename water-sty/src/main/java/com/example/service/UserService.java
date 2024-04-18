@@ -5,9 +5,11 @@ package com.example.service;
 import com.example.dao.model.dto.UserDto;
 import com.example.dao.model.dto.UserVerifyDto;
 import com.example.dao.model.entity.UserInfo;
+import com.example.dao.model.entity.VideoInfo;
 import org.apache.ibatis.annotations.Mapper;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,4 +38,8 @@ public interface UserService   {
 
 
     void saveUserPicture(HttpServletRequest req);
+
+    List<VideoInfo> getAuthorWorks(Long userId);
+
+    UserInfo getUserInfoByUserId(Long userId);
 }

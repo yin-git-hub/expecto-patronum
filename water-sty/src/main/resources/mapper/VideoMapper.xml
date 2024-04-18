@@ -80,4 +80,8 @@
     <select id="getVideoInfoByUserIdAndVideoReview" resultType="com.example.dao.model.entity.VideoInfo">
         select * from video_info where user_id=#{currentUserId} and video_review=#{id}
     </select>
+
+    <select id="getVideoInfoByUserId" resultType="com.example.dao.model.entity.VideoInfo">
+        select * from video_info where user_id=#{userId}
+    </select>
 </mapper>

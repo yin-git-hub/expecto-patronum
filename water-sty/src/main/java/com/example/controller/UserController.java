@@ -4,6 +4,7 @@ import com.example.controller.Support.UserSupport;
 import com.example.dao.model.dto.UserDto;
 import com.example.dao.model.dto.UserVerifyDto;
 import com.example.dao.model.entity.UserInfo;
+import com.example.dao.model.entity.VideoInfo;
 import com.example.service.PictureService;
 import com.example.service.UserService;
 import com.example.service.common.BaseResponse;
@@ -123,5 +124,16 @@ public class UserController {
     public BaseResponse pictureLoad(HttpServletRequest req){
         userService.saveUserPicture(req);
         return ResultUtils.success();
+    }
+    @PostMapping("/getAuthorWorks/{userId}")
+    public BaseResponse getAuthorWorks(@PathVariable("userId") Long userId){
+        List<VideoInfo> authorWorks = userService.getAuthorWorks(userId);
+        return ResultUtils.success(authorWorks);
+    }
+
+    @PostMapping("/getUserInfoByUserId/{userId}")
+    public BaseResponse getUserInfoByUserId(@PathVariable("userId") Long userId){
+        UserInfo authorWorks = userService.getUserInfoByUserId(userId);
+        return ResultUtils.success(authorWorks);
     }
 }

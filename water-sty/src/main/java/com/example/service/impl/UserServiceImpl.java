@@ -1,18 +1,21 @@
 package com.example.service.impl;
-import java.util.Date;
+import java.util.*;
 
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.json.JSONUtil;
 import com.example.controller.Support.UserSupport;
 import com.example.dao.mapper.RefreshTokenMapper;
 import com.example.dao.mapper.UserMapper;
+import com.example.dao.mapper.VideoMapper;
 import com.example.dao.model.dto.UserDto;
 import com.example.dao.model.dto.UserVerifyDto;
 import com.example.dao.model.entity.RefreshToken;
 import com.example.dao.model.entity.User;
 import com.example.dao.model.entity.UserInfo;
+import com.example.dao.model.entity.VideoInfo;
 import com.example.service.UserService;
 import com.example.service.common.ErrorCode;
 import com.example.service.exception.BusinessException;
@@ -35,8 +38,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -60,6 +61,9 @@ implements UserService {
     UserSupport userSupport;
     @Autowired
     private MinioTemplate minioTemplate;
+
+    @Autowired
+    VideoMapper videoMapper;
 
     @Override
     public void userRegister(UserDto user) {
@@ -240,6 +244,20 @@ implements UserService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<VideoInfo> getAuthorWorks(Long userId) {
+
+        List<VideoInfo> videoInfoByUserId = videoMapper.getVideoInfoByUserId(userId);
+
+        return videoInfoByUserId;
+    }
+
+    @Override
+    public UserInfo getUserInfoByUserId(Long userId) {
+        UserInfo userInfoByUserId = userMapper.getUserInfoByUserId(userId);
+        return userInfoByUserId;
     }
 
 

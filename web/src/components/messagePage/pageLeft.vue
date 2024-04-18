@@ -14,7 +14,7 @@
             </a-menu-item>
             <a-sub-menu key="videoList1">
               <template #title>
-                <router-link to="/getSelfVideo">
+                <router-link class="reset-color" to="/getSelfVideo">
                   我的视频
                 </router-link>
               </template>
@@ -60,7 +60,7 @@
             </a-menu-item>
             <a-sub-menu key="sub1" @titleClick="titleClickFollowing">
               <template #title>
-                <router-link to="/personal-following">
+                <router-link class="reset-color" to="/personal-following">
                   我的关注
                 </router-link>
               </template>
@@ -90,9 +90,9 @@
             </a-sub-menu>
             <a-sub-menu key="sub2" @titleClick="titleClickCollection">
               <template #title>
+                <span class="reset-color">
                 我的收藏
-                <span>
-              </span>
+                </span>
               </template>
               <a-menu-item-group key="g1">
                 <template #icon>
@@ -233,5 +233,9 @@ defineComponent({});
 
 .delete-button {
   margin-left: auto; /* 将按钮推到最右边 */
+}
+
+.reset-color {
+  color: black;
 }
 </style>

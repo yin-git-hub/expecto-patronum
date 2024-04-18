@@ -7,9 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,10 +19,20 @@ import static org.junit.jupiter.api.Assertions.*;
 @Slf4j
 class ScrollingServiceImplTest {
     public static void main(String[] args) {
-        LocalDateTime updateDate = LocalDateTime.now();
-        System.out.println(updateDate);
-
-
-    }
-
+        Map<String, String> map1 = new HashMap<String, String>(){{
+            put("1", "a");
+            put("2", "b");
+            put("3", "c");
+        }};
+        Map<String, String> map2 = new HashMap<String, String>(){{
+            put("test1", "张三");
+            put("test2", "李四");
+            put("test3", "王五");
+        }};
+        Map<String, String> resultMap = new HashMap<String, String>(){{
+            putAll(map1);
+            putAll(map2);
+        }};
+        System.out.println(resultMap);
+    } 
 }

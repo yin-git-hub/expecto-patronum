@@ -27,19 +27,20 @@ import {defineComponent, onMounted, ref} from 'vue';
 import axios from "axios";
 import store from "@/store";
 import router from "@/router";
+
 const videoInfoValue = ref('')
 
 onMounted(async () => {
   try {
     await axios.post(`/search/all/collection`, {
-      "type":'video',
+      "type": 'video',
       "pageIndex": 1,
       "pageSize": 10,
       "total": 0,
       "valList": []
     }).then(response => {
-      videoInfoValue.value = response.data
-      console.log('videoInfoValue.value===> ',videoInfoValue.value)
+      videoInfoValue.value = Object.assign(response.data, {valList: []})
+      console.log('videoInfoValue.value===> ', videoInfoValue.value)
     });
 
   } catch (error) {
