@@ -6,7 +6,7 @@
             :description="item.signature"
         >
           <template #title>
-            <a href="https://www.antdv.com/">{{ item.nickname }}</a>
+            <a @click="toAuthorWorks(item.userId)">{{ item.nickname }}</a>
           </template>
           <template #avatar>
             <a-avatar :src="item.image" />
@@ -79,6 +79,7 @@ watchEffect(() => {
 });
 const data = ref([])
 import store from "@/store";
+import router from "@/router";
 const plainOptions = ref([]);
 const optionValue=ref();
 const checkedList=ref([]);
@@ -149,6 +150,11 @@ const deleteFollowing=(upId)=>{
       window.location.reload();
     }
   })
+}
+
+const toAuthorWorks=(_userId)=>{
+  console.log(_userId)
+  router.push({path:"/toAuthorWorks",query:{userId:_userId}})
 }
 
 defineComponent({

@@ -20,6 +20,10 @@ const routes = [
         }, {
             path: 'create',
             component: () => import('../views/main/create.vue'),
+        },{
+            path: 'publicMessage',
+            component: () => import('../components/list/publicMessage.vue'),
+
         }, {
             path: '/search/:select',
             component: () => import( '../views/main/search.vue')

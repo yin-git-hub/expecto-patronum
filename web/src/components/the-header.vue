@@ -38,6 +38,11 @@
           创作
         </router-link>
       </a-menu-item>
+      <a-menu-item key="/publicMessage">
+        <router-link  style="color: black"  to="/publicMessage">
+          公告
+        </router-link>
+      </a-menu-item>
       <a-menu-item key="/myPage">
         <router-link  style="color: black"  to="/myPage">
           我的空间

@@ -18,12 +18,30 @@
   </div>
   <a-divider></a-divider>
 
+  <a-list item-layout="horizontal" :data-source="data">
+    <template #renderItem="{ item }">
+      <a-list-item>
+        <a-list-item-meta
+            :description="item.videoSummary"
+        >
+          <template #title>
+            <a @click="onVideo(item.videoId, item.videoCover, item.userId)">{{ item.videoName }}</a>
+          </template>
+          <template #avatar>
+            <a-avatar :src="item.videoCover" />
+          </template>
+        </a-list-item-meta>
+      </a-list-item>
+    </template>
+  </a-list>
 </template>
 
 <script setup>
-import {onMounted, ref} from 'vue';
+import {  onMounted, ref} from 'vue';
 import axios from "axios";
 import {useRoute} from "vue-router";
+import store from "@/store";
+import router from "@/router";
 
 let route = useRoute()
 const authorInfo = ref({
@@ -36,6 +54,8 @@ onMounted(async () => {
     await axios.post('/user/getAuthorWorks/' + route.query.userId).then(resp => {
       if (resp.code === 200) {
         console.log('getAuthorWorks.data===>', resp.data)
+        data.value = resp.data
+
       }
     })
     await axios.post('/user/getUserInfoByUserId/' + route.query.userId).then(resp => {
@@ -49,6 +69,21 @@ onMounted(async () => {
   }
 })
 
+const data = ref([])
+const onVideo = (_videoId, _cover, _userId) => {
+  axios.post("/video/getVideoUrl", {id: _videoId}).then(resp => {
+    if (resp.code === 200) {
+      store.commit("setVideoInfo", {
+        videoUrl: resp.data,
+        cover: _cover,
+        videoId: _videoId,
+        userId: _userId,
+      });
+      router.push('/player')
+    }
+
+  })
+}
 
 </script>
 
