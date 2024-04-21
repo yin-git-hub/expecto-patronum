@@ -6,6 +6,11 @@
       </router-link>
     </div>
     <div style="float: right; color: black;">
+      <span @mouseover="onAllMessage" id="all-message">
+        <router-link  style="margin-right: 20px; color: black"  to="/publicMessage">
+          消息
+        </router-link>
+      </span>
       您好：{{ userInfo.nickname }}
       <router-link to="/login" style="color: black;">
         退出登录
@@ -38,11 +43,6 @@
           创作
         </router-link>
       </a-menu-item>
-      <a-menu-item key="/publicMessage">
-        <router-link  style="color: black"  to="/publicMessage">
-          公告
-        </router-link>
-      </a-menu-item>
       <a-menu-item key="/myPage">
         <router-link  style="color: black"  to="/myPage">
           我的空间
@@ -50,6 +50,7 @@
       </a-menu-item>
     </a-menu>
   </a-layout-header>
+
 </template>
 
 <script>
@@ -62,14 +63,19 @@ export default defineComponent({
   setup() {
     let userInfo = store.state.userInfo;
     const selectedKeys = ref([]);
-
+    const msgFlag = ref("888")
+    const onAllMessage = ()=>{
+      console.log("111")
+    }
     watch(() => router.currentRoute.value.path, (newValue) => {
       console.log('watch', newValue);
       selectedKeys.value = [];
       selectedKeys.value.push(newValue);
     }, {immediate: true});
     return {
+      msgFlag,
       userInfo,
+      onAllMessage,
       selectedKeys
     };
   },
@@ -78,6 +84,12 @@ export default defineComponent({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.msgSummary{
+  float: right;
+}
+.msgSummaryButton{
+  display: block;
+}
 .logo {
   float: left;
   height: 31px;

@@ -14,6 +14,8 @@ import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ReportServiceImpl implements ReportService {
     @Autowired
@@ -34,5 +36,10 @@ public class ReportServiceImpl implements ReportService {
         videoReport.setReportStatus(VideoConstant.REPORT_REPORTED);
         BeanUtil.copyProperties(videoInfoByVideoId,videoReport);
         reportMapper.addVideoReport(videoReport);
+    }
+
+    @Override
+    public List getVideoReportReturn() {
+        return null;
     }
 }

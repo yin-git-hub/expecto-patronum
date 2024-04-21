@@ -23,7 +23,13 @@ const routes = [
         },{
             path: 'publicMessage',
             component: () => import('../components/list/publicMessage.vue'),
-
+            children: [{
+                path: "/systemMessage",
+                component: ()=>import('../components/list/systemMessage.vue')
+            },{
+                path: "/myMessage",
+                component: ()=>import('../components/list/myMessage.vue')
+            },]
         }, {
             path: '/search/:select',
             component: () => import( '../views/main/search.vue')

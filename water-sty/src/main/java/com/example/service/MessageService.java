@@ -12,4 +12,6 @@ public interface MessageService {
     void pushMessage(VideoInfo videoInfo);
 
     void sendVideoMessage(PushMessageEntity pushMessageEntity);
+
+    List getSystemMsg();
 }

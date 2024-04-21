@@ -23,4 +23,14 @@ public class ReportController {
         return ResultUtils.success();
     }
 
+    /**
+     * 获取举报反馈
+     * @return
+     */
+    @PostMapping("/getVideoReportReturn")
+    public BaseResponse getVideoReportReturn(){
+        reportService.getVideoReportReturn();
+        return ResultUtils.success();
+    }
+
 }
