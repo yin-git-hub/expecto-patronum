@@ -22,6 +22,7 @@ public class MessageController {
     @PostMapping("/getSystemMsg")
     public BaseResponse getSystemMsg(){
         messageService.getSystemMsg();
+        return null;
     }
 
 }
