@@ -73,4 +73,9 @@ public class MessageServiceImpl implements MessageService {
             }
         });
     }
+
+    @Override
+    public List getSystemMsg() {
+        return null;
+    }
 }
