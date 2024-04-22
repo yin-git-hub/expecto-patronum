@@ -1,6 +1,8 @@
 package com.example.dao.mapper;
 
 import com.example.dao.model.entity.*;
+import com.example.dao.model.vo.VideoReportMsgVO;
+import com.example.dao.model.vo.VideoUploadMsgVO;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -45,4 +47,8 @@ public interface VideoMapper {
     List<VideoInfo> getVideoInfoByUserIdAndVideoReview(@Param("currentUserId") Long currentUserId, @Param("id")Long id);
 
     List<VideoInfo> getVideoInfoByUserId(Long userId);
+
+    List<VideoReportMsgVO> getVideoReportMsg(Long currentUserId);
+
+    List<VideoUploadMsgVO> getVideoUploadMsg(Long currentUserId);
 }

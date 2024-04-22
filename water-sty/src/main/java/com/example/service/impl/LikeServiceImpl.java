@@ -5,7 +5,10 @@ import com.example.dao.mapper.LikeMapper;
 import com.example.dao.model.entity.UserLike;
 import com.example.service.LikeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Author: yin7331
@@ -19,10 +22,16 @@ public class LikeServiceImpl implements LikeService {
 
     @Autowired
     UserSupport userSupport;
+
+    @Autowired
+    RedisTemplate redisTemplate;
+
     @Override
     public void addLike(UserLike like) {
         Long userId = userSupport.getCurrentUserId();
         like.setUserId(userId);
+        redisTemplate.opsForValue().set("video-like-"+like.getVideoId()
+                ,like.getVideoId()+"",1, TimeUnit.DAYS);
         likeMapper.insertSelective(like);
     }
 

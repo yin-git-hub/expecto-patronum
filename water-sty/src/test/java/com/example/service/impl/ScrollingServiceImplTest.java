@@ -19,20 +19,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @Slf4j
 class ScrollingServiceImplTest {
     public static void main(String[] args) {
-        Map<String, String> map1 = new HashMap<String, String>(){{
-            put("1", "a");
-            put("2", "b");
-            put("3", "c");
-        }};
-        Map<String, String> map2 = new HashMap<String, String>(){{
-            put("test1", "张三");
-            put("test2", "李四");
-            put("test3", "王五");
-        }};
-        Map<String, String> resultMap = new HashMap<String, String>(){{
-            putAll(map1);
-            putAll(map2);
-        }};
-        System.out.println(resultMap);
+        String s = "www-ww-eee";
+        String s1 = s.replace("www-ww-","");
+        System.out.println(s1);
     } 
 }

@@ -12,12 +12,45 @@
                 mode="inline"
                 style="height: 100%"
             >
-              <a-menu-item key="1">
-                <router-link to="/systemMessage">
-                  系统消息
-                </router-link>
-              </a-menu-item>
-              <a-sub-menu key="videoList1">
+              <a-sub-menu key="msg1">
+                <template #title>
+                    系统消息
+                </template>
+                <a-menu-item-group key="sys1">
+                  <template #icon>
+                  </template>
+                  <a-menu-item key="sys11">
+                    <div class="group-item">
+                      <router-link style="color: black" to="/systemLikeMessage">
+                      <span>收到的赞</span>
+                      </router-link>
+                    </div>
+                  </a-menu-item>
+                </a-menu-item-group>
+                <a-menu-item-group key="sys2">
+                  <template #icon>
+                  </template>
+                  <a-menu-item key="sys22">
+                    <div class="group-item">
+                      <router-link style="color: black" to="/systemUploadMessage">
+                      <span>视频消息</span>
+                      </router-link>
+                    </div>
+                  </a-menu-item>
+                </a-menu-item-group>
+                <a-menu-item-group key="sys3">
+                  <template #icon>
+                  </template>
+                  <a-menu-item key="sys33">
+                    <div class="group-item">
+                      <router-link style="color: black" to="/systemReportMessage">
+                      <span>其他消息</span>
+                      </router-link>
+                    </div>
+                  </a-menu-item>
+                </a-menu-item-group>
+              </a-sub-menu>
+              <a-sub-menu key="msg2">
                 <template #title>
                   <router-link style="color: black" to="/myMessage">
                     私信
@@ -43,7 +76,7 @@
         </a-layout>
       </a-layout-content>
       <a-layout-footer style="background: white;text-align: center">
-        Ant Design ©2018 Created by Ant UED
+
       </a-layout-footer>
     </a-layout>
 

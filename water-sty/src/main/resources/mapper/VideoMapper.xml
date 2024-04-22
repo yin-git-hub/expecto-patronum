@@ -84,4 +84,14 @@
     <select id="getVideoInfoByUserId" resultType="com.example.dao.model.entity.VideoInfo">
         select * from video_info where user_id=#{userId}
     </select>
+
+    <select id="getVideoReportMsg" resultType="com.example.dao.model.vo.VideoReportMsgVO">
+        select * from video_report
+                 where reporting_user_id=#{userId} and (report_status=2 or report_status=3)
+    </select>
+
+    <select id="getVideoUploadMsg" resultType="com.example.dao.model.vo.VideoUploadMsgVO">
+        select * from video_info
+        where user_id=#{userId} and (video_review=2 or video_review=1)
+    </select>
 </mapper>

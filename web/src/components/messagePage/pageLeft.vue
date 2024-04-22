@@ -125,7 +125,7 @@
       </a-layout>
     </a-layout-content>
     <a-layout-footer style="background: white;text-align: center">
-      Ant Design ©2018 Created by Ant UED
+
     </a-layout-footer>
   </a-layout>
 </template>

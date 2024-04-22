@@ -24,8 +24,14 @@ const routes = [
             path: 'publicMessage',
             component: () => import('../components/list/publicMessage.vue'),
             children: [{
-                path: "/systemMessage",
-                component: ()=>import('../components/list/systemMessage.vue')
+                path: "/systemUploadMessage",
+                component: ()=>import('../components/list/systemUploadMessage.vue')
+            },{
+                path: "/systemLikeMessage",
+                component: ()=>import('../components/list/systemLikeMessage.vue')
+            },{
+                path: "/systemReportMessage",
+                component: ()=>import('../components/list/systemReportMessage.vue')
             },{
                 path: "/myMessage",
                 component: ()=>import('../components/list/myMessage.vue')
