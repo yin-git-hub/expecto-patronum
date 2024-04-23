@@ -10,6 +10,7 @@ public class VideoReportMsgVO {
         private Long videoId;
         private String videoName;
         private String reportMessage;
+        private Integer reportStatus;
         private Date cereteDate;
         private Date updateDate;
 }
