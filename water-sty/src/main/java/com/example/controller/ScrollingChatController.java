@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,7 +31,7 @@ import java.util.concurrent.TimeUnit;
  * Date: 2023/11/2 22:35
  * Describe: 弹幕 scrolling
  */
-@ServerEndpoint(value = "/chat/{token}/{userId}/{content}")
+@ServerEndpoint(value = "/chat/{token}/{userId}")
 @Slf4j
 @Component
 public class ScrollingChatController {
@@ -38,9 +39,9 @@ public class ScrollingChatController {
     private Session session;
 
     // 视频在线人数
-    private static HashMap<String, List<Session>> currentMap
+    private static HashMap<String, Session> chatOnlineMap
             = new HashMap();
-    public static ScheduledExecutorService p = Executors.newScheduledThreadPool(1);
+    public ScheduledExecutorService p = Executors.newScheduledThreadPool(1);
 
     private static ApplicationContext APPLICATION_CONTEXT;
 
@@ -48,26 +49,25 @@ public class ScrollingChatController {
         APPLICATION_CONTEXT = app;
     }
 
-    private Long userId = null;
+    private Long myUserId = null;
+    private Long reUserId = null;
 
     // 通过 EndpointConfig 对象获取 HttpSession 中的属性
 
     @OnOpen
     public void onOpen(Session session
-            , @PathParam("content") String content
             , @PathParam("userId") String userId
             , @PathParam("token") String token
     ) {
         try {
-            this.userId = TokenUtil.verifyToken(token);
+            this.myUserId = TokenUtil.verifyToken(token);
+            this.reUserId = Long.valueOf(userId);
         } catch (Exception e) {
             throw new BusinessException(5000, "用户未登录或过期");
         }
 
         this.session = session;
-
-
-
+        chatOnlineMap.put(String.valueOf(this.myUserId),this.session);
 
         noticeOnlineCount();
 
@@ -76,16 +76,20 @@ public class ScrollingChatController {
     @OnClose
     public void onClose() {
 
-        List<Session> currentList = null;
-        synchronized (currentMap) {
-            currentList.remove(this.session);
-
-        }
     }
 
     @OnMessage
     public void onMessage(String message) {
+        Session s = chatOnlineMap.get(reUserId);
+        if(s==null){
 
+        }else {
+            try {
+                s.getBasicRemote().sendText(message);
+            }catch (Exception e){
+                System.out.println(e);
+            }
+        }
     }
 
     @OnError
@@ -94,33 +98,16 @@ public class ScrollingChatController {
         error.printStackTrace();
     }
 
-
-    public void sendMessageCurrentVideo(Scrolling scrolling) {
-        ThrowUtils.throwIf(scrolling == null, ErrorCode.PARAMS_ERROR);
-
-        List<Session> currentList = currentMap.get(String.valueOf(scrolling.getVideoId()));
-
-        if (currentList != null) {
-            for (int i = 0; i < currentList.size(); i++) {
-                try {
-                    Session toSession = currentList.get(i);
-                    String scrollingJsonStr = JSONUtil.toJsonStr(scrolling);
-                    toSession.getBasicRemote().sendText(scrollingJsonStr);
-                    log.info("发给 sessionID {},value:{}", toSession.getId(), scrolling.getScrollingContext());
-                } catch (Exception e) {
-                    throw new BusinessException(ErrorCode.OPERATION_ERROR, "弹幕发送失败");
-                }
-            }
-        }
-
-
-    }
-
-
-    public void sendCurrentPeopleCount() {
+    public void sendCurrentPeopleOnline() {
 
         try {
-            this.getSession().getBasicRemote().sendText( "");
+            Session s = chatOnlineMap.get(this.reUserId);
+            if (s==null) {
+                this.session.getBasicRemote().sendText("false");
+            }else{
+                this.session.getBasicRemote().sendText("true");
+            }
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -137,13 +124,11 @@ public class ScrollingChatController {
     // websocket 在启动类上添加 这个方法生效
     // @EnableScheduling
     private void noticeOnlineCount() {
+        Integer i = 1 * 1000;
+        p.scheduleAtFixedRate(() -> {
+            this.sendCurrentPeopleOnline();
+        }, i, 1000, TimeUnit.MILLISECONDS);
 
-        if (!currentMap.isEmpty()) {
-            Integer i = 1 * 1000;
-            p.scheduleAtFixedRate(() -> {
-                this.sendCurrentPeopleCount();
-            }, i, 1000, TimeUnit.MILLISECONDS);
-        }
     }
 
 }
