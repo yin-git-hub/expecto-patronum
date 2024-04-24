@@ -2,11 +2,13 @@ package com.example.controller;
 
 import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSONObject;
+import com.example.dao.model.entity.ChatMsg;
 import com.example.dao.model.entity.Scrolling;
 import com.example.service.ScrollingService;
 import com.example.service.common.ErrorCode;
 import com.example.service.exception.BusinessException;
 import com.example.service.exception.ThrowUtils;
+import com.example.service.impl.ChatServiceImpl;
 import com.example.service.utils.RabbitMQUtil;
 import com.example.service.utils.TokenUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +36,7 @@ import java.util.concurrent.TimeUnit;
 @ServerEndpoint(value = "/chat/{token}/{userId}")
 @Slf4j
 @Component
-public class ScrollingChatController {
+public class WebSocketChatController {
 
     private Session session;
 
@@ -42,12 +44,6 @@ public class ScrollingChatController {
     private static HashMap<String, Session> chatOnlineMap
             = new HashMap();
     public ScheduledExecutorService p = Executors.newScheduledThreadPool(1);
-
-    private static ApplicationContext APPLICATION_CONTEXT;
-
-    public static void setApplicationContext(ApplicationContext app) {
-        APPLICATION_CONTEXT = app;
-    }
 
     private Long myUserId = null;
     private Long reUserId = null;
@@ -68,24 +64,28 @@ public class ScrollingChatController {
 
         this.session = session;
         chatOnlineMap.put(String.valueOf(this.myUserId),this.session);
-
         noticeOnlineCount();
-
     }
 
     @OnClose
     public void onClose() {
-
+        chatOnlineMap.remove(myUserId);
     }
 
     @OnMessage
     public void onMessage(String message) {
         Session s = chatOnlineMap.get(reUserId);
+        ChatMsg chatMsg = new ChatMsg();
+        chatMsg.setMessage(message);
+        chatMsg.setSendUserId(this.myUserId);
+        chatMsg.setAcceptUserId(this.reUserId);
+        ChatServiceImpl chatService= (ChatServiceImpl)ScrollingWebsocketController.APPLICATION_CONTEXT.getBean("chatServiceImpl");
         if(s==null){
-
+            chatService.syncSaveChat(chatMsg);
         }else {
             try {
                 s.getBasicRemote().sendText(message);
+                chatService.asyncSaveChat(chatMsg);
             }catch (Exception e){
                 System.out.println(e);
             }

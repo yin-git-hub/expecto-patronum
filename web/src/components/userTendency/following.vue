@@ -8,6 +8,10 @@ import {defineComponent, onMounted, ref} from 'vue'
 import axios from "axios";
 import store from "@/store";
 
+const following_value = ref()
+const _disabled = ref()
+let userId = store.state.videoInfo.userId
+
 onMounted(async () => {
   try {
 
@@ -51,10 +55,6 @@ const deleteFollowing=()=>{
     }
   })
 }
-
-const following_value = ref()
-const _disabled = ref()
-let userId = store.state.videoInfo.userId
 
 </script>
 

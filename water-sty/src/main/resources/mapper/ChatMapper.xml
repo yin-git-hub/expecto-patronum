@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.mapper.ChatMapper">
+<insert id="saveMsg">
+    insert into chat_msg ( send_user_id
+                         , accept_user_id
+                         , message)
+    values (#{sendUserId}, #{acceptUserId}, #{message})
+</insert>
+<select id="getChatMsg" resultType="com.example.dao.model.entity.ChatMsg">
+    select *
+    from chat_msg
+    where (send_user_id = #{currentUserId}
+        and accept_user_id = #{userId})
+       or (accept_user_id = #{currentUserId}
+        and send_user_id = #{userId}) order by create_time asc
+</select>
+</mapper>

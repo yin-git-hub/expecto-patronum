@@ -47,7 +47,7 @@ public class ScrollingWebsocketController {
             = new HashMap();
     public static ScheduledExecutorService pool = Executors.newScheduledThreadPool(1);
 
-    private static ApplicationContext APPLICATION_CONTEXT;
+    public static ApplicationContext APPLICATION_CONTEXT;
 
     public static void setApplicationContext(ApplicationContext app) {
         APPLICATION_CONTEXT = app;
