@@ -7,7 +7,8 @@ export default createStore({
   state: {
     userInfo: JSON.parse(window.localStorage.getItem(USER_KEY)) || {},
     videoInfo: JSON,
-
+    // 进入关注作者主页
+    userId: String,
     //视频标题名
     filename:String,
     videoCurrentTime:String,
@@ -25,6 +26,9 @@ export default createStore({
     },
     setVideoInfo(state,_videoInfo){
       state.videoInfo = _videoInfo;
+    },
+    setUserId(state,_userId){
+      state.userId = _userId;
     },
     setFilename(state,_filename){
       state.filename = _filename;

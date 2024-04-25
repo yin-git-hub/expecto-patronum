@@ -16,7 +16,7 @@
             </span>
     <span style="float: right;position: relative">
        <the-following></the-following>
-       <a-button @click="toChatPage(authorInfo.userId)" style="position: absolute;top: 40px;left: 0px;width: 90px;margin-right: 40px">私信</a-button>
+       <a-button @click="toChatPage(authorInfo.userId)" style="position: absolute;top: 40px;left: 0px;width: 66px;margin-right: 40px">私信</a-button>
     </span>
   </div>
   <a-divider></a-divider>
@@ -54,6 +54,7 @@ const authorInfo = ref({
   signature: '',
 });
 onMounted(async () => {
+
   try {
     await axios.post('/user/getAuthorWorks/' + route.query.userId).then(resp => {
       if (resp.code === 200) {
@@ -66,6 +67,7 @@ onMounted(async () => {
       if (resp.code === 200) {
         console.log('getUserInfoByUserId.data===>', resp.data.image)
         authorInfo.value = resp.data
+        store.commit("setUserId",authorInfo.value.userId)
       }
     })
   } catch (error) {

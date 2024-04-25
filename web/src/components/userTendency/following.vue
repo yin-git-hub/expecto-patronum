@@ -14,7 +14,13 @@ let userId = store.state.videoInfo.userId
 
 onMounted(async () => {
   try {
-
+    let userId = store.state.videoInfo.userId
+    let followUserId = store.state.userId
+    if (userId===null||userId===""){
+      userId = followUserId
+    }
+    console.log('userId===',userId)
+    console.log('followUserId===',followUserId)
     //查看是否关注
     await axios.post('/following/hasFollowing',{
       upId:userId
