@@ -12,8 +12,6 @@
     <vue-danmaku  class="danmu-class" ref="danmakuRef"
 
     >
-
-
     </vue-danmaku>
 
   </div>

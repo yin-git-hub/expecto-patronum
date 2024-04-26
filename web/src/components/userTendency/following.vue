@@ -23,9 +23,8 @@ onMounted(async () => {
     console.log('followUserId===',followUserId)
     //查看是否关注
     await axios.post('/following/hasFollowing',{
-      upId:userId
+      upId:userId||store.state.userId
     }).then(resp => {
-
       if(resp.data===true){
         following_value.value = "已关注"
         _disabled.value = true

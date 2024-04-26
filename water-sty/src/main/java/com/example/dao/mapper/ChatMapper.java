@@ -11,4 +11,6 @@ public interface ChatMapper {
     public void saveMsg(ChatMsg chatMsg);
 
     List<ChatMsg> getChatMsg(@Param("currentUserId") Long currentUserId,@Param("userId") Long userId);
+
+    List<ChatMsg> getChatMsgPerson(Long currentUserId);
 }

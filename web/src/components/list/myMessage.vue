@@ -12,9 +12,10 @@
       <a-textarea
           placeholder="请输入消息"
           :auto-size="{ minRows: 3, maxRows: 3 }"
+          v-model:value="chatContext"
       />
       <div class="operation-box">
-        <a-button type="primary">发送消息</a-button>
+        <a-button @click="sendMessage" type="primary">发送消息</a-button>
       </div>
     </div>
   </div>
@@ -24,9 +25,30 @@
 import {useRoute} from "vue-router";
 import myMessageBar from "./myMessageBar.vue"
 import otherMessageBar from "./otherMessageBar.vue"
-
+import store from "@/store";
+import {onMounted, ref} from "vue";
+import axios from "axios";
+const chatContext = ref()
 const route = useRoute()
-const userId = route.query.userId
+const _userId = route.query.userId
+const _token = store.state.userInfo.token
+// const ws = new WebSocket("ws://localhost:7330/water-sty/scrolling/" + _token + "/" + store.state.videoInfo.videoId);
+const chat = new WebSocket("ws://localhost:7330/water-sty/chat/"+_token+"/"+_userId);
+
+chat.onopen = function () {
+  console.log('WebSocket connection established');
+};
+
+chat.onmessage = function (message) {
+  // data.value = JSON.parse(message.data);
+};
+
+console.log('route.query.chatMessage===',route.query.chatMessage);
+const sendMessage = () => {
+  console.log('chatContext.value===',chatContext.value)
+  chat.send(chatContext.value);
+}
+
 </script>
 <style scoped>
 

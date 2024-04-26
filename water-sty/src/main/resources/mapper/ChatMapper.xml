@@ -14,5 +14,10 @@
         and accept_user_id = #{userId})
        or (accept_user_id = #{currentUserId}
         and send_user_id = #{userId}) order by create_time asc
-</select>
+</select >
+    <select id="getChatMsgPerson"  resultType="com.example.dao.model.entity.ChatMsg">
+        select *
+        from chat_msg
+        where accept_user_id = #{currentUserId}
+    </select>
 </mapper>

@@ -58,6 +58,7 @@ public class WebSocketChatController {
         try {
             this.myUserId = TokenUtil.verifyToken(token);
             this.reUserId = Long.valueOf(userId);
+            System.out.println(myUserId+":::"+reUserId);
         } catch (Exception e) {
             throw new BusinessException(5000, "用户未登录或过期");
         }
@@ -74,6 +75,7 @@ public class WebSocketChatController {
 
     @OnMessage
     public void onMessage(String message) {
+        System.out.println(message);
         Session s = chatOnlineMap.get(reUserId);
         ChatMsg chatMsg = new ChatMsg();
         chatMsg.setMessage(message);
