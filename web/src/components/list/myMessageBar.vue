@@ -28,9 +28,6 @@ defineProps({
     type: String,
     default: "666"
   },
-  id: {
-    type: Number
-  }
 })
 </script>
 <style scoped>
@@ -44,8 +41,8 @@ defineProps({
 
 .avatar-box {
   display: inline-block;
-  width: 5rem;
-  height: 5rem;
+  width: 3.5rem;
+  height:3.5rem;
   border-radius: 100%;
   box-shadow: 0 0 5px black;
   margin: 0 15px;

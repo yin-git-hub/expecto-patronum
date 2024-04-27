@@ -18,6 +18,6 @@
     <select id="getChatMsgPerson"  resultType="com.example.dao.model.entity.ChatMsg">
         select *
         from chat_msg
-        where accept_user_id = #{currentUserId}
+        where accept_user_id = #{currentUserId} or send_user_id = #{currentUserId}
     </select>
 </mapper>

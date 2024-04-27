@@ -15,7 +15,8 @@
             </a-form-item>
             </span>
     <span style="float: right;position: relative">
-       <the-following></the-following>
+<!--       <the-following></the-following>-->
+      <a-button >已关注</a-button>
        <a-button @click="toChatPage(authorInfo.userId)" style="position: absolute;top: 40px;left: 0px;width: 66px;margin-right: 40px">私信</a-button>
     </span>
   </div>
@@ -45,7 +46,6 @@ import axios from "axios";
 import {useRoute} from "vue-router";
 import store from "@/store";
 import router from "@/router";
-import TheFollowing from "@/components/userTendency/following.vue";
 
 let route = useRoute()
 const authorInfo = ref({

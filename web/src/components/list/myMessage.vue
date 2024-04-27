@@ -2,10 +2,22 @@
 <template>
   <div class="container">
     <div class="chat-box">
-      <myMessageBar
-          :avatar-url="'https://hbimg.huabanimg.com/dec89391890c8cae3fc21af5e8d9a4211a922aa18a7b-SN9pHl_fw658'"
-          :msg-text="'999999'"></myMessageBar>
-      <otherMessageBar :avatar-url="'https://hbimg.b0.upaiyun.com/bf839d0677e8c59be15bd4663e592e3c26ab987a1162a-sL1LQL_fw658'"></otherMessageBar>
+      <div style="display:flex; justify-content: center; margin-bottom: 5px" v-html="reState"></div>
+      <div v-for="msg in chatWindowContext"
+           :key="msg.id">
+        <!--        对方为发送消息  我为接收消息-->
+        <myMessageBar
+            v-if="_userId===msg.sendUserId"
+            :avatar-url="msg.sendUserImage"
+            :msg-text="msg.message"
+        ></myMessageBar>
+        <!--        我方为发送消息  对方为接收消息-->
+        <otherMessageBar
+            v-if="_userId!==msg.sendUserId"
+            :avatar-url="msg.sendUserImage"
+            :msg-text="msg.message"
+        ></otherMessageBar>
+      </div>
     </div>
 
     <div class="edit-box">
@@ -19,6 +31,7 @@
       </div>
     </div>
   </div>
+
 </template>
 <script setup>
 /* eslint-disable */
@@ -26,29 +39,82 @@ import {useRoute} from "vue-router";
 import myMessageBar from "./myMessageBar.vue"
 import otherMessageBar from "./otherMessageBar.vue"
 import store from "@/store";
-import {onMounted, ref} from "vue";
+import {onMounted, onUpdated, ref, watch} from "vue";
 import axios from "axios";
+
 const chatContext = ref()
+const chatWindowContext = ref()
 const route = useRoute()
-const _userId = route.query.userId
+// 获取和谁聊天的id
+const _userId = ref()
 const _token = store.state.userInfo.token
-// const ws = new WebSocket("ws://localhost:7330/water-sty/scrolling/" + _token + "/" + store.state.videoInfo.videoId);
-const chat = new WebSocket("ws://localhost:7330/water-sty/chat/"+_token+"/"+_userId);
+const chat = new WebSocket("ws://localhost:7330/water-sty/webSocket/chat/" + _token + "/" + route.query.userId);
+// 对方状态
+const reState = ref()
+const reUserInfo = ref()
 
 chat.onopen = function () {
   console.log('WebSocket connection established');
 };
 
+
+
 chat.onmessage = function (message) {
-  // data.value = JSON.parse(message.data);
+  console.log(typeof message.data,typeof "false")
+  if (message.data.toString()==="false"||message.data.toString()==="true"){
+    if (message.data == "false") {
+      reState.value = "对方状态：<span style='color: #999999'>掉线</span>"
+    }
+    if (message.data == "true") {
+      reState.value = "对方状态：<span style='color: green'>在线</span>"
+    }
+  }else {
+    let arr = new Array()
+    arr.sendUserId = reUserInfo.value.userId
+    arr.message = message.data
+    arr.sendUserImage = reUserInfo.value.image
+    chatWindowContext.value.push(arr)
+
+    // 第一种方案
+    let chatBox = document.querySelector('.chat-box')
+    setTimeout(() => {
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }, 1)
+  }
 };
 
-console.log('route.query.chatMessage===',route.query.chatMessage);
 const sendMessage = () => {
-  console.log('chatContext.value===',chatContext.value)
-  chat.send(chatContext.value);
-}
 
+
+  chat.send( chatContext.value);
+  let arr = new Array()
+  arr.sendUserId = store.state.userInfo.userId
+  arr.message = chatContext.value
+  arr.sendUserImage = store.state.userInfo.image
+  chatWindowContext.value.push(arr)
+
+
+  // 第一种方案
+  let chatBox = document.querySelector('.chat-box')
+  setTimeout(() => {
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }, 1)
+
+}
+onMounted(() => {
+  // route.query.userId 为 对方 的id
+  axios.post('/chat/getChatMsg/' + route.query.userId).then(resp => {
+    console.log('_chatMessage===', resp.data)
+    _userId.value = parseInt(route.query.userId)
+    chatWindowContext.value = resp.data;
+  })
+  // route.query.userId 为 对方 的id
+  axios.post('/user/getUserInfoByUserId/'+route.query.userId).then(resp=>{
+    if (resp.code===200) {
+      reUserInfo.value = resp.data
+    }
+  })
+})
 </script>
 <style scoped>
 
@@ -78,6 +144,10 @@ const sendMessage = () => {
 
 .chat-box {
   padding: 10px;
+  height: 450px;
+  overflow: hidden;
+  overflow-y: scroll;
+
 }
 
 </style>

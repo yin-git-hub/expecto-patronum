@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/chat")
@@ -21,7 +22,7 @@ public class ChatController {
 
     @PostMapping("/getChatMsg/{userId}")
     public BaseResponse getChatMsg(@PathVariable("userId") Long userId){
-        List<ChatMsg> msgs = chatService.getChatMsg(userId);
+        List<Map> msgs = chatService.getChatMsg(userId);
         return ResultUtils.success(msgs);
     }
     @PostMapping("/getChatMsgPerson")

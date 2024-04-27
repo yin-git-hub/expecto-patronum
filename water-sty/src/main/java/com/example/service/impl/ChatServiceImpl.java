@@ -1,5 +1,6 @@
 package com.example.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.example.controller.Support.UserSupport;
 import com.example.dao.mapper.ChatMapper;
 import com.example.dao.mapper.UserMapper;
@@ -9,10 +10,7 @@ import com.example.service.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -43,10 +41,24 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public List<ChatMsg> getChatMsg(Long userId) {
+    public List<Map> getChatMsg(Long userId) {
         Long currentUserId = userSupport.getCurrentUserId();
         List<ChatMsg> msgs = chatMapper.getChatMsg(currentUserId,userId);
-        return msgs;
+        List<Map> msgMaps = new LinkedList<>();
+        for (ChatMsg msg : msgs) {
+            Map<String, Object> stringObjectMap = BeanUtil.beanToMap(msg);
+            Long sendUserId = msg.getSendUserId();
+            Long acceptUserId = msg.getAcceptUserId();
+            UserInfo userInfoBySendUserId = userMapper.getUserInfoByUserId(sendUserId);
+            UserInfo userInfoByAcceptUserId= userMapper.getUserInfoByUserId(acceptUserId);
+            stringObjectMap.put("sendUserImage",userInfoBySendUserId.getImage());
+            stringObjectMap.put("acceptUserImage",userInfoByAcceptUserId.getImage());
+            stringObjectMap.put("sendUserNickname",userInfoBySendUserId.getNickname());
+            stringObjectMap.put("acceptUserNickname",userInfoByAcceptUserId.getNickname());
+            msgMaps.add(stringObjectMap);
+
+        }
+        return msgMaps;
     }
 
     @Override
@@ -56,8 +68,13 @@ public class ChatServiceImpl implements ChatService {
         List<UserInfo> userInfos = new LinkedList<>();
         for (ChatMsg chatMsg : chatMsgs) {
             Long sendUserId = chatMsg.getSendUserId();
-            UserInfo userInfoByUserId = userMapper.getUserInfoByUserId(sendUserId);
-            userInfos.add(userInfoByUserId);
+            if (sendUserId.equals(currentUserId)){
+                UserInfo userInfoByUserId = userMapper.getUserInfoByUserId(chatMsg.getAcceptUserId());
+                userInfos.add(userInfoByUserId);
+            }else {
+                UserInfo userInfoByUserId = userMapper.getUserInfoByUserId(sendUserId);
+                userInfos.add(userInfoByUserId);
+            }
         }
         userInfos = userInfos.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(() ->
                 new TreeSet<>(Comparator.comparing(UserInfo::getUserId))), LinkedList::new));

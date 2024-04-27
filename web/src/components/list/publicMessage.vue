@@ -91,12 +91,9 @@ const getChatMsgPerson = ()=>{
 
 const toChatPage = (userId) =>{
   // eslint-disable-next-line no-unused-vars
-  let _chatMessage;
-  axios.post('/chat/getChatMsg/'+userId).then(resp=>{
-    console.log('/chat/getChatMsg/===',resp.data)
-    _chatMessage = resp.data
-  })
-  router.push({ path: '/myMessage', query: { chatMessage: _chatMessage }})
+
+
+  router.push({ path: '/myMessage', query: { userId: userId }})
 
 }
 
