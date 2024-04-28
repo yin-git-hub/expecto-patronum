@@ -1,6 +1,6 @@
 package com.example;
 
- import com.example.controller.ScrollingWebsocketController;
+ import com.example.controller.WebsocketScrollingController;
  import com.example.controller.UserWebSocketController;
   import org.slf4j.Logger;
  import org.slf4j.LoggerFactory;
@@ -26,7 +26,7 @@ public class WaterStyApplication {
         ApplicationContext run = SpringApplication.run(WaterStyApplication.class, args);
 
 
-        ScrollingWebsocketController.setApplicationContext(run);
+        WebsocketScrollingController.setApplicationContext(run);
         UserWebSocketController.setApplicationContext(run);
         Environment env = run.getEnvironment();
         LOG.info("启动成功！！");

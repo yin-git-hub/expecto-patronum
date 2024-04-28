@@ -99,7 +99,7 @@ const sendMessage = () => {
   setTimeout(() => {
     chatBox.scrollTop = chatBox.scrollHeight;
   }, 1)
-
+  chatContext.value = ''
 }
 onMounted(() => {
   // route.query.userId 为 对方 的id

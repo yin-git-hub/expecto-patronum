@@ -2,7 +2,7 @@ package com.example.service.config;
 
 import cn.hutool.json.JSONUtil;
 import com.example.dao.model.entity.Scrolling;
-import com.example.controller.ScrollingWebsocketController;
+import com.example.controller.WebsocketScrollingController;
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
@@ -23,7 +23,7 @@ import java.io.IOException;
 @Slf4j
 public class RabbitMQConsumerConfig {
     @Autowired
-    ScrollingWebsocketController scrollingWebsocketService;
+    WebsocketScrollingController scrollingWebsocketService;
 
 
     @RabbitHandler

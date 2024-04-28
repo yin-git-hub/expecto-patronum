@@ -51,4 +51,5 @@ public interface VideoMapper {
     List<VideoReportMsgVO> getVideoReportMsg(Long currentUserId);
 
     List<VideoUploadMsgVO> getVideoUploadMsg(Long currentUserId);
+
 }

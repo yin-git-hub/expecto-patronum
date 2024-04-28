@@ -123,4 +123,11 @@ public class VideoController {
         return ResultUtils.success(videoInfos);
     }
 
+    @GetMapping("/getVideoUrlById/{videoId}")
+    public BaseResponse getVideoUrlById(@PathVariable("videoId") Long videoId){
+        String url = videoService.getVideoUrlById(videoId);
+        return ResultUtils.success(url);
+    }
+
+
 }

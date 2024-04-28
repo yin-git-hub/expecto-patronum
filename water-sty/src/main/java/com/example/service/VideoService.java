@@ -27,4 +27,6 @@ public interface VideoService {
     List<VideoInfo> getVideoRecord();
 
     List<VideoInfo> getVideoInfo(String ortherSort, Long id);
+
+    String getVideoUrlById(Long videoId);
 }
