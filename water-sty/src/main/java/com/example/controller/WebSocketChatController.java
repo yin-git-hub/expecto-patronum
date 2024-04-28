@@ -10,6 +10,10 @@ import org.springframework.stereotype.Component;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -68,7 +72,7 @@ public class WebSocketChatController {
         chatMsg.setMessage(message);
         chatMsg.setSendUserId(this.myUserId);
         chatMsg.setAcceptUserId(this.reUserId);
-        ChatServiceImpl chatService= (ChatServiceImpl) WebsocketScrollingController.APPLICATION_CONTEXT.getBean("chatServiceImpl");
+        ChatServiceImpl chatService= (ChatServiceImpl)ScrollingWebsocketController.APPLICATION_CONTEXT.getBean("chatServiceImpl");
         if(s==null){
             chatService.syncSaveChat(chatMsg);
         }else {

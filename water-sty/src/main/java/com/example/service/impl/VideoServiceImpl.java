@@ -1,6 +1,8 @@
 package com.example.service.impl;
 
+import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
+import com.example.controller.ScrollingWebsocketController;
 import com.example.controller.Support.UserSupport;
 import com.example.dao.mapper.VideoMapper;
 import com.example.dao.model.entity.Scrolling;
@@ -8,12 +10,19 @@ import com.example.dao.model.entity.Video;
 import com.example.dao.model.entity.VideoInfo;
 import com.example.dao.model.entity.VideoRecord;
 import com.example.service.VideoService;
+import com.example.service.common.ErrorCode;
+import com.example.service.exception.ThrowUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.*;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Author: yin7331

@@ -2,7 +2,7 @@ package com.example.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.json.JSONUtil;
-import com.example.controller.WebsocketScrollingController;
+import com.example.controller.ScrollingWebsocketController;
 import com.example.controller.Support.UserSupport;
 import com.example.controller.UserWebSocketController;
 import com.example.dao.mapper.UserMapper;
@@ -70,11 +70,11 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public void sendVideoMessage(PushMessageEntity pushMessageEntity) {
         List<UserVO> fans = followingService.getFans();
-        ConcurrentHashMap<Long, WebsocketScrollingController> onlineMap = userWebsocketController.getOnlineMap();
+        ConcurrentHashMap<Long, ScrollingWebsocketController> onlineMap = userWebsocketController.getOnlineMap();
         fans.stream().forEach((s)->{
             Long userId = s.getUserId();
             if (onlineMap.containsKey(userId)) {
-                WebsocketScrollingController scrollingWebsocket = onlineMap.get(userId);
+                ScrollingWebsocketController scrollingWebsocket = onlineMap.get(userId);
                 Session session = scrollingWebsocket.getSession();
                 try {
                     session.getBasicRemote().sendText(JSONUtil.toJsonStr(pushMessageEntity));
