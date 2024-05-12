@@ -1,0 +1,10 @@
+@startuml
+
+start
+
+:调用更新视频审核信息的方法;
+:返回更新结果;
+
+stop
+
+@enduml

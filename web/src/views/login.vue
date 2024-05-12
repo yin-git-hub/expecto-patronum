@@ -1,7 +1,7 @@
 <template>
   <a-row class="login">
     <a-col :span="8" :offset="8" class="login-main">
-      <h1 style="text-align: center"><CustomerServiceTwoTone />&nbsp;expecto patronum</h1>
+      <h1 style="text-align: center"><CustomerServiceTwoTone />&nbsp;Vlog平台</h1>
       <a-form
           :model="loginForm"
           name="basic"
@@ -28,9 +28,8 @@
         </a-form-item>
 
         <a-form-item>
-          <a-button type="primary" block @click="login">登录</a-button>
+          <a-button type="primary" block @click="login">登录 / 注册</a-button>
         </a-form-item>
-
       </a-form>
     </a-col>
   </a-row>

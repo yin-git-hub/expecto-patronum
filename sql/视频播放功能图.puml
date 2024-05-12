@@ -1,0 +1,29 @@
+@startuml
+
+start
+
+:用户点击视频;
+if (视频存在？) then (是)
+  :加载视频;
+  if (视频加载成功？) then (是)
+    :显示视频播放器;
+    if (用户选择播放？) then (是)
+      if (用户已登录？) then (是)
+        :记录用户观看历史;
+        :增加视频播放次数;
+      else (否)
+        :提示用户登录;
+      endif
+    else (否)
+      :用户取消播放;
+    endif
+  else (否)
+    :提示视频加载失败;
+  endif
+else (否)
+  :提示视频不存在;
+endif
+
+end
+
+@enduml

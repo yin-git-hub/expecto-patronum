@@ -2,7 +2,7 @@
   <a-layout-header style="background: white" class="header">
     <div class="logo">
       <router-link to="/welcome" style="color: black; font-size: 18px">
-        expecto-patronum
+        Vlog视频
       </router-link>
     </div>
     <div style="float: right; color: black;">

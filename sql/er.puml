@@ -1,0 +1,26 @@
+@startuml ERDiagram
+!define Table(name,desc) class name as "desc" << (T,#FFAAAA) >>
+!define Field(name,type) name:type
+hide methods
+hide stereotypes
+hide circle
+
+Table(Student, "学生表") {
+    Field(id, int)
+    Field(name, string)
+    Field(age, int)
+}
+
+Table(Course, "课程表") {
+    Field(id, int)
+    Field(name, string)
+}
+
+Table(Enrollment, "选课表") {
+    Field(studentId, int)
+    Field(courseId, int)
+}
+
+Student -- Enrollment
+Enrollment -- Course
+@enduml

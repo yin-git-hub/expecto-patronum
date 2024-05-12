@@ -1,0 +1,12 @@
+@startuml
+
+start
+
+:获取当前用户ID;
+:设置喜欢对象的用户ID为当前用户ID;
+:将视频喜欢信息存入Redis;
+:将视频喜欢信息插入数据库;
+
+stop
+
+@enduml

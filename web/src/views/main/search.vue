@@ -18,12 +18,12 @@
     <a-tab-pane key="video" tab="视频">
       <video-info-list :user-list-data="videoInfoValue" :type="tagKey.value" :content="value.value"></video-info-list>
     </a-tab-pane>
-    <a-tab-pane key="artical" tab="文章" force-render>
-      <artical-list></artical-list>
-    </a-tab-pane>
-    <a-tab-pane key="user" tab="用户">
-      <user-info-list :user-list-data="userInfoValue"></user-info-list>
-    </a-tab-pane>
+<!--    <a-tab-pane key="artical" tab="文章" force-render>-->
+<!--      <artical-list></artical-list>-->
+<!--    </a-tab-pane>-->
+<!--    <a-tab-pane key="user" tab="用户">-->
+<!--      <user-info-list :user-list-data="userInfoValue"></user-info-list>-->
+<!--    </a-tab-pane>-->
   </a-tabs>
   <div>
     <a-pagination
@@ -41,8 +41,8 @@
 <script setup>
 import {defineComponent, ref, watch} from 'vue';
 import MyDivider from "@/components/MyDivider.vue";
-import ArticalList from "@/components/list/ArticalList.vue";
-import UserInfoList from "@/components/list/UserInfoList.vue";
+// import ArticalList from "@/components/list/ArticalList.vue";
+// import UserInfoList from "@/components/list/UserInfoList.vue";
 import axios from "axios";
 import router from "@/router";
 import VideoInfoList from "@/components/list/VideoInfoList.vue";
@@ -51,7 +51,7 @@ import VideoInfoList from "@/components/list/VideoInfoList.vue";
 const urlValue = router.currentRoute._rawValue.query.text
 const urlTagKey = router.currentRoute._rawValue.query.tagKey
 const value = ref(urlValue || '')
-const userInfoValue = ref('')
+// const userInfoValue = ref('')
 const videoInfoValue = ref('')
 const tagKey = ref(urlTagKey || 'video')
 const activeKey = tagKey

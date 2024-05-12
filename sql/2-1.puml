@@ -1,0 +1,24 @@
+@startuml
+
+start
+
+if (pageIndex为空？) then (是)
+    :设置pageIndex为1;
+endif
+
+if (pageSize为空或小于等于0？) then (是)
+    :设置pageSize为10;
+endif
+
+:计算起始索引(start) = (pageIndex - 1) * pageSize;
+:创建参数map;
+:将start、pageSize和area放入map中;
+:从数据库获取视频信息;
+:获取总信息数量;
+:创建PageResult对象;
+:设置总数量和视频信息列表;
+:返回PageResult对象;
+
+stop
+
+@enduml

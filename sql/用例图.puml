@@ -1,0 +1,31 @@
+@startuml
+
+left to right direction
+actor User as U
+actor Administrator as A
+actor 搜索视频 as s
+rectangle "User" {
+  U --> (搜索视频)
+  U --> (观看视频)
+  U --> (发送弹幕)
+  U --> (弹幕设置)
+  U --> (弹幕历史)
+  U --> (屏蔽弹幕)
+  U --> (点赞弹幕)
+  U --> (举报弹幕)
+}
+rectangle "搜索视频" {
+  s --> (iii)
+}
+rectangle "Administrator" {
+  A --> (视频管理)
+  A --> (用户管理)
+  A --> (标签管理)
+  A --> (举报管理)
+  A --> (视频审核)
+  A --> (反馈管理)
+  A --> (内容推荐)
+  A --> (广告管理)
+}
+
+@enduml

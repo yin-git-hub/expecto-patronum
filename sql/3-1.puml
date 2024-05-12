@@ -1,0 +1,17 @@
+@startuml
+
+start
+
+:通过videoId从视频映射器获取视频信息;
+note left
+videoMapper是一个用于操作视频的映射器
+end note
+
+:获取视频对象键(object_key);
+:获取存储桶名称(bucket_name);
+:构建视频URL;
+:返回URL;
+
+stop
+
+@enduml

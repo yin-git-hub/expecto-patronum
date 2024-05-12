@@ -1,0 +1,15 @@
+@startuml
+
+start
+
+:将消息解析为滚动对象;
+:如果滚动对象为空，抛出参数错误异常;
+:设置滚动对象的用户ID和视频ID;
+:获取滚动服务实例;
+:获取RabbitTemplate实例;
+:异步发送消息到RabbitMQ;
+:保存滚动对象;
+
+stop
+
+@enduml

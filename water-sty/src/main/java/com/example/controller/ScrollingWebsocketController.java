@@ -129,14 +129,6 @@ public class ScrollingWebsocketController {
 
         scrollingService.saveScroller(scrolling);
 
-        // log.info("sessionId {} 发来消息{}", session.getId(), message);
-        // Scrolling scrolling = JSONObject.parseObject(message, Scrolling.class);
-        // ThrowUtils.throwIf(scrolling == null, ErrorCode.PARAMS_ERROR);
-        // scrolling.setUserId(this.userId);
-        // scrolling.setVideoId(Long.valueOf(this.videoId));
-        // ScrollingService scrollingService = (ScrollingService) APPLICATION_CONTEXT.getBean("scrollingServiceImpl");
-        // scrollingService.testSaveScroller(scrolling);
-        // sendMessageCurrentVideo(scrolling);
     }
 
     @OnError

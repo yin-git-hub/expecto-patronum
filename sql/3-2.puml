@@ -1,0 +1,52 @@
+@startuml
+
+start
+
+:设置响应报头;
+:构建缓存键;
+:从Redis中获取对象信息;
+if (对象信息不存在？) then (是)
+    :获取对象信息;
+    if (对象信息不存在？) then (是)
+        :设置响应状态为404;
+        :返回错误信息;
+        stop
+    endif
+    if (不是mp4文件？) then (是)
+        :抛出不支持的媒体类型异常;
+        stop
+    endif
+    :创建视频对象;
+    :将对象信息放入Redis缓存;
+endif
+
+:获取文件长度;
+:设置接受范围为bytes;
+:计算读取位置;
+:获取请求头中的范围;
+if (存在有效范围？) then (是)
+    :解析范围;
+    if (范围不合法？) then (是)
+        :设置响应状态为416;
+        stop
+    endif
+    :设置响应状态为206;
+endif
+
+:计算读取长度;
+:设置响应报头中的Content-Range;
+:设置响应报头中的Content-Length;
+:设置响应报头中的Content-Type;
+
+:读取文件并写入响应流;
+if (发生IOException？) then (是)
+    if (是ClientAbortException？) then (是)
+        :忽略异常;
+    else
+        :记录错误信息;
+    endif
+endif
+
+stop
+
+@enduml
