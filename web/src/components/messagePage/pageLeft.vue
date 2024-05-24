@@ -41,11 +41,11 @@
               <a-menu-item-group key="v3">
                 <template #icon>
                 </template>
-                <a-menu-item key="vv3">
-                  <div class="group-item" @click="getVideoInfoListSort('status',0)">
-                    <span>异常</span>
-                  </div>
-                </a-menu-item>
+<!--                <a-menu-item key="vv3">-->
+<!--                  <div class="group-item" @click="getVideoInfoListSort('status',0)">-->
+<!--                    <span>异常</span>-->
+<!--                  </div>-->
+<!--                </a-menu-item>-->
               </a-menu-item-group>
             </a-sub-menu>
             <a-menu-item key="3">

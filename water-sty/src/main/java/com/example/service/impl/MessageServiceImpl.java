@@ -18,6 +18,7 @@ import com.example.service.FollowingService;
 import com.example.service.MessageService;
 import com.example.service.common.ErrorCode;
 import com.example.service.exception.BusinessException;
+import com.example.service.exception.ThrowUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -115,11 +116,16 @@ public class MessageServiceImpl implements MessageService {
         for (String key : keys) {
             String videoId = key.replace("video-like-","");
             VideoInfo videoInfoByVideoId = videoMapper.getVideoInfoByVideoId(Long.valueOf(videoId));
-            UserInfo userInfoByUserId = userMapper.getUserInfoByUserId(videoInfoByVideoId.getUserId());
-            VideoLikeMsgVO videoLikeMsgVO = new VideoLikeMsgVO();
-            videoLikeMsgVO.setNickname(userInfoByUserId.getNickname());
-            BeanUtil.copyProperties(videoInfoByVideoId,videoLikeMsgVO);
-            videoLikeMsgVOS.add(videoLikeMsgVO);
+            UserInfo userInfoByUserId = null;
+            if(videoInfoByVideoId!=null){
+                userInfoByUserId = userMapper.getUserInfoByUserId(videoInfoByVideoId.getUserId());
+            }
+            if(userInfoByUserId!=null){
+                VideoLikeMsgVO videoLikeMsgVO = new VideoLikeMsgVO();
+                videoLikeMsgVO.setNickname(userInfoByUserId.getNickname());
+                BeanUtil.copyProperties(videoInfoByVideoId,videoLikeMsgVO);
+                videoLikeMsgVOS.add(videoLikeMsgVO);
+            }
         }
         return videoLikeMsgVOS;
     }

@@ -44,11 +44,11 @@ public class VideoInfoSearchServiceImpl implements SearchService {
         LinkedList<VideoInfoES> videoInfoES1 = new LinkedList<>();
         List<VideoInfoES> content1 = videoInfoES.getContent();
         for (VideoInfoES infoES : content1) {
-            boolean equals = infoES.getVideoStatus().equals(VideoConstant.STATUS_NORMAL+"");
+//            boolean equals = infoES.getVideoStatus().equals(VideoConstant.STATUS_NORMAL+"");
             boolean equals1 = infoES.getVideoReview().equals(VideoConstant.REVIEW_YES+"");
 
 //            已审核 并且 状态正常
-            if (equals&&equals1) {
+            if (equals1) {
                 videoInfoES1.add(infoES);
             }
         }
@@ -108,10 +108,11 @@ public class VideoInfoSearchServiceImpl implements SearchService {
         List<VideoInfoES> content1 = byVideoIdIn.getContent();
         for (VideoInfoES infoES : content1) {
 //            已审核 并且 状态正常
-            if (infoES.getVideoReview().equals(VideoConstant.REVIEW_YES+"")&&infoES.getVideoStatus().equals(VideoConstant.STATUS_NORMAL+"")) {
+            if (infoES.getVideoReview().equals(VideoConstant.REVIEW_YES+"")) {
                 videoInfoES1.add(infoES);
             }
         }
+
         pageResult.setValList(videoInfoES1);
         pageResult.setTotalPages(byVideoIdIn.getTotalPages());
         pageResult.setPageIndex(byVideoIdIn.getNumber() + 1);

@@ -23,7 +23,7 @@ public class SimpleCanalClientExample {
         // 创建链接
         CanalConnector connector = CanalConnectors.newSingleConnector(new InetSocketAddress(
                 AddressUtils.getHostIp(),
-                // "192.168.100.128",
+//                 "192.168.100.130",
                 11111), "example", "", "");
         int batchSize = 1000;
         int emptyCount = 0;

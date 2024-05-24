@@ -107,9 +107,11 @@ public class VideoServiceImpl implements VideoService {
         for (VideoRecord record : videoRecord) {
              VideoInfo videoInfoByVideoId = videoMapper.getVideoInfoByVideoId(record.getVideoId());
             int size = repeatKey.size();
-            repeatKey.add(record.getUserId()+record.getVideoId()+"");
-            if (size!=repeatKey.size()&&videoInfoByVideoId!=null){
-                videoInfos.add(videoInfoByVideoId);
+            if(record.getVideoId()!=null){
+                repeatKey.add(record.getUserId()+record.getVideoId()+"");
+                if (size!=repeatKey.size()&&videoInfoByVideoId!=null){
+                    videoInfos.add(videoInfoByVideoId);
+                }
             }
         }
         return videoInfos;

@@ -18,20 +18,37 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @Slf4j
 class ScrollingServiceImplTest {
-    public static void main(String[] args) {
-        HashMap<String, Integer> map = new HashMap<>();
+    public static void main(String[] args) throws Exception {
+        Thread t1 = new Thread(() -> {
+            log.debug("1开始运行...");
+            try {
+                Thread.sleep(2);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            log.debug("1运行结束...");
+        }, "daemon");
+        // 设置该线程为守护线程
+//        t1.setDaemon(true);
+        t1.start();
+        Thread.sleep(1);
+        log.debug("运行结束...");
+     }
+    private static void test1() throws Exception {
+        Thread t1 = new Thread(()->{
 
-        // 向HashMap中添加键值对
-        map.put("key1", 1);
-        map.put("key2", 2);
-        map.put("key3", 3);
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
 
-        // 获取并打印键为"key2"的值
-        Integer value = map.get("key2");
-        System.out.println("The value for 'key2' is: " + value); // 输出: The value for 'key2' is: 2
+        }, "t1");
+        t1.start();
+        log.debug(" 打断状态: {}", t1.isInterrupted());
+        Thread.sleep((long) 0.5);
+        t1.interrupt();
+        log.debug(" 打断状态: {}", t1.isInterrupted());
+    }
 
-        // 尝试获取不存在的键，将返回null
-        Integer nonExistingValue = map.get("key4");
-        System.out.println("The value for 'key4' is: " + nonExistingValue); // 输出: The val
-    } 
 }
